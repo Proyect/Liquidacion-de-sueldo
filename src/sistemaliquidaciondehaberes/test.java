@@ -14,27 +14,23 @@ public class test {
 
     public static void main(String[] args) 
     {
-        ResultSet resultado = null;
+        int resultado ;
         Imprimir("Conectando");
-        Conexion con = new Conexion();
+        libSentenciasSQL con = new libSentenciasSQL();
         Imprimir("\n" + con.estado + "\n");        
         Integer idPers = 2;
         String fecha = con.FechaActual();
         String hora = con.HoraActual();
-        resultado = con.consultaSQL("barrio", "nombre", "");
         
-              // con.estadoObraSocial(idPers, idPers); 
-                
-               // con.altaSindicato(hora, hora, fecha, hora, hora, hora, idPers);
-                
-                //con.estadoObraSocial(4, 3);
-              //  con.asignaObraScial(idPers, 4);
-                
-              //  con.buscaPersona("nombre", "ari");
-               // con.asignaObraScial(idPers, 3);
-               // con.asignaObraScial(idPers, 3);
-       
+        //resultado = con.insertaSQL("sindicato", "razonSocial", "'{jola}'", "");
+          con.tabla="persona";
+       // con.campos="apellido,nombre";
+       // con.valores ="'hola','mi amor'";
+          con.condicion="idpersona=7";
         
+        resultado = con.borraSQL();  
+        
+                
     }
     // Imprime en pantalla el mensaje que se envia
 

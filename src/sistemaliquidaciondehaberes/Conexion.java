@@ -42,91 +42,10 @@ public class Conexion
         {
             x=x+"\n";
             System.out.print(x);
-        }
-      /***************************************  
-         * **********Optimizar*************
-         * *********************************/
+        }       
         
-        // Optimiza la consulta de seleccion
-        public ResultSet consultaSQL(String tabla, String campos, String condicion)
-        {
-            ResultSet resultado=null;           
-            if(condicion == "")
-            {  
-                try 
-                {   
-                    resultado = st.executeQuery("SELECT "+campos+" FROM "+tabla+";");                    
-                    resultado.first();
-                }
-                catch (SQLException ex) 
-                {                    
-                    estado = ex.getMessage();
-                }
-            }
-            else
-            {
-                try 
-                {
-                    resultado = st.executeQuery("SELECT "+campos+" FROM "+tabla+" WHERE "+condicion+";"); 
-                    resultado.first();
-                }
-                catch (SQLException ex) 
-                {
-                    estado = ex.getMessage();
-                }
-            }
-            return resultado;
-        }
         
-        //Realiza la insercion de datos
-        public int insertaSQL(String tabla, String campos,String valores, String condicion)
-        {
-            int devuelve = 0;
-            String sentencia = null;
-            sentencia = "INSERT INTO "+tabla+"("+campos+") VALUES ("+valores+")";
-            if(condicion == "")
-            {
-                try
-                {
-                    devuelve = st.executeUpdate(sentencia);
-                }
-                catch (SQLException ex)
-                {
-                    estado = ex.getMessage();
-                }
-            }
-            else
-            {
-                sentencia = sentencia + "WHERE "+ condicion+";";
-                try
-                {
-                    devuelve = st.executeUpdate(sentencia);
-                }
-                catch (SQLException ex) 
-                {
-                    estado = ex.getMessage();
-                }
-            }
-            return devuelve;
-        }// AUN FALTA PROBAR
-        
-        //modifica datos
-        public int modificaSQL(String tabla, String campos, String valores, String condicion)
-        {
-            int devuelve=0;
-            String  sentencia = null; // aqui me quede, todavia falta
-            sentencia = "UPDATE "+tabla+"SET " + "WHERE "+condicion+";";
-                        
-            try
-            {
-                devuelve = st.executeUpdate(sentencia);
-            }
-            catch (SQLException ex)
-            {
-                estado = ex.getMessage();
-            }
-            return devuelve;
-        }
+       
         
         
     /*******************************************    
@@ -164,7 +83,7 @@ public class Conexion
             boolean echo = false;
             try 
             {
-                resultado = st.executeQuery("DELET * FROM persona WHERE idpersona="+idPers+";");
+                resultado = st.executeQuery("DELETE * FROM persona WHERE idpersona="+idPers+";");
                 echo= true;
             }
             catch (SQLException ex)
