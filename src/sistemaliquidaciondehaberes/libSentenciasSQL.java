@@ -26,7 +26,7 @@ public class libSentenciasSQL extends Conexion{
         {
             int devuelve = 0;
             String sentencia = null;
-            sentencia = "INSERT INTO "+tabla+"("+campos+") VALUES ("+valores+") ";
+            sentencia = "INSERT INTO "+tabla+"("+campos+") VALUES ("+valores+");";
             //Imprime(sentencia);
             if("".equals(condicion))
             {
@@ -97,11 +97,11 @@ public class libSentenciasSQL extends Conexion{
                 devuelve = st.executeUpdate(sentencia);
                 if(devuelve == 1)
                 {
-                    Imprime("Modificacion realizada");
+                    Imprime("\n Modificacion realizada");
                 }
                 else
                 {
-                    Imprime("sentencia fallida");
+                    Imprime("\n sentencia fallida");
                 }
             }
             catch (SQLException ex)

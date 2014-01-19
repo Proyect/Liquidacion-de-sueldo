@@ -16,20 +16,23 @@ public class test {
     {
         int resultado ;
         Imprimir("Conectando");
-        libSentenciasSQL con = new libSentenciasSQL();
-        Imprimir("\n" + con.estado + "\n");        
-        Integer idPers = 2;
+        Legajolib con = new Legajolib();
+               
+      /*  Integer idPers = 2;
         String fecha = con.FechaActual();
-        String hora = con.HoraActual();
+        String hora = con.HoraActual();*/
         
         //resultado = con.insertaSQL("sindicato", "razonSocial", "'{jola}'", "");
-          con.tabla="persona";
+        //  con.tabla="persona";
        // con.campos="apellido,nombre";
        // con.valores ="'hola','mi amor'";
-          con.condicion="idpersona=7";
+        //  con.condicion="idpersona=7";
+        con.idLegajo=12;
+        con.idPersona=3;   
+        con.estado=1;
         
-        resultado = con.borraSQL();  
-        
+        //Imprimir("\n" + con.valores + "\n"); 
+        resultado = con.modificaLegajo(2);          
                 
     }
     // Imprime en pantalla el mensaje que se envia

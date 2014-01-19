@@ -48,130 +48,10 @@ public class Conexion
        
         
         
-    /*******************************************    
-     **********entidad persona****************
-      ****************************************/
-              
-             // Realiza el alta en el atributo persona
-        public void altaPersona(String apellido, String nombre, String telefono,
-                String telefono2, String celular, Integer idProvincia,Integer cp,
-                Integer idBarrio, String direccion, Integer tipoDoc, String nroDoc,
-                Integer estadoCivil,Date fechaNac, String mail, String mail2,
-                String otrosDatos)
-        {
-            try 
-            {        
-                  st.executeUpdate("INSERT INTO persona(apellido, nombre, telefono,"
-                          + "telefono2, celular, cp, idBarrio,direccion, tipoDoc,"
-                          + " nroDoc,estadoCivil,fechaNac, mail, mail2, )"
-                          + " VALUE ('"+apellido+"','"+nombre+"',"
-                          + "'"+telefono+"','"+telefono2+"','"+celular+"','"+cp+"',"
-                          + ""+idBarrio+",'"+direccion+"',"+tipoDoc+",'"+nroDoc+"',"
-                          + "'"+estadoCivil+"','"+fechaNac+"','"+mail+"','"+mail2+"',"
-                           + " '"+otrosDatos+"'); ");
-            } 
-            catch (SQLException ex)
-            {
-                 estado = ex.getMessage();
-            }
-        }
-        
-        //Realiza la baja de personas en el atributo persona
-        public boolean bajaPersona(Integer idPers)
-        {
-            ResultSet resultado=null;
-            boolean echo = false;
-            try 
-            {
-                resultado = st.executeQuery("DELETE * FROM persona WHERE idpersona="+idPers+";");
-                echo= true;
-            }
-            catch (SQLException ex)
-            {
-                estado = ex.getMessage();
-            }
-            return echo;
-        }
-        
-        // Modifica los datos del atributo persona
-        public void modificaPersona (Integer idpersona,String apellido, String nombre, String telefono,
-                String telefono2, String celular,Integer idProvincia, Integer cp, Integer idBarrio,
-                String direccion, Integer tipoDoc, String nroDoc,
-                Integer estadoCivil,String fechaNac, String mail, String mail2, String otrosDatos)
-        {
-             try 
-             {
-                st.executeUpdate("UPDATE legajo SET(apellido='"+apellido+"',"
-                        + "nombre='"+nombre+"',telefono='"+telefono+"',"
-                        + "telefono2='"+telefono2+"',celular='"+celular+"',"
-                        + "idProvincia="+idProvincia+",cp='"+cp+"',"
-                        + "idBarrio="+idBarrio+",direccion='"+direccion+"',"
-                        + "tipoDoc="+tipoDoc+",nroDoc='"+nroDoc+"',"
-                        + "estadoCivil="+estadoCivil+",fechaNac='"+fechaNac+"'"
-                        + ",mail='"+mail+"',mail2='"+mail2+"',"
-                        + "otrosDatos='"+otrosDatos+"')"
-                        + " WHERE (idpersona="+idpersona+");");
-             }
-             catch (SQLException ex)
-             {
-                estado = ex.getMessage();
-             }
-        }
-        
-        //Consulta los datos del atributo persona
-        public ResultSet consultaPersona (Integer idPers)
-        {
-            ResultSet resultado=null;
-            try 
-            {
-                resultado = st.executeQuery("SELECT * FROM persona WHERE idpersona="+idPers+";");
-                if(resultado.first())
-                {
-                    Imprime("Persona encontrada");
-                }
-                else
-                {
-                    Imprime("Persona no encontrada");
-                }
-            }
-            catch (SQLException ex)
-            {
-                estado = ex.getMessage();
-            }             
-            return resultado;
-        }
     
     
-    /***********************************
-     ********operaciones de legajo******
-      *********************************/
   
-        //realiza el alta de legajo
-        public void altaLegajo(Integer idPersona)
-        {
-            Integer est=1;
-            try
-            {
-                st.executeUpdate("INSERT INTO legajo (idPersona,idEstado) VALUES ("+idPersona+","+est+");");
-            }
-            catch (SQLException ex)
-            {
-                estado = ex.getMessage();
-            }
-        }
-        
-        //Cambia el estado del atributo legajo
-        public void estadoLegajo(Integer idLegajo, Integer idEstado)
-        {           
-            try
-            {
-                st.executeUpdate("UPDATE legajo SET idEstado="+idEstado+" WHERE idLegajo="+idLegajo+";");
-            }
-            catch (SQLException ex)
-            {
-                estado = ex.getMessage();
-            }
-        }
+       
         
         /*************************************
          * ******Area Novedades***************
@@ -209,29 +89,9 @@ public class Conexion
                 estado = ex.getMessage();
             }
             return ultiNov;
-        }
+        } 
         
         
-        // Agrega una novedad al legajo, devuelve el idNovedad en el cual se registro
-        public Integer agregaNovedad(Integer idLegajo, String asunto, String detalle, Integer idTipo)
-        {
-            ResultSet resultado=null;
-            String fecha = FechaActual();   
-            Integer nov =0;
-            try 
-            {
-                 st.executeUpdate("INSERT INTO novedad(idLegajo,asuntoNovedad,detalleNovedad,idTipoNovedad,fecha)"
-                        + " VALUE ("+idLegajo+",'"+asunto+"','"+detalle+"',"+idTipo+",'"+fecha+"');");       
-                                   
-            }
-            catch (SQLException ex)
-            {
-                estado = ex.getMessage();
-            }
-            
-             nov = ultimaNovedad(resultado);              
-            return nov;
-        }
         
         // Funciones utiles para fechas
         
@@ -798,157 +658,11 @@ public class Conexion
            return devuelve;
        }
        
-       /****************************************
-        * *******Obras Sociales******************
-        * **************************************/
        
-       // genera el alta de una obra social
-       public void altaObraSocial(String matricula,String Cuit,String razonSocial,String direccion,String telefono,String otros)
-       {
-           String sentencia ="INSERT INTO obrasocial"
-                   + "(matricula, Cuit, razonSocial, direccion, telefono, otros)"
-                   + " VALUE('"+matricula+"', '"+Cuit+"', '"+razonSocial+"',"
-                   + " '"+direccion+"', '"+telefono+"', '"+otros+"');";
-           
-           try 
-           {
-               if(st.executeUpdate(sentencia) ==1)
-               {
-                   Imprime("se realizo la operacion");
-               }
-               else
-               {
-                   Imprime("No se realizo la operacion");
-               }
-           }
-              catch (SQLException ex) 
-           {
-             estado = ex.getMessage();           
-           }
-       }
        
-       //Cambia el estado de una obra social
-       public void estadoObraSocial(int idObraSocial, int idEstadoOS) // todavia no esta provada
-       {
-           String sentencia = "UPDATE"
-                                     + " obrasocial "
-                            + "SET "
-                                        + "estadoOS = " + idEstadoOS
-                            + " WHERE "
-                                        + "(idObraSocial = "+idObraSocial+");";           
-           try
-           {
-             if(st.executeUpdate(sentencia)==1)
-             {
-                 Imprime("La operacion se concreto con exito");
-             }
-             else
-             {
-                 Imprime("La operacion no pudo realizarse");
-             }
-           }
-           catch (SQLException ex) 
-           {
-             estado = ex.getMessage();
-           }
-       }
+        
        
-       // asigna un empleado una obra social
-       public void asignaObraScial(int idLegajo, int idObraSocial)
-       {
-           String sentencia = "INSERT INTO obrasociallegajo(idLegajo, idObraSocial)"
-                   + " VALUES("+idLegajo+","+idObraSocial+");";
-           try
-           {
-              if (st.executeUpdate(sentencia)==1)
-              {
-                  Imprime("Se realizo la operacion");
-                  agregaNovedad(idLegajo, estado, estado, idLegajo); // corregir esta parte
-              }
-              else
-              {
-                  Imprime("No se realizo la operacion");
-              }
-           }
-           catch (SQLException ex) 
-           {
-              estado = ex.getMessage(); 
-           }
-       }  
-       
-       /*************************************************
-        *************Sindicatos*************************
-        * ***********************************************/
-       
-       //crea un nuevo Sindicato
-       public void altaSindicato(String razonSocial, String Cuit, String direccion, String telefono,
-               String otrosDatos, String matricula, int idEstado)
-       {
-           String sentencia = "INSERT INTO "
-                                + "sindicato(razonSocial, cuit, direccion, telefono, otrosDatos, matricula, idEstado)"
-                                + " VALUES('"+razonSocial+"','"+Cuit+"','"+direccion+"','"+telefono
-                                +"','"+otrosDatos+"','"+matricula+"',"+idEstado+");";
-                       
-            try 
-            {                
-                if(st.executeUpdate(sentencia)==1)
-                {
-                    Imprime("Sindicato correctamente ingresado");
-                }
-                else
-                {
-                    Imprime("Fallo en la inserción de datos");
-                }
-            }
-            catch (SQLException ex) 
-            {
-                estado = ex.getMessage(); 
-            }
-       }
-       
-       //Cambia el estado del sindicato
-       public void cambiaEstadoSindicato(int idSindicato, int idEstado)
-       {
-           String sentencia = "UPDATE sindicato SET idEstado=idEstado  WHERE idSindicato=idSindicato;";
-           try
-           {
-                if(st.executeUpdate(sentencia)==1)
-                {
-                    Imprime("Cambio realizado correctamente");
-                }
-                else
-                {
-                    Imprime("Error en la operacion, intente nuevamente");
-                }
-           }
-           catch (SQLException ex) 
-           {
-               estado = ex.getMessage(); 
-           }
-       }
-       
-       //asigna un sindicato a un legajo, pudiendo este tener mas de un sindicato
-       public void asignaSindicato(int idLegajo, int idSindicatos) 
-       {
-           String sentencia = "INSERT INTO sindicatolegajo(idSindicato, idLegajo)"
-                            + "VALUES ("+idSindicatos+","+idLegajo+");";
-            try 
-            {
-                if(st.executeUpdate(sentencia) == 1)
-                {
-                    Imprime("Sindicato agregado correctamente legajo");
-                }
-                else
-                {
-                    Imprime("Operacion fallida");
-                }
-            }
-            catch (SQLException ex)
-            {
-                estado = ex.getMessage(); 
-            }
-       }
-       
+              
        
        /*****************************************************
         * ****************Formulas**************************
