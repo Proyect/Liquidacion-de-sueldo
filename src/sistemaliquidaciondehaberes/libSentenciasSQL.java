@@ -116,7 +116,7 @@ public class libSentenciasSQL extends Conexion{
         {
             String sentencia = "SELECT "+ campos + " FROM "+tabla;
             ResultSet resultado=null;
-            if(condicion != null)
+            if(!condicion.equals("") )
             {
                 sentencia = sentencia + " WHERE "+ condicion;
             }

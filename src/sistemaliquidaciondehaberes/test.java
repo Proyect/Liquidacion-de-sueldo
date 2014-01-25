@@ -14,26 +14,21 @@ public class test {
 
     public static void main(String[] args) 
     {
-        int resultado ;
-        Imprimir("Conectando");
+        Legajolib.Sindicato resultado ;
+        Imprimir("Conectando \n");
         Legajolib con = new Legajolib();
                
       /*  Integer idPers = 2;
         String fecha = con.FechaActual();
         String hora = con.HoraActual();*/
         
-        //resultado = con.insertaSQL("sindicato", "razonSocial", "'{jola}'", "");
-        //  con.tabla="persona";
-       // con.campos="apellido,nombre";
-       // con.valores ="'hola','mi amor'";
-        //  con.condicion="idpersona=7";
-        con.idLegajo=12;
-        con.idPersona=3;   
-        con.estado=1;
         
         //Imprimir("\n" + con.valores + "\n"); 
-        resultado = con.modificaLegajo(2);          
-                
+        resultado = con.new Sindicato();
+        resultado.idSindicato=1;
+        resultado.idLegajo=12;
+       resultado.alta_sindicato();
+              
     }
     // Imprime en pantalla el mensaje que se envia
 

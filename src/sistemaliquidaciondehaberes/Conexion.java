@@ -140,12 +140,12 @@ public class Conexion
         //Registra las fechas en las cuales el personal llega tarde
        public void InasistenciasPersonal(String fecha, Integer idLegajo)
         {
-           Integer idNovedad = agregaNovedad(idLegajo, "Inasistencia:"+idLegajo, "El Empleado  "+idLegajo+" No asistio a su trabajo", 1);
+           //Integer idNovedad = agregaNovedad(idLegajo, "Inasistencia:"+idLegajo, "El Empleado  "+idLegajo+" No asistio a su trabajo", 1);
         
             try
             {
                 st.executeUpdate("INSERT INTO inasistencia(fecha, idLegajo, idNovedad) "
-                        + "VALUES ('"+fecha+"',"+idLegajo+","+idNovedad+");");
+                        + "VALUES ('"+fecha+"',"+idLegajo+","+1+");");
             }
             catch (SQLException ex) 
             {
@@ -156,12 +156,12 @@ public class Conexion
        // Registra las llegadas tardes del personal
        public void llegadasTardes(Integer idLegajo, String fecha, String hora)
        {
-           Integer idNovedad = agregaNovedad(idLegajo, "Llegada tarde:"+idLegajo, "El empleado "+idLegajo+"Llego a "
-                   + "hr"+hora, 1);
+         //  Integer idNovedad = agregaNovedad(idLegajo, "Llegada tarde:"+idLegajo, "El empleado "+idLegajo+"Llego a "
+              //     + "hr"+hora, 1);
             try
             {
                 st.executeUpdate("INSERT INTO llegadastardes(fecha, hora,idLegajo,idNovedad)"
-                        + " VALUES('"+fecha+"','"+hora+"',"+idLegajo+","+idNovedad+");");
+                        + " VALUES('"+fecha+"','"+hora+"',"+idLegajo+","+1+");");
             }
             catch (SQLException ex)
             {
@@ -173,13 +173,13 @@ public class Conexion
        public void cargaLicencia(Integer idLegajo, String motivo, Integer cantDias,
                String fechaIni, Integer tipoLicencia)
        {
-           Integer idNovedad = agregaNovedad(idLegajo, "Licencia medica", idLegajo+"Dispone de Licencia Medica por "
-                    +cantDias+"dias por motivo de:"+motivo, 1);
+        //   Integer idNovedad = agregaNovedad(idLegajo, "Licencia medica", idLegajo+"Dispone de Licencia Medica por "
+        //            +cantDias+"dias por motivo de:"+motivo, 1);
             // falta poner algo que me devuelva la el idnovedad que se cargo
             try
             {
                 st.executeUpdate("INSERT INTO licencia(Motivo,cantDias, fechaInicio, tipoLicencia,idNovedad,idLegajo)"
-                        + " VALUES('"+motivo+"',"+cantDias+",'"+fechaIni+"',"+tipoLicencia+","+idNovedad+","+idLegajo+");");
+                        + " VALUES('"+motivo+"',"+cantDias+",'"+fechaIni+"',"+tipoLicencia+","+1+","+idLegajo+");");
             }
             catch (SQLException ex)
             {
@@ -191,13 +191,13 @@ public class Conexion
        public void asignaPuesto(Integer idLegajo, Integer idPuesto,String fechaInicio)
        {
            
-           Integer idNovedad = agregaNovedad(idLegajo,"Asignacion de puesto", "El "
-                   + "empleado "+idLegajo+" ha sido asignado al puesto"+idPuesto,1);
+       //    Integer idNovedad = agregaNovedad(idLegajo,"Asignacion de puesto", "El "
+         //          + "empleado "+idLegajo+" ha sido asignado al puesto"+idPuesto,1);
            String sentencia ="";
         try 
         {
             st.executeUpdate("INSERT INTO puestoLegajo(idPuesto,idLegajo,idNovedad,fechaInicio) "
-                    + "VALUES("+idPuesto+","+idLegajo+","+idNovedad+","+fechaInicio+");");
+                    + "VALUES("+idPuesto+","+idLegajo+","+1+","+fechaInicio+");");
         }
         catch (SQLException ex)
         {
@@ -427,12 +427,12 @@ public class Conexion
        //Esta funcion carga las hs Extras de un legajo
        public void cargaHs(int idLegajo, String fecha, int cantidad, int tipo)// aqui me quede
        {
-           int idNovedad = agregaNovedad(idLegajo," Carga de Hs Extras","El "
+          /* int idNovedad = agregaNovedad(idLegajo," Carga de Hs Extras","El "
                    + "legajo: "+idLegajo+" realizo "+ cantidad+" de horas Extras"
-                   + "de tipo "+tipo, 1);
+                   + "de tipo "+tipo, 1);*/
            
            String sentencia ="INSERT INTO hsextra(idLegajo, idNovedad, fecha, cantidadHs, tipoHs) "
-                            + "VALUES("+idLegajo+", "+idNovedad+", '"+fecha+"', "+cantidad+","+tipo+");";
+                            + "VALUES("+idLegajo+", "+1+", '"+fecha+"', "+cantidad+","+tipo+");";
            
            
           try 
