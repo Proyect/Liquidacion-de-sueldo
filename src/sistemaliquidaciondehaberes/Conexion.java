@@ -137,22 +137,7 @@ public class Conexion
             return resultado;
         }
         
-        //Registra las fechas en las cuales el personal llega tarde
-       public void InasistenciasPersonal(String fecha, Integer idLegajo)
-        {
-           //Integer idNovedad = agregaNovedad(idLegajo, "Inasistencia:"+idLegajo, "El Empleado  "+idLegajo+" No asistio a su trabajo", 1);
-        
-            try
-            {
-                st.executeUpdate("INSERT INTO inasistencia(fecha, idLegajo, idNovedad) "
-                        + "VALUES ('"+fecha+"',"+idLegajo+","+1+");");
-            }
-            catch (SQLException ex) 
-            {
-                estado = ex.getMessage();
-            }
-        }
-       
+             
        // Registra las llegadas tardes del personal
        public void llegadasTardes(Integer idLegajo, String fecha, String hora)
        {

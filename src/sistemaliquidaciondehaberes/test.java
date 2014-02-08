@@ -14,20 +14,15 @@ public class test {
 
     public static void main(String[] args) 
     {
-        Legajolib.Sindicato resultado ;
+        Legajolib.Inasistencia resultado ;
         Imprimir("Conectando \n");
-        Legajolib con = new Legajolib();
-               
-      /*  Integer idPers = 2;
-        String fecha = con.FechaActual();
-        String hora = con.HoraActual();*/
+        Legajolib con = new Legajolib();               
+      
+       // con.idLegajo=1;
+        resultado = con.new Inasistencia();        
+        resultado.idLegajo=1;
         
-        
-        //Imprimir("\n" + con.valores + "\n"); 
-        resultado = con.new Sindicato();
-        resultado.idSindicato=1;
-        resultado.idLegajo=12;
-       resultado.alta_sindicato();
+        resultado.nueva();            
               
     }
     // Imprime en pantalla el mensaje que se envia
