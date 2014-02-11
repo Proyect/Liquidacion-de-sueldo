@@ -26,7 +26,7 @@ public class libSentenciasSQL extends Conexion{
         {
             int devuelve = 0;
             String sentencia = null;
-            sentencia = "INSERT INTO "+tabla+"("+campos+") VALUES ("+valores+");";
+            sentencia = "INSERT INTO "+tabla+" ("+campos+") VALUES ("+valores+");";
             //Imprime(sentencia);
             if("".equals(condicion))
             {

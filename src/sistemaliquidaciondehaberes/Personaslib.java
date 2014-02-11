@@ -13,8 +13,7 @@ public class Personaslib extends libSentenciasSQL{
     {
         this.tabla="persona";
         this.campos="apellido,nombre,telefono,telefono2,celular,idBarrio,direccion,tipoDoc,nroDoc,estadoCivil,fechaNac,mail,mail2,otrosDatos,nacionalidad";
-    }    
-    
+    }       
     
     // inserta una nueva persona en la base de datos
     public int nueva(String datos)

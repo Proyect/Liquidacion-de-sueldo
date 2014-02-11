@@ -14,16 +14,21 @@ public class test {
 
     public static void main(String[] args) 
     {
-        Legajolib.Inasistencia resultado ;
+       // Legajolib.Inasistencia resultado ;
+         
         Imprimir("Conectando \n");
         Legajolib con = new Legajolib();               
-      
-       // con.idLegajo=1;
-        resultado = con.new Inasistencia();        
-        resultado.idLegajo=1;
+        Legajolib.Licencias resultado;
+        resultado = con.new Licencias();
         
-        resultado.nueva();            
-              
+        resultado.idLegajo=1;
+        resultado.motivo="Licencia medica";
+        resultado.cantidad=10;
+        resultado.inicio="2014-02-01";
+        resultado.fin = "2014-02-20";
+        resultado.tipoLic = 1;
+        resultado.alta();        
+        
     }
     // Imprime en pantalla el mensaje que se envia
 

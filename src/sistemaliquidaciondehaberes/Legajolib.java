@@ -193,7 +193,7 @@ public class Legajolib extends libSentenciasSQL
         }
     }
     
-    class Asignaciones extends Legajolib // corregir y probar
+    class Asignaciones extends Legajolib 
     {   
         int idVinculo = 0;
         Novedad novedad = this.new Novedad();
@@ -271,10 +271,9 @@ public class Legajolib extends libSentenciasSQL
         }
         
         //modifica una inasistencia
-        public int modifica(int idInasistencia)
+        public int modifica()
         {
-            novedad.idLegajo = this.idLegajo;            
-            this.condicion = "idInasistencia="+idInasistencia;
+            novedad.idLegajo = this.idLegajo;         
             this.valores =  "'"+this.fecha+"',"+this.idLegajo+","+idNovedad+","+justificada;
             
             if(this.modificaSQL() == 1)
@@ -302,6 +301,13 @@ public class Legajolib extends libSentenciasSQL
             {
                 return 0;
             }              
+        }
+        
+        // realiza una consulta de las inasistencias
+        public ResultSet consulta(String condicion)
+        {
+            this.condicion = condicion;
+            return this.consultaSQL();
         }
     }
     
@@ -366,7 +372,7 @@ public class Legajolib extends libSentenciasSQL
         String inicio = "";
         String fin = "";
         int tipoLic=0;
-        int estado=0;
+        int estadoLic=1;
         // constructor
         public Licencias()
         {
@@ -377,14 +383,33 @@ public class Legajolib extends libSentenciasSQL
         //Crea una nueva licencia
         public int alta() 
         {
+            novedad.idLegajo = this.idLegajo;
             idNovedad = novedad.nueva_novedad("Nueva Licencia",
                                 this.motivo+" se extiende por "+ this.cantidad+
                                 " dias, empesando el "+this.inicio+" y finalizando el"+
                                 this.fin+" tipo de licencia: "+this.tipoLic, 1);
+            
             this.valores = idNovedad+","+this.idLegajo+",'"+this.motivo+"',"+
                             this.cantidad+",'"+this.inicio+"','"+this.fin+"',"+
-                            this.tipoLic+","+this.estado;
-            return this.insertaSQL();
+                            this.tipoLic+","+this.estadoLic;
+            
+            if (this.insertaSQL() ==1)
+            {
+                Inasistencia inasist= new Inasistencia();
+                inasist.condicion = "fecha>='"+this.inicio+"' AND fecha<='"+this.fin+"'";
+                if (inasist.consulta(inasist.condicion) != null)
+                {
+                    inasist.campos = "justificada";
+                    inasist.valores="1";
+                    inasist.modificaSQL();
+                } 
+                return 1;
+            }
+            else
+            {
+                Imprime("Licencia no cargada");
+                return 0;
+            }
         }
         
         // realiza una consulta sobre licencias
@@ -394,16 +419,80 @@ public class Legajolib extends libSentenciasSQL
         }
         
         //realiza la modificacion de la licencia
+        public int modifica()
+        {
+            idNovedad = novedad.nueva_novedad("Modificacion en la licencia",
+                                this.motivo+" se extiende por "+ this.cantidad+
+                                " dias, empesando el "+this.inicio+" y finalizando el"+
+                                this.fin+" tipo de licencia: "+this.tipoLic+
+                                "estado de la licencia: "+this.estadoLic, 1);
+            
+           this.valores = idNovedad+","+this.idLegajo+",'"+this.motivo+"',"+
+                            this.cantidad+",'"+this.inicio+"','"+this.fin+"',"+
+                            this.tipoLic+","+this.estado; 
+           
+           this.condicion = "idLicencia="+this.idLicencia;
+           
+           return this.modificaSQL();
+        }
+        
+        //realiza la baja de una licencia
+        public int baja()
+        {
+            idNovedad = novedad.nueva_novedad("Baja de licencia", "Licencia nro:"+this.idLicencia, 1);
+            this.condicion = "idLicencia="+this.idLicencia;
+            return this.borraSQL();
+        }
     }
     
+        
+
     // clases de capacitaciones y cursos
     class Capacitaciones extends Legajolib
     {
+        int idCapacitacion = 0;
+        int idNovedad = 0;
+        Novedad novedad = this.new Novedad(); 
+        //constructor
         public Capacitaciones()
         {
-            this.tabla = "";
-            this.campos = "";
+            this.tabla = "empl_capacitaciones";
+            this.campos = "idCapacitacion,idLegajo";
         }
+        
+        //realiza el alta de una capacitacion
+        public int alta() //falta agregar a novedades
+        {
+            this.valores =  this.idCapacitacion+ ","+this.idLegajo;
+            if(this.insertaSQL()==1)
+            {
+                novedad.idLegajo = this.idLegajo;
+                idNovedad = novedad.nueva_novedad("Nueva capacitacion", 
+                            "capacitacion nro:"+this.idCapacitacion, 1); 
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        
+        //realiza la baja de una capacitacion
+        public int baja()
+        {
+            this.condicion = "idCapacitacion="+this.idCapacitacion+" AND idLegajo="+this.idLegajo;
+            if(this.borraSQL()== 1)
+            {
+                  idNovedad=novedad.nueva_novedad("Retificacion de capaciaion", 
+                            "capacitacion de baja nro:"+this.idCapacitacion, 1);
+                  return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        
     }
     
     // Clase para notificaciones al personal
