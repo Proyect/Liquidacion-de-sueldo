@@ -5,10 +5,7 @@ package sistemaliquidaciondehaberes;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.*; 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date; 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class Conexion
@@ -44,55 +41,7 @@ public class Conexion
             System.out.print(x);
         }       
         
-        
-       
-        
-        
-    
-    
-  
-       
-        
-        /*************************************
-         * ******Area Novedades***************
-         * ***********************************/
-        
-        // muestra la ultima novedad cargada
-        public Integer ultimaNovedad( ResultSet resultado)
-        {
-            Integer ultiNov =0;
-            try 
-            {
-                resultado = st.executeQuery("SELECT max(idNovedad) AS ultima FROM novedad;");
-                
-                if( resultado.first())
-                {                    
-                    System.out.print("resultado:"+resultado.getInt(1)+"\n");
-                }
-                else
-                {
-                    System.out.print("No existen resultados");
-                }                   
-                        
-            }
-            catch (SQLException ex) 
-            {
-                estado = ex.getMessage();
-            } 
-            
-            try 
-            {
-                ultiNov = resultado.getInt(1);
-            }
-            catch (SQLException ex)
-            {
-                estado = ex.getMessage();
-            }
-            return ultiNov;
-        } 
-        
-        
-        
+               
         // Funciones utiles para fechas
         
         // Obtiene la fecha actual
@@ -136,41 +85,7 @@ public class Conexion
             
             return resultado;
         }
-        
-             
-       // Registra las llegadas tardes del personal
-       public void llegadasTardes(Integer idLegajo, String fecha, String hora)
-       {
-         //  Integer idNovedad = agregaNovedad(idLegajo, "Llegada tarde:"+idLegajo, "El empleado "+idLegajo+"Llego a "
-              //     + "hr"+hora, 1);
-            try
-            {
-                st.executeUpdate("INSERT INTO llegadastardes(fecha, hora,idLegajo,idNovedad)"
-                        + " VALUES('"+fecha+"','"+hora+"',"+idLegajo+","+1+");");
-            }
-            catch (SQLException ex)
-            {
-                estado = ex.getMessage();
-            }
-       }
-       
-       //Carga una nueva licencia al legajo del trabajador
-       public void cargaLicencia(Integer idLegajo, String motivo, Integer cantDias,
-               String fechaIni, Integer tipoLicencia)
-       {
-        //   Integer idNovedad = agregaNovedad(idLegajo, "Licencia medica", idLegajo+"Dispone de Licencia Medica por "
-        //            +cantDias+"dias por motivo de:"+motivo, 1);
-            // falta poner algo que me devuelva la el idnovedad que se cargo
-            try
-            {
-                st.executeUpdate("INSERT INTO licencia(Motivo,cantDias, fechaInicio, tipoLicencia,idNovedad,idLegajo)"
-                        + " VALUES('"+motivo+"',"+cantDias+",'"+fechaIni+"',"+tipoLicencia+","+1+","+idLegajo+");");
-            }
-            catch (SQLException ex)
-            {
-                estado = ex.getMessage();
-            }
-       }
+           
        
        // asigna los puestos a cada empleado    
        public void asignaPuesto(Integer idLegajo, Integer idPuesto,String fechaInicio)
@@ -409,27 +324,7 @@ public class Conexion
            return devolver;
        }
        
-       //Esta funcion carga las hs Extras de un legajo
-       public void cargaHs(int idLegajo, String fecha, int cantidad, int tipo)// aqui me quede
-       {
-          /* int idNovedad = agregaNovedad(idLegajo," Carga de Hs Extras","El "
-                   + "legajo: "+idLegajo+" realizo "+ cantidad+" de horas Extras"
-                   + "de tipo "+tipo, 1);*/
-           
-           String sentencia ="INSERT INTO hsextra(idLegajo, idNovedad, fecha, cantidadHs, tipoHs) "
-                            + "VALUES("+idLegajo+", "+1+", '"+fecha+"', "+cantidad+","+tipo+");";
-           
-           
-          try 
-          {
-             st.executeUpdate(sentencia);
-          }
-          catch (SQLException ex)
-          {
-            estado = ex.getMessage();
-          }         
-       }
-       
+              
        // busca la cantidad de hs extras de un legajo
        public int cantidadHs50(int idLegajo,String fechaIni, String fechaHasta)
        {

@@ -4,11 +4,9 @@
  */
 package sistemaliquidaciondehaberes;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /** * Ariel Marcelo Diaz*/
 public class Legajolib extends libSentenciasSQL
@@ -373,15 +371,16 @@ public class Legajolib extends libSentenciasSQL
         String fin = "";
         int tipoLic=0;
         int estadoLic=1;
+        float pago = 0;
         // constructor
         public Licencias()
         {
             this.tabla = "licencia";
-            this.campos = "idNovedad,idLegajo,Motivo,cantDias,fechaInicio,fechaFin,tipoLicencia,estado";
+            this.campos = "idNovedad,idLegajo,Motivo,cantDias,fechaInicio,fechaFin,tipoLicencia,estado,pago";
         }
         
         //Crea una nueva licencia
-        public int alta() 
+        public int alta() //mejorar
         {
             novedad.idLegajo = this.idLegajo;
             idNovedad = novedad.nueva_novedad("Nueva Licencia",
@@ -391,7 +390,7 @@ public class Legajolib extends libSentenciasSQL
             
             this.valores = idNovedad+","+this.idLegajo+",'"+this.motivo+"',"+
                             this.cantidad+",'"+this.inicio+"','"+this.fin+"',"+
-                            this.tipoLic+","+this.estadoLic;
+                            this.tipoLic+","+this.estadoLic+","+this.pago;
             
             if (this.insertaSQL() ==1)
             {
@@ -429,7 +428,7 @@ public class Legajolib extends libSentenciasSQL
             
            this.valores = idNovedad+","+this.idLegajo+",'"+this.motivo+"',"+
                             this.cantidad+",'"+this.inicio+"','"+this.fin+"',"+
-                            this.tipoLic+","+this.estado; 
+                            this.tipoLic+","+this.estadoLic+","+this.pago; 
            
            this.condicion = "idLicencia="+this.idLicencia;
            
@@ -483,7 +482,8 @@ public class Legajolib extends libSentenciasSQL
             this.condicion = "idCapacitacion="+this.idCapacitacion+" AND idLegajo="+this.idLegajo;
             if(this.borraSQL()== 1)
             {
-                  idNovedad=novedad.nueva_novedad("Retificacion de capaciaion", 
+                novedad.idLegajo = this.idLegajo;
+                idNovedad=novedad.nueva_novedad("Retificacion de capaciaion", 
                             "capacitacion de baja nro:"+this.idCapacitacion, 1);
                   return 1;
             }
@@ -493,15 +493,66 @@ public class Legajolib extends libSentenciasSQL
             }
         }
         
+        public ResultSet consulta()
+        {
+            return this.consultaSQL();
+        }
+        
     }
     
     // Clase para notificaciones al personal
     class Notificaciones extends Legajolib
     {
+        int idComunicado=0;
+        int idTipoNot=0;
+        String detalle="";
+        Novedad novedad = this.new Novedad();
+        int idNovedad=0;
+        //constructor
         public Notificaciones()
+        {            
+            this.tabla = "comunicados";
+            this.campos = "idNovedades,idTipo,detalle";
+        }
+        
+        //genera un nuevo comunicado
+        public int alta()        
+        {   novedad.idLegajo = this.idLegajo;         
+            idNovedad = novedad.nueva_novedad("Nueva Notificacion", 
+                                "Novedad nro: "+idNovedad+" Tipo: "+idTipoNot+
+                                " detalles: " +detalle, 1);
+            
+            if(idNovedad != 0)
+            {
+                this.valores = this.idNovedad+","+this.idTipoNot+",'"+this.detalle+"'";
+                return this.insertaSQL();
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        
+        //Modifica un comunicado
+        public int modifica()
         {
-            this.tabla = "";
-            this.campos = "";
+            this.valores = this.idNovedad+","+this.idTipoNot+",'"+this.detalle+"'";
+            this.condicion = "idComunicado="+this.idComunicado;
+            return this.modificaSQL();
+        }
+        
+        //realiza una consulta de un comunicado
+        public ResultSet consulta(String condicion)
+        {
+            this.condicion = condicion;
+            return this.consultaSQL();
+        }
+        
+        //realiza una baja del comunicado
+        public int baja()
+        {            
+            this.condicion = "idComunicado="+this.idComunicado;
+            return this.borraSQL();
         }
     }
     
@@ -518,10 +569,48 @@ public class Legajolib extends libSentenciasSQL
     //clase para el manejo de horas extras
     class HorasExtras extends Legajolib
     {
+        int cantidadHs = 0;
+        int tipoHs = 0;
+        Novedad novedad = this.new Novedad();        
+        int idNovedad=0;
+        //constructor
         public HorasExtras()
         {
-            this.tabla = "";
-            this.campos = "";
+            this.tabla = "hsextra";
+            this.campos = "idLegajo,idNovedad,fecha,cantidadHs,tipoHs";
+        }
+        
+        //ingresa una nueva hora extra al legajo
+        public int nueva()
+        {  
+            novedad.idLegajo = this.idLegajo;         
+            idNovedad = novedad.nueva_novedad("", tabla, tipoHs);
+            if (idNovedad != 0)
+            {
+                this.valores = this.idLegajo+","+this.idNovedad+",'"+this.fecha+"',"+
+                           this.cantidadHs+","+this.tipoHs;
+                return this.insertaSQL();
+            }
+            else
+            {
+                return 0;
+            }
+            
+        }
+        
+        //modifica las horas extras
+        public int modifica() // optimizar
+        {
+            this.condicion = "idLegajo="+this.idLegajo+" AND idNovedad="+this.idNovedad;
+            idNovedad=novedad.nueva_novedad("Modificacion de horas extras", this.valores, 1);
+            if(idNovedad !=0)
+            {
+                return this.modificaSQL();
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
     
@@ -532,6 +621,53 @@ public class Legajolib extends libSentenciasSQL
         {
             this.tabla = "";
             this.campos = "";
+        }
+    }
+    
+    //clase pensada para los puestos de trabajajo
+    class Puestos extends Legajolib
+    {
+        int idPuesto=0;
+        Novedad novedad = this.new Novedad();        
+        int idNovedad=0;
+        String fechaInicio = "";
+        String fechaFin = "";
+        // constructor
+        public Puestos()
+        {
+            this.tabla = "puestolegajo";
+            this.campos = "idLegajo,idNovedad,fechaInicio,fechaFin";
+        }       
+        
+        // genera un nuevo puesto laboral
+        public int nuevo()
+        {
+            idNovedad = novedad.nueva_novedad("Nuevo puesto Laboral",
+                        "Puesto nro:"+this.idPuesto, 1);
+            if (idNovedad !=0)
+            {
+                this.valores = this.idLegajo+","+this.idNovedad + ",'"+ 
+                            this.fechaInicio+"','"+this.fechaFin+"'";
+                return this.insertaSQL();
+            }
+            else
+            {
+                return 0;
+            }           
+        }
+        
+        // realiza una consulta
+        public ResultSet consulta()
+        {
+            return this.consultaSQL();
+        }
+        
+        // modifica la relacion del puesto laboral
+        public int modifica()
+        {
+            this.valores=this.valores = this.idLegajo+","+this.idNovedad + ",'"+ 
+                            this.fechaInicio+"','"+this.fechaFin+"'";
+            return this.modificaSQL();
         }
     }
 }
