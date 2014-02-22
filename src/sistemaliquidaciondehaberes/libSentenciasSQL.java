@@ -45,6 +45,7 @@ public class libSentenciasSQL extends Conexion{
                 catch (SQLException ex)
                 {
                     estado = ex.getMessage();
+                    Imprime(estado);
                 }
             }
             else
@@ -66,6 +67,7 @@ public class libSentenciasSQL extends Conexion{
                 catch (SQLException ex) 
                 {
                     estado = ex.getMessage();
+                    Imprime(estado);
                 }
             }
             return devuelve;
@@ -107,6 +109,7 @@ public class libSentenciasSQL extends Conexion{
             catch (SQLException ex)
             {
                 estado = ex.getMessage();
+                Imprime(estado);
             }
             return devuelve;
         }
@@ -121,7 +124,7 @@ public class libSentenciasSQL extends Conexion{
                 sentencia = sentencia + " WHERE "+ condicion;
             }
             sentencia = sentencia + ";";
-            Imprime(sentencia);            
+            //Imprime(sentencia);            
             try
             {
                 resultado = st.executeQuery(sentencia);
@@ -137,6 +140,7 @@ public class libSentenciasSQL extends Conexion{
             catch (SQLException ex)
             {
                 estado = ex.getMessage();
+                Imprime(estado);
             }
             return resultado;
         }
@@ -162,6 +166,7 @@ public class libSentenciasSQL extends Conexion{
             catch (SQLException ex) 
             {
                 estado = ex.getMessage();
+                Imprime(estado);
             } 
             return devuelve;
         }

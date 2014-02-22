@@ -189,6 +189,13 @@ public class Legajolib extends libSentenciasSQL
                 return 0;
             }
         }
+        
+        // realiza una consulta de obras sociales
+        public ResultSet consulta()
+        {
+            this.condicion = "idLegajo="+this.idLegajo;
+            return consultaSQL();
+        }
     }
     
     class Asignaciones extends Legajolib 
@@ -624,7 +631,7 @@ public class Legajolib extends libSentenciasSQL
         }
     }
     
-    //clase pensada para los puestos de trabajajo
+    //clase para la asignacion y modificacion de los puestos de la empresa
     class Puestos extends Legajolib
     {
         int idPuesto=0;
@@ -632,11 +639,12 @@ public class Legajolib extends libSentenciasSQL
         int idNovedad=0;
         String fechaInicio = "";
         String fechaFin = "";
+        int estadoP=1;
         // constructor
         public Puestos()
         {
             this.tabla = "puestolegajo";
-            this.campos = "idLegajo,idNovedad,fechaInicio,fechaFin";
+            this.campos = "idLegajo,idNovedad,fechaInicio,fechaFin,estado";
         }       
         
         // genera un nuevo puesto laboral
@@ -647,7 +655,7 @@ public class Legajolib extends libSentenciasSQL
             if (idNovedad !=0)
             {
                 this.valores = this.idLegajo+","+this.idNovedad + ",'"+ 
-                            this.fechaInicio+"','"+this.fechaFin+"'";
+                            this.fechaInicio+"','"+this.fechaFin+"',"+this.estadoP;
                 return this.insertaSQL();
             }
             else
@@ -666,8 +674,10 @@ public class Legajolib extends libSentenciasSQL
         public int modifica()
         {
             this.valores=this.valores = this.idLegajo+","+this.idNovedad + ",'"+ 
-                            this.fechaInicio+"','"+this.fechaFin+"'";
+                            this.fechaInicio+"','"+this.fechaFin+"',"+this.estadoP;
             return this.modificaSQL();
         }
-    }
+    }    
+    
+    
 }

@@ -84,26 +84,9 @@ public class Conexion
             }
             
             return resultado;
-        }
-           
+        }          
        
-       // asigna los puestos a cada empleado    
-       public void asignaPuesto(Integer idLegajo, Integer idPuesto,String fechaInicio)
-       {
-           
-       //    Integer idNovedad = agregaNovedad(idLegajo,"Asignacion de puesto", "El "
-         //          + "empleado "+idLegajo+" ha sido asignado al puesto"+idPuesto,1);
-           String sentencia ="";
-        try 
-        {
-            st.executeUpdate("INSERT INTO puestoLegajo(idPuesto,idLegajo,idNovedad,fechaInicio) "
-                    + "VALUES("+idPuesto+","+idLegajo+","+1+","+fechaInicio+");");
-        }
-        catch (SQLException ex)
-        {
-            estado = ex.getMessage();
-        }
-       }
+     
        
        //***********************************************
        // script para liquidacion de basica de sueldo

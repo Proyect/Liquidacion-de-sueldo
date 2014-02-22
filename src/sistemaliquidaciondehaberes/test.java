@@ -3,10 +3,6 @@ Solo es para probar algunas funciones y clases .
  */
 package sistemaliquidaciondehaberes;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**  Ariel Marcelo Diaz
  */
@@ -17,6 +13,12 @@ public class test {
        // Legajolib.Inasistencia resultado ;
          
         Imprimir("Conectando \n");
+        
+        Liquidacion con = new Liquidacion();
+        con.idLegajo=1;
+        con.obtienePuesto();
+        con.obtieneDatos();
+        /*
         Legajolib con = new Legajolib();               
         Legajolib.Licencias resultado;
         resultado = con.new Licencias();
@@ -27,7 +29,7 @@ public class test {
         resultado.inicio="2014-02-01";
         resultado.fin = "2014-02-20";
         resultado.tipoLic = 1;
-        resultado.alta();        
+        resultado.alta();    */    
         
     }
     // Imprime en pantalla el mensaje que se envia
