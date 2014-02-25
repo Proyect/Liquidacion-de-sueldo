@@ -5,8 +5,7 @@ package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 /*  librerias a
@@ -28,9 +27,7 @@ public class libSentenciasSQL extends Conexion{
             String sentencia = null;
             sentencia = "INSERT INTO "+tabla+" ("+campos+") VALUES ("+valores+");";
             //Imprime(sentencia);
-            if("".equals(condicion))
-            {
-                try
+            try
                 {
                     devuelve = st.executeUpdate(sentencia);
                     if(devuelve==1)
@@ -47,29 +44,7 @@ public class libSentenciasSQL extends Conexion{
                     estado = ex.getMessage();
                     Imprime(estado);
                 }
-            }
-            else
-            {
-                sentencia = sentencia + "WHERE "+ condicion+";";
-                
-                try
-                {
-                    devuelve = st.executeUpdate(sentencia);
-                    if(devuelve==1)
-                    {
-                        Imprime("Datos Insertados Correctamente");
-                    }
-                    else
-                    {
-                        Imprime("Datos no insertados");
-                    }
-                }
-                catch (SQLException ex) 
-                {
-                    estado = ex.getMessage();
-                    Imprime(estado);
-                }
-            }
+            
             return devuelve;
         }
         

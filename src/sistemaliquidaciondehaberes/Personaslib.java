@@ -7,32 +7,56 @@ package sistemaliquidaciondehaberes;
 import java.sql.ResultSet;
 
 /** * Ariel Marcelo Diaz*/
-public class Personaslib extends libSentenciasSQL{
-
+public class Personaslib extends libSentenciasSQL
+{
+    int idPersona =0;
+    String  apellido = "";
+    String nombre = "";
+    String telefono = "";
+    String telefono2 = "";
+    String celular = "";
+    int idBarrio = 0;
+    String direccion = "";
+    int tipoDoc = 0;
+    String nroDoc = "";
+    int estadoCivil= 0;
+    String fechaNac = "";
+    String mail = "";
+    String mail2 = "";
+    String otrosDatos = "";
+    String nacionalidad = "";
+    
+    //constructor
     public Personaslib()
     {
         this.tabla="persona";
-        this.campos="apellido,nombre,telefono,telefono2,celular,idBarrio,direccion,tipoDoc,nroDoc,estadoCivil,fechaNac,mail,mail2,otrosDatos,nacionalidad";
+        this.campos="apellido,nombre,telefono,telefono2,celular,idBarrio,direccion,"+
+                    "tipoDoc,nroDoc,estadoCivil,fechaNac,mail,mail2,otrosDatos,nacionalidad";
     }       
     
     // inserta una nueva persona en la base de datos
-    public int nueva(String datos)
-    {
-       this.valores= datos;
+    public int nueva()
+    {       
+       this.valores= "'"+apellido+"','"+nombre+"','"+telefono+"','"+telefono2+"','"+celular+"',"+idBarrio+
+                     ",'"+direccion+"',"+tipoDoc+",'"+nroDoc+"',"+estadoCivil+",'"+fechaNac+"','"+mail
+                     +"','"+mail2+"','"+otrosDatos+"','"+nacionalidad+"'";
        return insertaSQL();
     }
     
     // modifica los datos de una persona
-    public int modificar(String condiciones)
+    public int modificar()
     {
-        this.condicion=condiciones;
+        this.condicion = "idpersona="+idPersona;
+        this.valores= "'"+apellido+"','"+nombre+"','"+telefono+"','"+telefono2+"','"+celular+"',"+idBarrio+
+                     ",'"+direccion+"',"+tipoDoc+",'"+nroDoc+"',"+estadoCivil+",'"+fechaNac+"','"+mail
+                     +"','"+mail2+"','"+otrosDatos+"','"+nacionalidad+"'";
          return modificaSQL();
     }
     
     //consulta los datos de una persona
-    public ResultSet consulta(String condiciones)
-    {
-        this.condicion=condiciones;
+    public ResultSet consulta()
+    { 
+        this.condicion = "idpersona="+idPersona;
         return consultaSQL();
     }
 }
