@@ -62,11 +62,93 @@ public class Complementarios
     // Esta clase crea, modifica y elimina las capacitaciones para el presonal
     class Capacitaciones extends libSentenciasSQL
     {
+        int idCapacitacion = 0;
+        int idInstitucion = 0;
+        String nombre = "";
+        String fechaIni = "";
+        String fechaFin = "";
+        int horasCatedra = 0;
+        String diasAsistencia = "";
+        String programa = "";
+        String objetivos = "";               
         //contructor
         public Capacitaciones()
         {
-            this.tabla = "";
-            this.campos = "";
+            this.tabla = "capacitacion";
+            this.campos = "idInstitucion,nombre,fechaIni,fechaFin,horasCatedra,diasAsistencia,programa,objetivos";
         }
-    }    
+        
+        public int nueva()
+        {
+            this.valores = idInstitucion+",'"+nombre+"','"+fechaIni+"','"+fechaFin+"',"+
+                            horasCatedra+",'"+diasAsistencia+"','"+programa+"','"+
+                            objetivos+"'";
+            return this.insertaSQL();
+        }
+        
+        public int modifica()
+        {
+            this.condicion = "idCapacitacion="+idCapacitacion;
+            this.valores = idInstitucion+",'"+nombre+"','"+fechaIni+"','"+fechaFin+"',"+
+                            horasCatedra+",'"+diasAsistencia+"','"+programa+"','"+
+                            objetivos+"'";
+            return this.modificaSQL();
+        }
+        
+        public ResultSet consulta()
+        {
+            this.condicion = "idCapacitacion="+idCapacitacion;
+            return this.consultaSQL();
+        }
+        
+        public int borrar()
+        {
+            this.condicion = "idCapacitacion="+idCapacitacion;
+            return this.borraSQL();
+        }
+    }  
+    
+    //esta clase registra los titulos de los empleados
+    class Titulos extends libSentenciasSQL
+    {
+        int idTitulo=0;
+        int idInstitucion = 0;
+        String carrera = "";
+        String titulo = "";
+        String objetivo = "";
+        String materias = "";
+        String analitico = "";
+        //contructor
+        public Titulos()
+        {
+            this.tabla = "titulo";
+            this.campos = "idInstitucion,Carrera,titulo,objetivos,materias,analitico";
+        }
+        public int nueva()
+        {
+            this.valores = idInstitucion+",'"+carrera+"','"+titulo+"','"+objetivo+
+                            "','"+materias+"','"+analitico+"'";
+            return this.insertaSQL();
+        }
+        
+        public int modifica()
+        {
+            this.condicion = "idtitulo="+idTitulo;
+            this.valores = idInstitucion+",'"+carrera+"','"+titulo+"','"+objetivo+
+                            "','"+materias+"','"+analitico+"'";
+            return this.modificaSQL();
+        }
+        
+        public ResultSet consulta()
+        {
+            this.condicion = "idtitulo="+idTitulo;
+            return this.consultaSQL();
+        }
+        
+        public int borrar()
+        {
+            this.condicion = "idtitulo="+idTitulo;
+            return this.borraSQL();
+        }
+    }
 }

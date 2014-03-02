@@ -126,4 +126,9 @@ public class Liquidacion extends libSentenciasSQL
             return 0;
         }
     }
+    
+    // obtiene los datos del sindicato
+    public int obtieneSindicato()
+    {
+    }
 }

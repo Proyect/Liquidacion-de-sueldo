@@ -232,6 +232,13 @@ public class Legajolib extends libSentenciasSQL
             this.condicion = "idPersona=" + this.idPersona +" AND legajo=" + this.idLegajo;
             return this.borraSQL();
         }
+        
+        // realiza la consulta de las asignaciones por legajo
+        public ResultSet consulta()
+        {
+            this.condicion = "legajo="+this.idLegajo;
+            return this.consultaSQL();
+        }
     }
     
     // Clases de inasistencia
@@ -449,8 +456,7 @@ public class Legajolib extends libSentenciasSQL
             this.condicion = "idLicencia="+this.idLicencia;
             return this.borraSQL();
         }
-    }
-    
+    }  
         
 
     // clases de capacitaciones y cursos
@@ -505,6 +511,43 @@ public class Legajolib extends libSentenciasSQL
             return this.consultaSQL();
         }
         
+    }
+    
+    // clase de titulos adquiridos
+    class Titulos extends Legajolib
+    {        
+        int idTitulo= 0;
+        int estadoTi= 0;
+        public Titulos()
+        {
+            this.tabla = "legajoTitulo";
+            this.campos = "idLegajo,idTitulo,estado";
+        }
+        
+        public int nuevo()
+        {
+            this.valores = idLegajo+","+idTitulo+","+estadoTi;
+            return this.insertaSQL();
+        }
+        
+        public int modifica()
+        {
+            this.condicion = "idLegajo="+this.idLegajo+" AND idTitulo="+this.idTitulo;
+            this.valores = idLegajo+","+idTitulo+","+estadoTi;
+            return this.modificaSQL();
+        }
+        
+        public int baja()
+        {
+            this.condicion = "idLegajo="+this.idLegajo+" AND idTitulo="+this.idTitulo;
+            return this.borraSQL();
+        }
+        
+        public ResultSet consulta()
+        {
+            this.condicion = "idLegajo="+this.idLegajo+" AND idTitulo="+this.idTitulo;
+            return this.consultaSQL();
+        }
     }
     
     // Clase para notificaciones al personal
@@ -677,7 +720,6 @@ public class Legajolib extends libSentenciasSQL
                             this.fechaInicio+"','"+this.fechaFin+"',"+this.estadoP;
             return this.modificaSQL();
         }
-    }    
-    
+    }     
     
 }
