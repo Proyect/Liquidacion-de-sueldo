@@ -3,12 +3,15 @@ Solo es para probar algunas funciones y clases .
  */
 package sistemaliquidaciondehaberes;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 /**  Ariel Marcelo Diaz
  */
 public class test {
 
-    public static void main(String[] args) 
+    public static void main(String[] args) throws SQLException 
     {
        // Legajolib.Inasistencia resultado ;
          
@@ -16,8 +19,12 @@ public class test {
         
         Liquidacion con = new Liquidacion();
         con.idLegajo=1;
-        con.obtienePuesto();
+        ResultSet obtienePuesto = con.obtienePuesto();
         con.obtieneDatos();
+        con.obtieneSindicato();
+        con.devuelveAntiguedad();
+        con.devuelveJubilacion();
+        con.devuelveART();
         /*
         Legajolib con = new Legajolib();               
         Legajolib.Licencias resultado;

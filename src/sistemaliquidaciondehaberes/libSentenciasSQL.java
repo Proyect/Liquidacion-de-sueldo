@@ -105,11 +105,11 @@ public class libSentenciasSQL extends Conexion{
                 resultado = st.executeQuery(sentencia);
                 if(resultado.first())
                 {
-                    Imprime("Se encontraron resultados");
+                 //   Imprime("Se encontraron resultados");
                 }
                 else
                 {
-                   Imprime("No se encontraron resultados");
+                 //  Imprime("No se encontraron resultados");
                 }
             }
             catch (SQLException ex)

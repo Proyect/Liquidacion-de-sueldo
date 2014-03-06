@@ -45,6 +45,7 @@ public class Legajolib extends libSentenciasSQL
         return this.modificaSQL();
     }
     
+    //clase novedad
     class Novedad extends Legajolib
     {
         //constructor
@@ -143,6 +144,13 @@ public class Legajolib extends libSentenciasSQL
                 return 0;
             }
             
+        }
+        
+        // realiza la consulta sobre los sindicatos afiliados
+        public ResultSet consulta()
+        {
+            this.condicion = "idLegajo="+this.idLegajo;
+            return this.consultaSQL();
         }
     }
     

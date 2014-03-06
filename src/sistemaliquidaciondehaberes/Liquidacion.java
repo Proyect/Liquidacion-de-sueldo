@@ -5,6 +5,8 @@ package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /** * Ariel Marcelo Diaz*/
@@ -20,9 +22,12 @@ public class Liquidacion extends libSentenciasSQL
     String emision = "";
     float obraSocial = 0;
     int idObraSocial = 0;
-    float sindicato = 0;  
+    float sindicato = 0; 
+    int idSindicato = 0;
     float presentismo = 0;
     float basico = 0;
+    float antiguedad=0;
+    int diasTrabajados=0;// verificar
     int cantHs = 0;
     int cantHs50 = 0;
     int cantHs100 = 0;
@@ -35,7 +40,9 @@ public class Liquidacion extends libSentenciasSQL
     public Liquidacion()
     {
         this.tabla = "recibos";
-        this.campos = "idLegajo,costoHs50,costoHs100,idPuesto,periodo,emision,obraSocial,sindicato,presentismo,basico,cantHs50,CantHs100,jubilacion,art"; 
+        this.campos = "idLegajo,costoHs50,costoHs100,idPuesto,periodo,emision,"+
+                        "obraSocial,sindicato,presentismo,basico,cantHs50,"+
+                        "CantHs100,jubilacion,art"; 
     }
     
     //obtiene el puesto del empleado en cuestion
@@ -128,7 +135,75 @@ public class Liquidacion extends libSentenciasSQL
     }
     
     // obtiene los datos del sindicato
-    public int obtieneSindicato()
+    public int obtieneSindicato() throws SQLException 
     {
+        int valor=0;
+        Legajolib.Sindicato sindicatofs= fsLegajo.new Sindicato();
+        sindicatofs.idLegajo = this.idLegajo;
+        ResultSet resultado=sindicatofs.consulta();
+        if(resultado.isFirst())  
+        {
+            try 
+            {
+                this.idSindicato = resultado.getInt(1);
+                fsConceptos.idFormula = 2;
+                this.sindicato= this.basico*fsConceptos.formulas();
+                Imprime("sindicato: "+this.sindicato);
+                valor=1;
+            } 
+            catch (SQLException ex) 
+            {
+                estado = ex.getMessage();
+            }
+        }   
+         return valor;
+        
     }
+    
+    //devuelve la antiguedad del empleado
+    public int antiguedad(String fecha) throws SQLException
+    {
+        int devolver=0;
+        String sentencia = "select datediff( curdate(),'"+fecha+"')/365";
+        ResultSet verFecha = st.executeQuery(sentencia);
+        if(verFecha.first())
+        {
+             devolver = verFecha.getInt(1);
+             Imprime("Antiguedad: "+devolver);
+        }
+        else
+        {
+             Imprime("No se pudo calcular la antiguedad");
+        }
+        return devolver;
+    }
+    
+    //realiza el calculo de antiguedad del empleado
+    public int devuelveAntiguedad() throws SQLException
+    {
+        int ant=this.antiguedad(this.fechaInicio);        
+        fsConceptos.idFormula=6;
+        this.antiguedad = ant*this.basico*fsConceptos.formulas();
+        Imprime("Antiguedad valor:"+this.antiguedad);
+        return ant;
+    }
+    
+    // realiza el calculo de jubilacion del empleado
+    public float devuelveJubilacion()
+    {        
+        fsConceptos.idFormula=5;
+        this.jubilacion=this.basico*fsConceptos.formulas();
+        Imprime("Aportes jubilatorios: "+this.jubilacion);
+        return this.jubilacion;
+    }
+    
+    //realiza el calculo de art
+    public float devuelveART()
+    {
+        fsConceptos.idFormula=4;
+        this.art=this.basico*fsConceptos.formulas();
+        Imprime("ART: "+this.art);
+        return this.art;
+    }
+    // falta presentismo, hs extras
 }

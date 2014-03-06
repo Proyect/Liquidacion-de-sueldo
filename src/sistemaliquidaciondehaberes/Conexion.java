@@ -121,68 +121,8 @@ public class Conexion
         return result;// si el resultado es 1, entonces el empleado tiene presentismo
        }      
        
-       // carga Descuento obraSocial, la cantidad de obras sociales que existen
-       public Integer obraSocialCarga(Integer idLegajo)
-       {
-            Integer result=0;
-            ResultSet verif=null;
-            String operacion ="SELECT COUNT(idLegajo)  AS cantidad"
-                        + " FROM  obrasociallegajo "
-                    + "WHERE idLegajo ="+idLegajo+" GROUP By idLegajo;";
-           
-            try  // verificar la funcion, por algo me da siempre cero
-            {                
-                verif = st.executeQuery(operacion);
-                if(verif.first())
-                {
-                    result = verif.getInt(1);
-                    Imprime("Obra Social/es: "+ result);
-                }
-                else
-                {
-                    Imprime("No se gravaron obras sociales");
-                }
-            }
-            catch (SQLException ex)
-            {
-                estado = ex.getMessage();
-            }           
+              
              
-             return result;
-       }
-       
-       // verifica la cantidad de Sindicatos a cargar
-       public Integer SindicatosCarga(Integer idLegajo) 
-       {
-           ResultSet verif = null;
-           Integer devolver = 0; 
-           String sentencia = "SELECT COUNT( idSindicato ) "
-                                + "FROM sindicatolegajo "
-                                + "WHERE idLegajo ="+idLegajo
-                                + " GROUP BY idSindicato"; 
-           
-            try 
-            {
-                verif =st.executeQuery(sentencia);
-                if (verif.first())
-                {
-                    devolver = verif.getInt(1);
-                    Imprime("Sindicato/s: "+devolver);                  
-                }
-                else
-                {
-                    Imprime("No se registraron cargas al sindicato");
-                }
-                
-            }
-            catch (SQLException ex)
-            {
-                estado = ex.getMessage();
-            }            
-            
-            return devolver;
-       }
-       
        // obtiene el sueldo basico de un determinado puesto
        public float   obtieneBasico(Integer idPuesto)
        {
@@ -443,10 +383,10 @@ public class Conexion
            {
                 float basico = obtieneBasico(puesto);
                 Imprime("::::Descuentos:");
-                cantSindicatos = SindicatosCarga(idLegajo);
+               // cantSindicatos = SindicatosCarga(idLegajo);
                 sindicato = cantSindicatos * formulasDesc(1)* basico;
                 Imprime("Sindicato: "+sindicato);
-                cantObraSocial= obraSocialCarga(idLegajo);
+       //         cantObraSocial= obraSocialCarga(idLegajo);
                 obrasocial = cantObraSocial * formulasDesc(2)* basico;
                 Imprime("Obra Social:"+obrasocial);           
                 jubilacion =  formulasDesc(5)* basico;

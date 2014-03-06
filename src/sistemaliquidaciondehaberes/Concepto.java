@@ -50,6 +50,8 @@ public class Concepto extends libSentenciasSQL
         return aux;
     }
     
+    
+    
     //modifica las formulas 
     public int modifica()
     {
