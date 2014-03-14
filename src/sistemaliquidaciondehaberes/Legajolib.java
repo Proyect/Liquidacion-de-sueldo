@@ -670,6 +670,12 @@ public class Legajolib extends libSentenciasSQL
                 return 0;
             }
         }
+        
+        // realiza una consulta de las horas extras
+        public ResultSet consulta()
+        {
+            return this.consultaSQL();
+        }
     }
     
     // clase para el manejo de adelantos

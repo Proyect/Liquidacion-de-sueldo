@@ -19,11 +19,13 @@ public class Concepto extends libSentenciasSQL
     String inicio = "";
     String fin = "";
     int tipoform = 0;
+    int aplicacion = 0;
+    int clase = 0;
     // constructor
     public Concepto()
     {
         this.tabla = "formulas";
-        this.campos = "nombreForm,formula,inicio,fin,tipoform";
+        this.campos = "nombreForm,formula,inicio,fin,tipoform,claseform,aplicacion";
     }
     
     //realiza la consulta sobre conseptos
@@ -48,20 +50,31 @@ public class Concepto extends libSentenciasSQL
             Imprime(estado);            
         }
         return aux;
-    }
-    
-    
+    }    
     
     //modifica las formulas 
     public int modifica()
     {
+        this.valores = "'"+nombre+"',"+formula+",'"+inicio+"','"+fin+"','"+
+                        tipoform+","+clase+","+aplicacion;
         return this.modifica();
-    }
-    
+    }    
     
     // alta en nueva formula
     public int nueva()
     {
+        this.valores = "'"+nombre+"',"+formula+",'"+inicio+"','"+fin+"','"+
+                        tipoform+","+clase+","+aplicacion;
         return this.insertaSQL();
+    }
+    
+    class Detalle extends libSentenciasSQL 
+    {
+        
+    }   
+    
+    class Control extends libSentenciasSQL 
+    {
+        
     }
 }

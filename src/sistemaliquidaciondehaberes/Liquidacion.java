@@ -18,7 +18,8 @@ public class Liquidacion extends libSentenciasSQL
     float costoHs50 = 0;
     float costoHs100 = 0;
     int idPuesto = 0;
-    String periodo = "";
+    String periodoIni = "";
+    String periodoFin = "";            
     String emision = "";
     float obraSocial = 0;
     int idObraSocial = 0;
@@ -41,8 +42,9 @@ public class Liquidacion extends libSentenciasSQL
     {
         this.tabla = "recibos";
         this.campos = "idLegajo,costoHs50,costoHs100,idPuesto,periodo,emision,"+
-                        "obraSocial,sindicato,presentismo,basico,cantHs50,"+
-                        "CantHs100,jubilacion,art"; 
+                        "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,costoHs50,"+
+                        "costoHs100,CantHs100,jubilacion,art,periodoIni,periodoFin,idObraSocial,"+
+                        "idSindicato,art,idART"; 
     }
     
     //obtiene el puesto del empleado en cuestion
@@ -205,5 +207,62 @@ public class Liquidacion extends libSentenciasSQL
         Imprime("ART: "+this.art);
         return this.art;
     }
-    // falta presentismo, hs extras
+    
+    //realiza el presentismo del mes
+    public float presentismo() throws SQLException
+    {
+        Legajolib.Inasistencia Faltas = fsLegajo.new Inasistencia();
+        Faltas.condicion="(idLegajo ="+idLegajo+")"
+                    + "  AND (fecha >= '"+periodoIni+"' AND fecha <= '"+periodoFin+"') AND"
+                    + "(justificada =0);";
+        ResultSet resultado= Faltas.consulta(Faltas.condicion);
+        if (!resultado.first())
+        {
+            Imprime("El empleado tiene presentismo");
+            fsConceptos.idFormula = 3;
+            this.presentismo = this.basico*fsConceptos.formulas();
+            Imprime("Presentismo: "+this.presentismo);
+            return this.presentismo;
+        }
+        else
+        {
+            Imprime("El empleado no tiene presentismo");
+            return 0;
+        }
+    } 
+    
+    //calcula  las horas extras del  empleado
+    public int horasExtras() throws SQLException
+    {
+        Legajolib.HorasExtras horasExtras = fsLegajo.new HorasExtras();
+        horasExtras.condicion = "(idLegajo ="+idLegajo+")"
+                                 + "AND (fecha BETWEEN '"+periodoIni+"'"
+                                       + " AND '"+periodoFin+"')";
+        ResultSet resultado = horasExtras.consulta();
+        if(resultado.first())
+        {
+            while(resultado != null)
+            {
+                if(resultado.getInt("tipoHs")==1)
+                {
+                    this.cantHs50 = this.cantHs50 + resultado.getInt("cantidadHs");
+                }
+                else
+                {
+                    this.cantHs100 = this.cantHs100 + resultado.getInt("cantidadHs");
+                }
+                resultado.next();
+            }
+            Imprime("Horas al 50%: "+cantHs50);
+            Imprime("Horas al 100%: "+cantHs100);
+            return 1;
+        }
+        else
+        {
+            Imprime("No existen hs extras registradas");
+            return 0;
+        }
+        
+    }        
+    // faltan conceptos adjuntos
 }

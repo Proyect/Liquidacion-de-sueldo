@@ -19,12 +19,15 @@ public class test {
         
         Liquidacion con = new Liquidacion();
         con.idLegajo=1;
+        con.periodoIni = "2014-03-01";
+        con.periodoFin = "2014-03-30";
         ResultSet obtienePuesto = con.obtienePuesto();
         con.obtieneDatos();
         con.obtieneSindicato();
         con.devuelveAntiguedad();
         con.devuelveJubilacion();
         con.devuelveART();
+        con.presentismo();
         /*
         Legajolib con = new Legajolib();               
         Legajolib.Licencias resultado;
