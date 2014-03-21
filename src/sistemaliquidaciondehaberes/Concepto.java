@@ -70,7 +70,42 @@ public class Concepto extends libSentenciasSQL
     
     class Detalle extends libSentenciasSQL 
     {
+        int idConcepo = 0;
+        String nombreCons = "";
+        String detalleCons = "";
+        int idFormula = 0;
+        int idLicencia = 0;
+        // constructor
+        public Detalle()
+        {
+            this.tabla = "conceptosdetalle";
+            this.campos = "";
+        }
         
+        public int nuevo()
+        {
+            this.valores = "";
+            return this.insertaSQL();
+        }
+        
+        public int modifica()
+        {
+            this.condicion = "";
+            this.valores = "";
+            return this.modificaSQL();
+        }
+        
+        public int baja()
+        {
+            this.condicion = "";
+            return this.borraSQL();
+        }
+        
+        public ResultSet consulta()
+        {
+            this.condicion = "";
+            return this.consultaSQL();
+        }
     }   
     
     class Control extends libSentenciasSQL 
