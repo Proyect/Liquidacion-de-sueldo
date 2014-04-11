@@ -9,38 +9,41 @@ import java.sql.ResultSet;
 /** * Ariel Marcelo Diaz*/
 public class Empresaslib extends libSentenciasSQL
 {
-    String matricula = "";
-    String razonSocial = "";
+    int idEmpresas=0;
+    String tipo = "";
+    String clase = "";
     String cuit = "";
+    String razonSocial = "";    
     String  cp = "";
-       int  barrio = 0;
+    String  barrio = "";
     String  direccion = "";
     String  telefono = "";
     String celular = "";
     String otrosDatos = "";
-       int estadoEmp = 0;
+       
     //constructor
     public Empresaslib()
     {
-        this.campos = "matricula,razonSocial,cuit,cp,barrio,direccion,telefono,celular,otrosDatos,estado";
+        this.tabla = "empresas";
+        this.campos = "tipo,clase,cuit,razonSocial,cp,barrio,direccion,telefono,celular,otrosDatos";
     }
     
      // inserta una nueva persona en la base de datos
     public int nueva()
     {
-       this.valores= "'" + this.matricula + "','" + this.razonSocial+"','" + this.cuit+"','"+
+       this.valores= "'" + this.tipo + "','" + this.clase + "','" + this.razonSocial+"','" + this.cuit+"','"+
                      this.cp + "'," + this.barrio + ",'" + this.direccion + "','" + this.telefono +
-                     "','" + this.celular + "','" + this.otrosDatos + "'," + this.estadoEmp;
+                     "','" + this.celular + "','" + this.otrosDatos + "'" ;
        return insertaSQL();
     }
     
-    // modifica los datos de una persona
-    public int modificar(String condiciones)
+    // modifica los datos de una empresa
+    public int modificar()
     {
-        this.valores= "'" + this.matricula + "','" + this.razonSocial+"','" + this.cuit+"','"+
+        this.valores= "'" + this.tipo + "','" + this.clase + "','" + this.razonSocial+"','" + this.cuit+"','"+
                      this.cp + "'," + this.barrio + ",'" + this.direccion + "','" + this.telefono +
-                     "','" + this.celular + "','" + this.otrosDatos + "'," + this.estadoEmp;
-        this.condicion=condiciones;
+                     "','" + this.celular + "','" + this.otrosDatos + "'" ;
+        this.condicion = "idEmpresa="+idEmpresas;
          return modificaSQL();
     }
     
@@ -59,33 +62,5 @@ public class Empresaslib extends libSentenciasSQL
         return this.borraSQL();
     }
     
-    // clase de obra social
-    class Obra_social extends Empresaslib
-    {
-        //construcctor
-        public Obra_social()
-        {
-            this.tabla = "obrasocial";
-        }
-    }
-    
-    //clase de sindicato
-    class Sindicato extends Empresaslib
-    {
-        //construcctor
-        public Sindicato()
-        {
-            this.tabla = "sindicato";
-        }
-    }
-    
-    //clase de instituciones
-    class Instituciones extends Empresaslib
-    {
-        //construcctor
-        public Instituciones()
-        {
-            this.tabla = "institucion";
-        }
-    }
+   
 }

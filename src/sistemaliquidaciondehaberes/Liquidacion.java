@@ -5,8 +5,7 @@ package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 /** * Ariel Marcelo Diaz*/
@@ -21,6 +20,7 @@ public class Liquidacion extends libSentenciasSQL
     String periodoIni = "";
     String periodoFin = "";            
     String emision = "";
+    int diasTrabajados = 0;
     float obraSocial = 0;
     int idObraSocial = 0;
     float sindicato = 0; 
@@ -28,7 +28,7 @@ public class Liquidacion extends libSentenciasSQL
     float presentismo = 0;
     float basico = 0;
     float antiguedad=0;
-    int diasTrabajados=0;// verificar
+    int dias=0;
     int cantHs = 0;
     int cantHs50 = 0;
     int cantHs100 = 0;
@@ -79,6 +79,14 @@ public class Liquidacion extends libSentenciasSQL
         return reg;
     }
     
+    
+    //obtiene el basico del empleado
+    public float obtieneBasico(float basico)
+    {
+        float resultado = (basico * this.dias)/this.diasTrabajados;
+        return resultado;
+    }    
+    
     // obtiene los datos basicos de la liquidacion
     public int obtieneDatos()
     {
@@ -90,7 +98,7 @@ public class Liquidacion extends libSentenciasSQL
         {
             try 
             {
-                this.basico = datos.getFloat("basico");
+                this.basico = obtieneBasico(datos.getFloat("basico"));
                 Imprime("Basico: "+this.basico);
                 this.costoHs = datos.getFloat("costoHs");
                 Imprime("Costo Hs:"+this.costoHs);
@@ -118,9 +126,9 @@ public class Liquidacion extends libSentenciasSQL
     // obtiene los datos de obra social
     public int obtieneObraSocial() throws SQLException
     {
-        Legajolib.ObraSocial obrasocial=  fsLegajo.new ObraSocial();
+        Legajolib.CargasSociales obrasocial=  fsLegajo.new CargasSociales();
         obrasocial.idLegajo = this.idLegajo;
-        ResultSet resultados = obrasocial.consulta();
+        ResultSet resultados = obrasocial.consulta("idLegajo="+idLegajo+" AND Vinculacion='Obra Social'");
         if (resultados != null)
         {
             this.idObraSocial = resultados.getInt(2);
@@ -132,7 +140,7 @@ public class Liquidacion extends libSentenciasSQL
         else
         {
             Imprime("no se registro obra social");
-            return 0;
+            return 0;           
         }
     }
     
@@ -140,9 +148,9 @@ public class Liquidacion extends libSentenciasSQL
     public int obtieneSindicato() throws SQLException 
     {
         int valor=0;
-        Legajolib.Sindicato sindicatofs= fsLegajo.new Sindicato();
+        Legajolib.CargasSociales sindicatofs= fsLegajo.new CargasSociales();
         sindicatofs.idLegajo = this.idLegajo;
-        ResultSet resultado=sindicatofs.consulta();
+        ResultSet resultado=sindicatofs.consulta("idLegajo="+idLegajo+" AND Vinculacion='Sindicato'");
         if(resultado.isFirst())  
         {
             try 

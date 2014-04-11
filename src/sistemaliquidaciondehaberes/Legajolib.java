@@ -97,115 +97,44 @@ public class Legajolib extends libSentenciasSQL
         }
     }
     
-    //Sindicato
-    class Sindicato extends Legajolib    
+    //clase para las cargas sociales: obrasocial, sindicato, art    
+    class CargasSociales extends Legajolib
     {   //instancias
-        int idSindicato=0;
-        
-        //constructor
-        public Sindicato()
+        int idEmpresa = 0;
+        String vinculacion = "";
+        public CargasSociales()
         {
-            this.tabla = "sindicatolegajo";
-            this.campos = "idSindicato,idLegajo";
+            this.tabla = "vinculacioneslegajo";
+            this.campos = "idLegajo,idEmpresa,Vinculacion";
         }
         
-        //asigna un sindicato
-        public int alta_sindicato()
-        {    
-            Novedad novedad = this.new Novedad();
-            this.valores = this.idSindicato+","+this.idLegajo;
-            if(this.insertaSQL() == 1)
-            {
-                novedad.idLegajo=this.idLegajo;
-                novedad.nueva_novedad("nuevo sindicato",
-                                    "El "+this.fecha+" se asigno un nuevo sindicato al legajo Sindicato Nro: "+
-                                    this.idSindicato, 1);
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
+        public int nuevo()
+        {
+            this.valores = idLegajo+","+idEmpresa+",'"+vinculacion+"'";
+            return this.insertaSQL();
         }
         
-        //Elimina un sindicato del legajo
-        public int baja_sindicato()
+        public int modifica(String condiciones)
         {
-            Novedad novedad = this.new Novedad();
-            this.condicion = "idSindicato=" + this.idSindicato + " AND idLegajo=" + this.idLegajo;
-            if (this.borraSQL() ==1)
-            {
-                novedad.nueva_novedad("baja de sindicato", 
-                            "Se dio de baja al sindicato Nro:" + this.idSindicato, 1);
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
-            
+            this.condicion = condiciones;
+            this.valores = idLegajo+","+idEmpresa+",'"+vinculacion+"'";
+            return this.modificaSQL();
         }
         
-        // realiza la consulta sobre los sindicatos afiliados
-        public ResultSet consulta()
+        public int baja(String condiciones)
         {
-            this.condicion = "idLegajo="+this.idLegajo;
+            this.condicion = condiciones;
+            return this.borraSQL();
+        }
+        
+        public ResultSet consulta(String condiciones)
+        {
+            this.condicion = condiciones;
             return this.consultaSQL();
         }
     }
     
-    //Clase de obra social
-    class ObraSocial extends Legajolib 
-    {  
-        int idObraSocial;
-        Novedad novedad = this.new Novedad();
-        //constructor
-        public ObraSocial()
-        {
-            this.tabla="obrasociallegajo";
-            this.campos="idLegajo,idObraSocial";
-            novedad.idLegajo = this.idLegajo;
-        }
-        
-        public int asigna_obraSocial(int obraSocial)
-        {
-            this.idObraSocial=obraSocial;
-            this.valores = this.idLegajo+","+this.idObraSocial;
-            if( this.insertaSQL() ==1)
-            {                
-                novedad.nueva_novedad("Nueva asignacion de obra social",
-                        "Se asigno la obra social Nro:"+this.idObraSocial, 1);
-                return 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        
-        public int baja_obrasocial(int obraSocial)
-        {
-            this.condicion = "idLegajo="+this.idLegajo+" AND idObraSocial="+obraSocial;            
-            if (this.borraSQL()==1) 
-            {
-                novedad.nueva_novedad("baja de obra social", 
-                        "se dio de baja de la obra social Nro:"+this.idLegajo, estadoL);
-                return 1;
-            } 
-            else
-            {
-                return 0;
-            }
-        }
-        
-        // realiza una consulta de obras sociales
-        public ResultSet consulta()
-        {
-            this.condicion = "idLegajo="+this.idLegajo;
-            return consultaSQL();
-        }
-    }
-    
+    // operaciones con las asignaciones   
     class Asignaciones extends Legajolib 
     {   
         int idVinculo = 0;

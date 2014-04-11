@@ -68,9 +68,11 @@ public class Concepto extends libSentenciasSQL
         return this.insertaSQL();
     }
     
+    
+    // crea un nuevo concepto para aplicarlo 
     class Detalle extends libSentenciasSQL 
     {
-        int idConcepo = 0;
+        int idConcepto = 0;
         String nombreCons = "";
         String detalleCons = "";
         int idFormula = 0;
@@ -79,6 +81,36 @@ public class Concepto extends libSentenciasSQL
         public Detalle()
         {
             this.tabla = "conceptosdetalle";
+            this.campos = "nombreCons,detalleCons,idFormula,idLicencia";
+        }
+        
+        public int nuevo()
+        {
+            this.valores = "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+idLicencia;
+            return this.insertaSQL();
+        }
+        
+        public int modifica()
+        {
+            this.condicion = "idConcepto="+idConcepto;
+            this.valores = "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+idLicencia;
+            return this.modificaSQL();
+        }
+        
+                
+        public ResultSet consulta()
+        {
+            this.condicion = "idConcepto="+idConcepto;
+            return this.consultaSQL();
+        }
+    }   
+    
+    // aplica los conceptos a cada recibo de sueldo
+    class Aplica extends libSentenciasSQL 
+    {
+        public Aplica()
+        {
+            this.tabla = "";
             this.campos = "";
         }
         
@@ -106,10 +138,5 @@ public class Concepto extends libSentenciasSQL
             this.condicion = "";
             return this.consultaSQL();
         }
-    }   
-    
-    class Control extends libSentenciasSQL 
-    {
-        
     }
 }
