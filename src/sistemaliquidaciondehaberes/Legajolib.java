@@ -203,7 +203,7 @@ public class Legajolib extends libSentenciasSQL
             }
             else
             {
-                idNovedad = novedad.nueva_novedad("Nueva inasistencia", "Justificada", 1);
+                idNovedad = novedad.nueva_novedad("Nueva inasistencia", "Justificada", 0);
                 this.justificada=1;
             }
             

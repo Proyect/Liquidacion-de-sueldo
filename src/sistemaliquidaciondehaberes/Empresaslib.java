@@ -25,14 +25,14 @@ public class Empresaslib extends libSentenciasSQL
     public Empresaslib()
     {
         this.tabla = "empresas";
-        this.campos = "tipo,clase,cuit,razonSocial,cp,barrio,direccion,telefono,celular,otrosDatos";
+        this.campos = "tipo,clase,cuit,razonSocial,cp,barrio,direccion,telefono,celular,otros";
     }
     
      // inserta una nueva persona en la base de datos
     public int nueva()
     {
-       this.valores= "'" + this.tipo + "','" + this.clase + "','" + this.razonSocial+"','" + this.cuit+"','"+
-                     this.cp + "'," + this.barrio + ",'" + this.direccion + "','" + this.telefono +
+       this.valores= "'" + this.tipo + "','" + this.clase + "','" + this.cuit+"','"+ this.razonSocial+"','"+
+                     this.cp + "','" + this.barrio + "','" + this.direccion + "','" + this.telefono +
                      "','" + this.celular + "','" + this.otrosDatos + "'" ;
        return insertaSQL();
     }
@@ -40,8 +40,8 @@ public class Empresaslib extends libSentenciasSQL
     // modifica los datos de una empresa
     public int modificar()
     {
-        this.valores= "'" + this.tipo + "','" + this.clase + "','" + this.razonSocial+"','" + this.cuit+"','"+
-                     this.cp + "'," + this.barrio + ",'" + this.direccion + "','" + this.telefono +
+        this.valores= "'" + this.tipo + "','" + this.clase + "','" + this.cuit+"','"+ this.razonSocial+"','"+
+                     this.cp + "','" + this.barrio + "','" + this.direccion + "','" + this.telefono +
                      "','" + this.celular + "','" + this.otrosDatos + "'" ;
         this.condicion = "idEmpresa="+idEmpresas;
          return modificaSQL();

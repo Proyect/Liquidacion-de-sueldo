@@ -15,11 +15,12 @@ public class Personaslib extends libSentenciasSQL
     String telefono = "";
     String telefono2 = "";
     String celular = "";
-    int idBarrio = 0;
+    String barrio = "";
     String direccion = "";
-    int tipoDoc = 0;
+    String tipoDoc = "";
     String nroDoc = "";
-    int estadoCivil= 0;
+    String cuil = "";
+    String estadoCivil = "";
     String fechaNac = "";
     String mail = "";
     String mail2 = "";
@@ -30,16 +31,17 @@ public class Personaslib extends libSentenciasSQL
     public Personaslib()
     {
         this.tabla="persona";
-        this.campos="apellido,nombre,telefono,telefono2,celular,idBarrio,direccion,"+
-                    "tipoDoc,nroDoc,estadoCivil,fechaNac,mail,mail2,otrosDatos,nacionalidad";
+        this.campos="apellido,nombre,telefono,telefono2,celular,barrio,direccion,"+
+                    "tipoDoc,nroDoc,cuil,estadoCivil,fechaNac,mail,mail2,otrosDatos,nacionalidad";
     }       
     
     // inserta una nueva persona en la base de datos
     public int nueva()
     {       
-       this.valores= "'"+apellido+"','"+nombre+"','"+telefono+"','"+telefono2+"','"+celular+"',"+idBarrio+
-                     ",'"+direccion+"',"+tipoDoc+",'"+nroDoc+"',"+estadoCivil+",'"+fechaNac+"','"+mail
-                     +"','"+mail2+"','"+otrosDatos+"','"+nacionalidad+"'";
+       this.valores= "'"+apellido+"','"+nombre+"','"+telefono+"','"+telefono2+"','"+
+                        celular+"','"+barrio+ "','"+direccion+"','"+tipoDoc+"','"+nroDoc+
+                        "','"+cuil+"','"+estadoCivil+"','"+fechaNac+"','"+mail+
+                        "','"+mail2+"','"+otrosDatos+"','"+nacionalidad+"'";
        return insertaSQL();
     }
     
@@ -47,9 +49,10 @@ public class Personaslib extends libSentenciasSQL
     public int modificar()
     {
         this.condicion = "idpersona="+idPersona;
-        this.valores= "'"+apellido+"','"+nombre+"','"+telefono+"','"+telefono2+"','"+celular+"',"+idBarrio+
-                     ",'"+direccion+"',"+tipoDoc+",'"+nroDoc+"',"+estadoCivil+",'"+fechaNac+"','"+mail
-                     +"','"+mail2+"','"+otrosDatos+"','"+nacionalidad+"'";
+        this.valores= "'"+apellido+"','"+nombre+"','"+telefono+"','"+telefono2+"','"+
+                        celular+"','"+barrio+ "','"+direccion+"','"+tipoDoc+"','"+nroDoc+
+                        "','"+cuil+"','"+estadoCivil+"','"+fechaNac+"','"+mail+
+                        "','"+mail2+"','"+otrosDatos+"','"+nacionalidad+"'";
          return modificaSQL();
     }
     

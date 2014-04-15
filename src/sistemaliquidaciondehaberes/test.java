@@ -15,19 +15,41 @@ public class test {
     {
        // Legajolib.Inasistencia resultado ;
          
-        Imprimir("Conectando \n");
+        Imprimir("Conectando \n");       
+        /* Pruebas de legajo - Inasistencia*/
+        Legajolib con = new Legajolib();
+        Legajolib.Inasistencia inasistencia = con.new Inasistencia();
+        inasistencia.idLegajo=2;
+        inasistencia.justificada=0;
+        inasistencia.nueva();
         
-        Liquidacion con = new Liquidacion();
+       /* Empresaslib con = new Empresaslib();
+        con.tipo = "S.R.L.";
+        con.nueva();*/
+        
+        /* prueba clase personas
+        Personaslib con = new Personaslib();        
+        con.apellido = "prueba";
+        con.tipoDoc = "D.N.I.";
+        con.estadoCivil ="Soltero/a";
+        con.fechaNac = Personaslib.FechaActual();
+        con.nueva(); */
+        
+       /* Pueba de liquidacion de sueldo
+         Liquidacion con = new Liquidacion();
         con.idLegajo=1;
         con.periodoIni = "2014-03-01";
         con.periodoFin = "2014-03-30";
+        con.dias=30;
+        con.diasTrabajados=30;
         ResultSet obtienePuesto = con.obtienePuesto();
         con.obtieneDatos();
         con.obtieneSindicato();
         con.devuelveAntiguedad();
         con.devuelveJubilacion();
         con.devuelveART();
-        con.presentismo();
+        con.presentismo();*/
+        
         /*
         Legajolib con = new Legajolib();               
         Legajolib.Licencias resultado;

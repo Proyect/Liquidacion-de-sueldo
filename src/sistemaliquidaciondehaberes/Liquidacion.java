@@ -271,6 +271,20 @@ public class Liquidacion extends libSentenciasSQL
             return 0;
         }
         
-    }        
+    }
+    
+    // controla y agrega las asignaciones correspondientes, falta terminar
+    public ResultSet asignaciones()
+    {
+        Legajolib control = new Legajolib();
+        control.idLegajo = this.idLegajo;
+        ResultSet vector=null;
+        vector = control.consultaSQL();
+        while(vector != null)
+        {
+            if()
+                
+        }
+    }
     // faltan conceptos adjuntos
 }
