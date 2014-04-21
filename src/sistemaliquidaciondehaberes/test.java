@@ -16,12 +16,12 @@ public class test {
        // Legajolib.Inasistencia resultado ;
          
         Imprimir("Conectando \n");       
-        /* Pruebas de legajo - Inasistencia*/
+        /* Pruebas de legajo - Inasistencia
         Legajolib con = new Legajolib();
         Legajolib.Inasistencia inasistencia = con.new Inasistencia();
         inasistencia.idLegajo=2;
         inasistencia.justificada=0;
-        inasistencia.nueva();
+        inasistencia.nueva();*/
         
        /* Empresaslib con = new Empresaslib();
         con.tipo = "S.R.L.";
@@ -35,8 +35,9 @@ public class test {
         con.fechaNac = Personaslib.FechaActual();
         con.nueva(); */
         
-       /* Pueba de liquidacion de sueldo
+       /* Pueba de liquidacion de sueldo*/
          Liquidacion con = new Liquidacion();
+        con.idRecibo=2;
         con.idLegajo=1;
         con.periodoIni = "2014-03-01";
         con.periodoFin = "2014-03-30";
@@ -44,11 +45,14 @@ public class test {
         con.diasTrabajados=30;
         ResultSet obtienePuesto = con.obtienePuesto();
         con.obtieneDatos();
-        con.obtieneSindicato();
+        con.horasExtras();
+        /*con.obtieneSindicato();
         con.devuelveAntiguedad();
         con.devuelveJubilacion();
         con.devuelveART();
-        con.presentismo();*/
+        con.presentismo();
+        con.recibo();*/
+        con.asignaciones();
         
         /*
         Legajolib con = new Legajolib();               

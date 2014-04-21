@@ -94,30 +94,7 @@ public class Conexion
        
                     
           
-       // devuelve la formulas cargadas en la entidad formulas
-       public float formulasDesc(int idFormula)
-       {
-           float devolver=0;
-           ResultSet realizar = null; 
-           String operacion = "SELECT formula FROM formulas WHERE idFormula="+idFormula+";";
-           try
-           {
-             realizar = st.executeQuery(operacion);
-             if(realizar.first())
-             {
-                  devolver = Float.parseFloat(realizar.getString(1));
-             }
-             else
-             {
-                 Imprime("no se logro optener la formula");
-             }
-           }
-           catch (SQLException ex)
-           {
-             estado = ex.getMessage();
-            }
-           return devolver;
-       }        
+      
          
        // calcula la jubilacion del empleado
        public int calculoAnt(Integer idLegajo)

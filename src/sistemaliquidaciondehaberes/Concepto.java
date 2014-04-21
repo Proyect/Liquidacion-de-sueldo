@@ -8,6 +8,8 @@ package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /** * Ariel Marcelo Diaz****/
@@ -106,36 +108,58 @@ public class Concepto extends libSentenciasSQL
     }   
     
     // aplica los conceptos a cada recibo de sueldo
-    class Aplica extends libSentenciasSQL 
+    class Aplica extends Concepto
     {
+        int idRecibo = 0;
+        int idConcepto = 0;
+        float valor = 0;
+        float unidad = 0;
+        int tipo =0;
+        Concepto.Detalle det = new Detalle();
+        //constructor
         public Aplica()
         {
-            this.tabla = "";
-            this.campos = "";
+            this.tabla = "conceptos";
+            this.campos = "idRecibo,idConcepto,valor,unidad,tipo";
         }
         
-        public int nuevo()
+        public int nuevo() 
         {
-            this.valores = "";
+            det.idConcepto = this.idConcepto;    
+            ResultSet form=det.consulta();            
+           
+            Concepto valform = new Concepto();
+            try 
+            {
+                valform.idFormula = form.getInt("idFormula");
+            } catch (SQLException ex)
+            {
+                estado = ex.getMessage();
+            }
+            this.valor= valform.formulas();
+            
+            this.valores = idRecibo+","+idConcepto+","+valor+","+unidad+","+tipo;
             return this.insertaSQL();
         }
         
+        @Override
         public int modifica()
         {
-            this.condicion = "";
-            this.valores = "";
+            this.condicion = "idRecibo="+idRecibo+" AND idConcepto="+idConcepto;
+            this.valores = idRecibo+","+idConcepto+","+valor+","+unidad+","+tipo;
             return this.modificaSQL();
         }
         
         public int baja()
         {
-            this.condicion = "";
+            this.condicion = "idRecibo="+idRecibo+" AND idConcepto="+idConcepto;
             return this.borraSQL();
         }
         
+        @Override
         public ResultSet consulta()
         {
-            this.condicion = "";
+            this.condicion = "idRecibo="+idRecibo+" AND idConcepto="+idConcepto;
             return this.consultaSQL();
         }
     }

@@ -5,6 +5,8 @@ package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -12,6 +14,7 @@ import java.sql.SQLException;
 
 public class Liquidacion extends libSentenciasSQL
 {
+    int idRecibo=0;
     int idLegajo = 0;
     float costoHs = 0;
     float costoHs50 = 0;
@@ -19,7 +22,7 @@ public class Liquidacion extends libSentenciasSQL
     int idPuesto = 0;
     String periodoIni = "";
     String periodoFin = "";            
-    String emision = "";
+    String emision = FechaActual();
     int diasTrabajados = 0;
     float obraSocial = 0;
     int idObraSocial = 0;
@@ -34,6 +37,7 @@ public class Liquidacion extends libSentenciasSQL
     int cantHs100 = 0;
     float jubilacion = 0;
     float art = 0;
+    int idART = 0;
     String fechaInicio = "";
     Legajolib fsLegajo = new Legajolib();
     Concepto fsConceptos = new Concepto(); 
@@ -41,10 +45,10 @@ public class Liquidacion extends libSentenciasSQL
     public Liquidacion()
     {
         this.tabla = "recibos";
-        this.campos = "idLegajo,costoHs50,costoHs100,idPuesto,periodo,emision,"+
-                        "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,costoHs50,"+
-                        "costoHs100,CantHs100,jubilacion,art,periodoIni,periodoFin,idObraSocial,"+
-                        "idSindicato,art,idART"; 
+        this.campos = "idLegajo,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
+                        "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,"+
+                        "CantHs100,jubilacion,art,idObraSocial,idSindicato,idART,diasTrabajados"
+                        +",antiguedad"; 
     }
     
     //obtiene el puesto del empleado en cuestion
@@ -105,9 +109,8 @@ public class Liquidacion extends libSentenciasSQL
                 this.costoHs50 = datos.getFloat("costoHs50");
                 Imprime("Costo Hs al 50%:"+this.costoHs50);
                 this.costoHs100 = datos.getFloat("costoHs100");
-                Imprime("Costo Hs al 100$:"+this.costoHs100);
-                this.cantHs=datos.getInt("hsSemanales")*4;
-                Imprime("cantidad de hs: "+this.cantHs);
+                Imprime("Costo Hs al 100$:"+this.costoHs100);                
+                Imprime("cantidad de hs mensuales: "+datos.getInt("hsSemanales")*4);
             }
             catch (SQLException ex) 
             {
@@ -272,19 +275,110 @@ public class Liquidacion extends libSentenciasSQL
         }
         
     }
-    
-    // controla y agrega las asignaciones correspondientes, falta terminar
-    public ResultSet asignaciones()
+    public void  recibo()
     {
-        Legajolib control = new Legajolib();
-        control.idLegajo = this.idLegajo;
-        ResultSet vector=null;
-        vector = control.consultaSQL();
-        while(vector != null)
+        Imprime("guardando recibo de sueldo");
+        this.valores = idLegajo+","+costoHs50+","+costoHs100+","+idPuesto+",'"+
+                       periodoIni+"','"+periodoFin+"','"+emision+"',"+obraSocial+
+                       ","+sindicato+","+presentismo+","+basico+","+cantHs
+                        +","+costoHs+","+cantHs50+","+cantHs100+","
+                        +jubilacion+","+art+","+idObraSocial+","+idSindicato+","+
+                        idART+","+diasTrabajados+","+antiguedad; 
+        
+        this.insertaSQL();
+        this.campos="MAX( idRecibo )";
+        ResultSet ultima = null;
+        ultima = this.consultaSQL();
+        try 
         {
-            if()
-                
+            idRecibo = ultima.getInt(1);
+        }
+        catch (SQLException ex)
+        {
+            estado = ex.getMessage();
+        }
+        Imprime("Recibo de sueldo nro: "+idRecibo);
+    }
+    // controla y agrega las asignaciones correspondientes, falta terminar
+    public void asignaciones() 
+    {       
+        Legajolib control = new Legajolib();
+        Legajolib.Asignaciones familiares = control.new Asignaciones();
+        Imprime("Buscando asignaciones familiares:");
+        familiares.idLegajo = this.idLegajo;
+        ResultSet  vector = null;
+        vector = familiares.consulta();
+        while((vector != null) )
+        {   
+            Concepto concep = new Concepto();
+            Concepto.Aplica asignacion = concep.new Aplica();
+            asignacion.idRecibo = this.idRecibo;
+            asignacion.unidad = 1;
+            asignacion.tipo = 2;
+            if(vector != null)
+            {                
+                try
+                {
+                    switch(vector.getInt("idvinculo"))
+                    {   
+                        //Marido
+                        case 1:
+                            Imprime("Asignacion por conyugue: Marido");
+                            asignacion.idConcepto=1;
+                        break;
+                        
+                        //Mujer
+                        case 2:
+                            Imprime("Asignacion por conyugue: Mujer");
+                            asignacion.idConcepto=1;
+                        break;
+                           
+                        // Hijo o hija
+                        case 3:
+                            Imprime("Asignacion por hijo");
+                            asignacion.idConcepto=2;
+                        break;
+                            
+                        //hijo o hija discapacitada
+                        case 4:
+                            Imprime("Asignacion por hijo");
+                            asignacion.idConcepto=3;
+                        break;        
+                    }
+                }
+                catch (SQLException ex) 
+                {
+                    estado = ex.getMessage();
+                }
+            }     
+            
+            
+            if(asignacion.idConcepto != 0)
+            {
+                asignacion.nuevo();
+                Imprime("Asignacion cagada correctamente");
+            }
+            else
+            {
+                Imprime("Asignacion no cargada");
+            }
+            
+            try 
+            {
+                if(!vector.isLast())
+                {
+                    vector.next();
+                }
+                else
+                {
+                    vector =null;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Liquidacion.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     // faltan conceptos adjuntos
+
+    
 }
