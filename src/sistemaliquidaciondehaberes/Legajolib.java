@@ -143,14 +143,14 @@ public class Legajolib extends libSentenciasSQL
         public Asignaciones()
         {
             this.tabla = "vinculopersona";
-            this.campos = "idPersona,idvinculo,legajo";
-            novedad.idLegajo = this.idLegajo;
+            this.campos = "idPersona,idvinculo,legajo";            
         } 
         
         // realiza una asignacion 
         public int alta()
         {
             this.valores = this.idPersona+","+this.idVinculo+","+this.idLegajo;
+            novedad.idLegajo = this.idLegajo;
             if( this.insertaSQL() == 1)
             {
                 novedad.nueva_novedad("Nueva Asignacion Familiar", 
@@ -179,7 +179,7 @@ public class Legajolib extends libSentenciasSQL
     }
     
     // Clases de inasistencia
-    class Inasistencia extends Legajolib 
+    class Inasistencia extends Legajolib // verificar la insercion de datos
     {
         int justificada=0; 
         Novedad novedad = this.new Novedad();    
@@ -194,16 +194,16 @@ public class Legajolib extends libSentenciasSQL
         //crea una nueva inasistencia
         public int nueva()
         {   
-            novedad.idLegajo = this.idLegajo; 
+            novedad.idLegajo = this.idLegajo;             
             Licencias licencia = new Licencias();
-            licencia.condicion = "idLegajo " + this.idLegajo + " AND estado = 1";
-            if (this.consultaSQL()==null) 
+            licencia.condicion = "idLegajo=" + this.idLegajo + " AND estado = 1";
+            if (this.consultaSQL() != null) 
             {
                 idNovedad = novedad.nueva_novedad("Nueva inasistencia", "Injustificada", 1);
             }
             else
             {
-                idNovedad = novedad.nueva_novedad("Nueva inasistencia", "Justificada", 0);
+                idNovedad = novedad.nueva_novedad("Nueva inasistencia", "Justificada", 1);
                 this.justificada=1;
             }
             
@@ -261,15 +261,16 @@ public class Legajolib extends libSentenciasSQL
     }
     
     //clase llegadas tardes
-    class LlegadasTardes extends Legajolib
+    class LlegadasTardes extends Legajolib //agregar un campo de cantidad de minutos
     {
         int idLlegada=0;
+        int minutosTardes =0;
         Novedad novedad = this.new Novedad();    
         int idNovedad = 0;
         public LlegadasTardes()
         {
             this.tabla = "llegadastardes";
-            this.campos = "fecha,hora,idLegajo,idNovedad";            
+            this.campos = "fecha,hora,minutosTarde,idLegajo,idNovedad";            
         }
         
         // crea una nueva llegada tarde
@@ -277,10 +278,12 @@ public class Legajolib extends libSentenciasSQL
         {
             novedad.idLegajo = this.idLegajo;
             idNovedad = novedad.nueva_novedad("Nueva llegada Tarde "+this.fecha,
-                                            "Fecha: " + this.fecha + " a las horas: " + this.hora, 1);
+                                            "Fecha: " + this.fecha + " a las horas: " + this.hora+
+                                            "Minutos tardes: "+this.minutosTardes, 1);
             if (idNovedad != 0)
             {
-                this.valores = "'" + this.fecha + "','" + this.hora + "',"+this.idLegajo+","+idNovedad;
+                this.valores = "'" + this.fecha + "','" + this.hora + "',"+this.minutosTardes+
+                                ","+this.idLegajo+","+idNovedad;
                 return this.insertaSQL();                
             }
             else
@@ -295,7 +298,8 @@ public class Legajolib extends libSentenciasSQL
             novedad.idLegajo = this.idLegajo;
             idNovedad = novedad.nueva_novedad("Retificacion de llegada tarde",
                                         "Fecha: "+ this.fecha+ " Horas: "+this.hora, 1);
-            this.valores = "'"+this.fecha+"','"+this.hora+"',"+this.idLegajo+","+this.idNovedad;
+            this.valores = "'" + this.fecha + "','" + this.hora + "',"+this.minutosTardes+
+                                ","+this.idLegajo+","+idNovedad;
             this.condicion = "idLlegada="+this.idLlegada;
             return this.modificaSQL();
         }
@@ -396,7 +400,7 @@ public class Legajolib extends libSentenciasSQL
     }  
         
 
-    // clases de capacitaciones y cursos
+    // clases de capacitaciones y cursos. Verificar
     class Capacitaciones extends Legajolib
     {
         int idCapacitacion = 0;
@@ -450,7 +454,7 @@ public class Legajolib extends libSentenciasSQL
         
     }
     
-    // clase de titulos adquiridos
+    // clase de titulos adquiridos. Verificar
     class Titulos extends Legajolib
     {        
         int idTitulo= 0;
@@ -571,7 +575,8 @@ public class Legajolib extends libSentenciasSQL
         public int nueva()
         {  
             novedad.idLegajo = this.idLegajo;         
-            idNovedad = novedad.nueva_novedad("", tabla, tipoHs);
+            idNovedad = novedad.nueva_novedad("Nueva hora extra", "Cantidad de hs:"+cantidadHs+
+                                                " tipo de hs:"+tipoHs, 1);
             if (idNovedad != 0)
             {
                 this.valores = this.idLegajo+","+this.idNovedad+",'"+this.fecha+"',"+
