@@ -56,7 +56,7 @@ public class Liquidacion extends libSentenciasSQL
     {   
         ResultSet reg = null;     
         Legajolib.Puestos puesto = fsLegajo.new Puestos();       
-        puesto.condicion = "idLegajo="+this.idLegajo+ " AND estado=1";
+        puesto.condicion = "idLegajo="+this.idLegajo+ " AND NOT estado=7";
         reg = puesto.consulta();
         if (reg != null)
         {
@@ -360,7 +360,7 @@ public class Liquidacion extends libSentenciasSQL
             }
             else
             {
-                Imprime("Asignacion no cargada");
+                Imprime("Asignacion no cargada");//ptimizar
             }
             
             try 

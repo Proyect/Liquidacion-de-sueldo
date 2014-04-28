@@ -40,7 +40,7 @@ public class Legajolib extends libSentenciasSQL
     {
         this.estadoL = estado;
         this.campos = "idEstado";
-        this.valores = ""+this.estado;
+        this.valores = ""+ estado;
         this.condicion="idLegajo="+idLegajo;
         return this.modificaSQL();
     }
