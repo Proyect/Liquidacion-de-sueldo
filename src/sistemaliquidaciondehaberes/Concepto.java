@@ -163,4 +163,42 @@ public class Concepto extends libSentenciasSQL
             return this.consultaSQL();
         }
     }
+    
+    //aplica los conceptos predeterminados de cada uno de los legajos
+    class Control extends libSentenciasSQL    
+    {
+        int idLegajo=0;
+        int idConcepto=0;
+        int estadoConcepto = 1;
+        public Control()
+        {
+            this.tabla = "legajoconcepto";
+            this.campos = "idLegajo,idConcepto,estado";
+        }
+        
+        public int nuevo()
+        {
+            this.valores = idLegajo+","+idConcepto+","+estadoConcepto;
+            return this.insertaSQL();
+        }
+        
+        public int modifica()
+        {
+            this.condicion = "idLegajo="+idLegajo+" AND idConcepto="+idConcepto;
+            this.valores = idLegajo+","+idConcepto+","+estadoConcepto;
+            return this.modificaSQL();
+        }
+        
+        public int baja()
+        {
+            this.condicion = "idLegajo="+idLegajo+" AND idConcepto="+idConcepto;
+            return this.borraSQL();
+        }
+        
+        public ResultSet consulta()
+        {
+            this.condicion = "idLegajo="+idLegajo;
+            return this.consultaSQL();
+        }
+    }
 }

@@ -228,11 +228,16 @@ public class Liquidacion extends libSentenciasSQL
                     + "(justificada =0);";
         ResultSet resultado= Faltas.consulta(Faltas.condicion);
         if (!resultado.first())
-        {
+        {           
             Imprime("El empleado tiene presentismo");
             fsConceptos.idFormula = 3;
             this.presentismo = this.basico*fsConceptos.formulas();
             Imprime("Presentismo: "+this.presentismo);
+            while(resultado.isLast() != true)
+            {
+                this.diasTrabajados -= 1;
+                resultado.next();
+            }            
             return this.presentismo;
         }
         else
@@ -299,6 +304,14 @@ public class Liquidacion extends libSentenciasSQL
         }
         Imprime("Recibo de sueldo nro: "+idRecibo);
     }
+    
+    //realiza la consulta de un recibo de sueldo
+    public ResultSet consultarecibo()
+    {
+        this.condicion= "idRecibo="+this.idRecibo;
+        return this.consultaSQL();
+    }
+    
     // controla y agrega las asignaciones correspondientes, falta terminar
     public void asignaciones() 
     {       
@@ -360,7 +373,7 @@ public class Liquidacion extends libSentenciasSQL
             }
             else
             {
-                Imprime("Asignacion no cargada");//ptimizar
+                Imprime("Asignacion no cargada");//optimizar
             }
             
             try 
@@ -380,5 +393,5 @@ public class Liquidacion extends libSentenciasSQL
     }
     // faltan conceptos adjuntos
 
-    
+    //aplica los conceptos pre ajustados
 }

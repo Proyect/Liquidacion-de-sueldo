@@ -192,12 +192,12 @@ public class Legajolib extends libSentenciasSQL
         }
         
         //crea una nueva inasistencia
-        public int nueva()
+        public int nueva() throws SQLException
         {   
             novedad.idLegajo = this.idLegajo;             
-            Licencias licencia = new Licencias();
+            Licencias licencia = new Licencias();            
             licencia.condicion = "idLegajo=" + this.idLegajo + " AND estado = 1";
-            if (this.consultaSQL() != null) 
+            if (!licencia.consultaSQL().isFirst()) 
             {
                 idNovedad = novedad.nueva_novedad("Nueva inasistencia", "Injustificada", 1);
             }
@@ -261,7 +261,7 @@ public class Legajolib extends libSentenciasSQL
     }
     
     //clase llegadas tardes
-    class LlegadasTardes extends Legajolib //agregar un campo de cantidad de minutos
+    class LlegadasTardes extends Legajolib 
     {
         int idLlegada=0;
         int minutosTardes =0;
@@ -312,6 +312,14 @@ public class Legajolib extends libSentenciasSQL
             this.condicion = "idLlegada="+this.idLlegada;
             return this.borraSQL();
         }
+        
+        //Realiza la consulta de llegadas tardes
+        public ResultSet consulta()
+        {
+            this.condicion = "idLegajo="+this.idLegajo;
+            return this.consultaSQL();
+        }
+                
     }
     
     // clase licencias
@@ -349,8 +357,10 @@ public class Legajolib extends libSentenciasSQL
             
             if (this.insertaSQL() ==1)
             {
-                Inasistencia inasist= new Inasistencia();
-                inasist.condicion = "fecha>='"+this.inicio+"' AND fecha<='"+this.fin+"'";
+                Inasistencia inasist = new Inasistencia();
+                inasist.condicion = "idLegajo="+this.idLegajo+
+                                    " AND fecha>='"+this.inicio+
+                                    "' AND fecha<='"+this.fin+"'";
                 if (inasist.consulta(inasist.condicion) != null)
                 {
                     inasist.campos = "justificada";

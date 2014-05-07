@@ -59,9 +59,9 @@ public class test {
         /* Prueba inasistencia
         Legajolib con = new Legajolib();
         Legajolib.Inasistencia inasistencia = con.new Inasistencia();
-        inasistencia.idLegajo=2;
+        inasistencia.idLegajo=3;
         inasistencia.fecha= "2014-04-23";
-        inasistencia.justificada=1;
+        inasistencia.justificada=0;
         inasistencia.nueva();*/
         
         /*Pueba llegadas tardes
@@ -78,8 +78,9 @@ public class test {
         /* Pruebas de legajo - Inasistencia
         Legajolib con = new Legajolib();
         Legajolib.Inasistencia inasistencia = con.new Inasistencia();
-        inasistencia.idLegajo=2;
+        inasistencia.idLegajo=3;
         inasistencia.justificada=0;
+        inasistencia.fecha="2014-04-30";
         inasistencia.nueva();*/
         
        /* Empresaslib con = new Empresaslib();
@@ -113,18 +114,17 @@ public class test {
         con.recibo();
         con.asignaciones();*/
         
-        /* prueba licencia medica*/ 
-        /*Legajolib con = new Legajolib();               
+        /* prueba licencia medica - verificar la inasistencia
+        Legajolib con = new Legajolib();               
         Legajolib.Licencias resultado;
-        resultado = con.new Licencias();
-        
+        resultado = con.new Licencias();        
         resultado.idLegajo=1;
-        resultado.motivo="Licencia por paro";
+        resultado.motivo="Licencia medica";
         resultado.cantidad=5;
-        resultado.inicio="2014-02-01";
-        resultado.fin = "2014-02-20";
+        resultado.inicio="2014-04-01";
+        resultado.fin = "2014-04-30";
         resultado.tipoLic = 1;
-        resultado.alta();    /*/   
+        resultado.alta();       */
         
         /* Crear los complementarios  
         Complementarios con = new Complementarios();
