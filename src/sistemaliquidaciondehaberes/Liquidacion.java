@@ -127,17 +127,26 @@ public class Liquidacion extends libSentenciasSQL
     }
     
     // obtiene los datos de obra social
-    public int obtieneObraSocial() throws SQLException
+    public int obtieneObraSocial() 
     {
         Legajolib.CargasSociales obrasocial=  fsLegajo.new CargasSociales();
         obrasocial.idLegajo = this.idLegajo;
-        ResultSet resultados = obrasocial.consulta("idLegajo="+idLegajo+" AND Vinculacion='Obra Social'");
-        if (resultados != null)
+        ResultSet resultados = null;
+        resultados = obrasocial.consulta("idLegajo="+idLegajo+" AND Vinculacion='Obra Social'");
+        if ( resultados != null)
         {
-            this.idObraSocial = resultados.getInt(2);
-            fsConceptos.idFormula = 2;            
-            this.obraSocial = this.basico*fsConceptos.formulas();
-            Imprime("Obra Social: "+this.obraSocial);
+            try
+            {
+                this.idObraSocial = resultados.getInt(2);
+                fsConceptos.idFormula = 2;            
+                this.obraSocial = this.basico*fsConceptos.formulas();
+                Imprime("Obra Social: "+this.obraSocial);
+            } 
+            catch (SQLException ex) 
+            {
+                estado = ex.getMessage();
+            }
+            
             return 1;
         }
         else
@@ -233,10 +242,11 @@ public class Liquidacion extends libSentenciasSQL
             fsConceptos.idFormula = 3;
             this.presentismo = this.basico*fsConceptos.formulas();
             Imprime("Presentismo: "+this.presentismo);
-            while(resultado.isLast() != true)
+            while(resultado.isLast() == true) // controlar aqui, 
             {
-                this.diasTrabajados -= 1;
+                this.diasTrabajados = this.diasTrabajados - 1;
                 resultado.next();
+                Imprime("entro aqui");
             }            
             return this.presentismo;
         }
@@ -354,7 +364,7 @@ public class Liquidacion extends libSentenciasSQL
                             
                         //hijo o hija discapacitada
                         case 4:
-                            Imprime("Asignacion por hijo");
+                            Imprime("Asignacion por hijo Discapacitado");
                             asignacion.idConcepto=3;
                         break;        
                     }
