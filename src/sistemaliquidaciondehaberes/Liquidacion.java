@@ -133,26 +133,27 @@ public class Liquidacion extends libSentenciasSQL
         obrasocial.idLegajo = this.idLegajo;
         ResultSet resultados = null;
         resultados = obrasocial.consulta("idLegajo="+idLegajo+" AND Vinculacion='Obra Social'");
-        if ( resultados != null)
+        try
         {
-            try
+            if ( resultados.next())
             {
+            
                 this.idObraSocial = resultados.getInt(2);
                 fsConceptos.idFormula = 2;            
                 this.obraSocial = this.basico*fsConceptos.formulas();
-                Imprime("Obra Social: "+this.obraSocial);
-            } 
-            catch (SQLException ex) 
+                Imprime("Obra Social: "+this.obraSocial);            
+                return 1;  
+            }        
+            else
             {
-                estado = ex.getMessage();
+                Imprime("no se registro obra social");
+                return 0;           
             }
-            
-            return 1;
         }
-        else
+        catch (SQLException ex) 
         {
-            Imprime("no se registro obra social");
-            return 0;           
+            estado = ex.getMessage();
+            return 0;
         }
     }
     
@@ -222,6 +223,26 @@ public class Liquidacion extends libSentenciasSQL
     //realiza el calculo de art
     public float devuelveART()
     {
+        ResultSet resultado = null;
+        Legajolib.CargasSociales art= fsLegajo.new CargasSociales();
+        art.idLegajo= this.idLegajo;
+        resultado = art.consulta("idLegajo="+idLegajo+" AND Vinculacion='Art'");
+        try 
+        {
+            if(resultado.next())
+            {
+                this.idART= resultado.getInt("idEmpresa");
+                Imprime("ART:"+idART);
+            }
+            else
+            {
+                Imprime("ART no asignada");
+            }
+        }
+        catch (SQLException ex)
+        {
+            estado = ex.getMessage();
+        }
         fsConceptos.idFormula=4;
         this.art=this.basico*fsConceptos.formulas();
         Imprime("ART: "+this.art);

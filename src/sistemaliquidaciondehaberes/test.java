@@ -95,7 +95,7 @@ public class test {
         con.fechaNac = Personaslib.FechaActual();
         con.nueva(); */
         
-       /* Pueba de liquidacion de sueldo*/
+       /* Pueba de liquidacion de sueldo
          Liquidacion con = new Liquidacion();
         //con.idRecibo=1;
         con.idLegajo=1;
@@ -113,7 +113,7 @@ public class test {
         con.devuelveART();
         con.presentismo();
         con.recibo();
-        con.asignaciones();
+        con.asignaciones();*/
         
         /* prueba licencia medica - verificar la inasistencia
         Legajolib con = new Legajolib();               
