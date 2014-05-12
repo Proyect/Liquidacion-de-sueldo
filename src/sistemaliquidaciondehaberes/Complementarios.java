@@ -151,4 +151,49 @@ public class Complementarios
             return this.borraSQL();
         }
     }
+    
+    //esta clase edita los tipos de licencia
+    class TipoLicencia extends libSentenciasSQL
+    {
+        int id = 0;
+        String tipoLicencia = "";
+        String detalle = "";
+        int dias = 0;
+        float pago = 0;
+        int concepto = 0;
+        int valides = 0;
+        // constructor
+        public TipoLicencia()
+        {
+            this.tabla = "tipolicencia";
+            this.campos = "tipoLicencia,detalle,dias,pago,concepto,valides";
+        }
+        
+        public int nuevo()
+        {
+            this.valores = "'"+tipoLicencia+"','"+detalle+"',"+dias+","+pago+
+                            ","+concepto+","+valides;
+            return this.insertaSQL();
+        }
+        
+        public int modifica()
+        {
+            this.condicion = "id="+id;
+            this.valores = "'"+tipoLicencia+"','"+detalle+"',"+dias+","+pago+
+                            ","+concepto+","+valides;
+            return this.modificaSQL();
+        }
+        
+        public int baja()
+        {
+            this.condicion = "id="+id;
+            return this.borraSQL();
+        }
+        
+        public ResultSet consulta()
+        {
+            this.condicion = "id="+id;
+            return this.consultaSQL();
+        }
+    }
 }

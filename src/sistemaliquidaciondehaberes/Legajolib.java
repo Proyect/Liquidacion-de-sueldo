@@ -6,6 +6,8 @@ package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /** * Ariel Marcelo Diaz*/
@@ -339,12 +341,43 @@ public class Legajolib extends libSentenciasSQL
         public Licencias()
         {
             this.tabla = "licencia";
-            this.campos = "idNovedad,idLegajo,Motivo,cantDias,fechaInicio,fechaFin,tipoLicencia,estado,pago";
+            this.campos = "idNovedad,idLegajo,Motivo,cantDias,fechaInicio,"+
+                            "fechaFin,tipoLicencia,estado,pago";
         }
         
         //Crea una nueva licencia
-        public int alta() //mejorar
+        public int alta() // sin terminar
         {
+            Complementarios control = new Complementarios();
+            Complementarios.TipoLicencia tipolicenciaCtrl = control.new TipoLicencia();
+            tipolicenciaCtrl.id = this.tipoLic;
+            ResultSet controlTipo = tipolicenciaCtrl.consulta();
+            try 
+            {
+                int diasLicenciaPermitidos = controlTipo.getInt("dias");
+                int valides = controlTipo.getInt("valides");
+                switch(valides)
+                {
+                    //licencia permitida por mes
+                    case 2:
+                        this.condicion = "";
+                    break;
+                    
+                    //licencia permitida por año
+                    case 1:
+                        this.condicion = "YEAR(fechaInicio)=";
+                    break;
+                        
+                    //licencias permitidas por unica ves
+                    case 0:
+                    break;
+                }
+            }
+            catch (SQLException ex) 
+            {
+                estado = ex.getMessage();
+            }
+            
             novedad.idLegajo = this.idLegajo;
             idNovedad = novedad.nueva_novedad("Nueva Licencia",
                                 this.motivo+" se extiende por "+ this.cantidad+
