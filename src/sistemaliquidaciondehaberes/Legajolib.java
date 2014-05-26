@@ -336,82 +336,116 @@ public class Legajolib extends libSentenciasSQL
         String fin = "";
         int tipoLic=0;
         int estadoLic=1;
-        float pago = 0;
+        int concepto = 0;
         // constructor
         public Licencias()
         {
             this.tabla = "licencia";
             this.campos = "idNovedad,idLegajo,Motivo,cantDias,fechaInicio,"+
-                            "fechaFin,tipoLicencia,estado,pago";
+                            "fechaFin,tipoLicencia,estado,concepto";
         }
         
         //Crea una nueva licencia
-        public int alta() // sin terminar
+        public int alta() // sin provar
         {
             Complementarios control = new Complementarios();
             Complementarios.TipoLicencia tipolicenciaCtrl = control.new TipoLicencia();
             tipolicenciaCtrl.id = this.tipoLic;
-            ResultSet controlTipo = tipolicenciaCtrl.consulta();
+            ResultSet controlTipo = tipolicenciaCtrl.consulta(); 
+            //consulta el tipo de licencia
             try 
             {
                 int diasLicenciaPermitidos = controlTipo.getInt("dias");
                 int valides = controlTipo.getInt("valides");
+                int concept = controlTipo.getInt("concepto"); //idconcepto
+                
+                this.campos = "SUM(cantDias)  as dias";
+                this.condicion = "tipoLicencia="+this.tipoLic;
                 switch(valides)
                 {
                     //licencia permitida por mes
                     case 2:
-                        this.condicion = "";
+                        this.condicion += " AND MONTH(fechaInicio)=MONTH(CURDATE()) GROUP BY fechaInicio";
                     break;
                     
                     //licencia permitida por año
                     case 1:
-                        this.condicion = "YEAR(fechaInicio)=";
+                        this.condicion += "YEAR(fechaInicio)=YEAR(CURDATE()) GROUP BY fechaInicio";
+                        
                     break;
                         
                     //licencias permitidas por unica ves
                     case 0:
+                        
                     break;
+                }
+                ResultSet resultado = this.consultaSQL();
+                if (diasLicenciaPermitidos > resultado.getInt("dias"))
+                {
+                    diasLicenciaPermitidos -= resultado.getInt("dias");
+                    if(diasLicenciaPermitidos < this.cantidad)
+                    {    //actualizando datos
+                        Imprime("Dias de licencia sobrepasados");
+                        libSentenciasSQL auxiliar = new libSentenciasSQL();
+                        auxiliar.campos = "DATE_ADD('"+this.fin+"', INTERVAL -"+
+                                       diasLicenciaPermitidos+" DAY) as fecha";
+                        resultado = auxiliar.sentencias();
+                        
+                        this.cantidad = diasLicenciaPermitidos;
+                        this.fin = resultado.getString("fecha");
+                    }
+                    
+                     novedad.idLegajo = this.idLegajo;
+                     idNovedad = novedad.nueva_novedad("Nueva Licencia",
+                                this.motivo+" se extiende por "+ this.cantidad+
+                                " dias, empesando el "+this.inicio+" y finalizando el"+
+                                this.fin+" tipo de licencia: "+this.tipoLic, 1);
+                     
+                     this.campos = "idNovedad,idLegajo,Motivo,cantDias,fechaInicio,"+
+                            "fechaFin,tipoLicencia,estado,concepto";
+                     
+                     this.valores = idNovedad+","+this.idLegajo+",'"+this.motivo+"',"+
+                            this.cantidad+",'"+this.inicio+"','"+this.fin+"',"+
+                            this.tipoLic+","+this.estadoLic+","+this.concepto;
+            
+                     if (this.insertaSQL() ==1)
+                     {
+                         Inasistencia inasist = new Inasistencia();
+                         inasist.condicion = "idLegajo="+this.idLegajo+
+                                        " AND fecha>='"+this.inicio+
+                                        "' AND fecha<='"+this.fin+"'";
+                         if (inasist.consulta(inasist.condicion) != null)
+                         {
+                            inasist.campos = "justificada";
+                            inasist.valores="1";
+                            inasist.modificaSQL();
+                         } 
+                         return 1;
+                    }
+                    else
+                    {
+                        Imprime("Licencia no cargada");
+                         return 0;
+                    }
+                }
+                else
+                {
+                    Imprime("Ha superado los dias permitidos de la licencia");
+                    return 0;
                 }
             }
             catch (SQLException ex) 
             {
                 estado = ex.getMessage();
-            }
-            
-            novedad.idLegajo = this.idLegajo;
-            idNovedad = novedad.nueva_novedad("Nueva Licencia",
-                                this.motivo+" se extiende por "+ this.cantidad+
-                                " dias, empesando el "+this.inicio+" y finalizando el"+
-                                this.fin+" tipo de licencia: "+this.tipoLic, 1);
-            
-            this.valores = idNovedad+","+this.idLegajo+",'"+this.motivo+"',"+
-                            this.cantidad+",'"+this.inicio+"','"+this.fin+"',"+
-                            this.tipoLic+","+this.estadoLic+","+this.pago;
-            
-            if (this.insertaSQL() ==1)
-            {
-                Inasistencia inasist = new Inasistencia();
-                inasist.condicion = "idLegajo="+this.idLegajo+
-                                    " AND fecha>='"+this.inicio+
-                                    "' AND fecha<='"+this.fin+"'";
-                if (inasist.consulta(inasist.condicion) != null)
-                {
-                    inasist.campos = "justificada";
-                    inasist.valores="1";
-                    inasist.modificaSQL();
-                } 
-                return 1;
-            }
-            else
-            {
-                Imprime("Licencia no cargada");
                 return 0;
-            }
+            }            
+           
         }
         
         // realiza una consulta sobre licencias
         public ResultSet consulta()
         {
+            this.condicion = "idLicencia="+this.idLicencia;
             return this.consultaSQL();
         }
         
@@ -426,7 +460,7 @@ public class Legajolib extends libSentenciasSQL
             
            this.valores = idNovedad+","+this.idLegajo+",'"+this.motivo+"',"+
                             this.cantidad+",'"+this.inicio+"','"+this.fin+"',"+
-                            this.tipoLic+","+this.estadoLic+","+this.pago; 
+                            this.tipoLic+","+this.estadoLic+","+this.concepto;
            
            this.condicion = "idLicencia="+this.idLicencia;
            

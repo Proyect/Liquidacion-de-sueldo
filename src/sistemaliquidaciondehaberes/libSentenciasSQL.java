@@ -5,6 +5,8 @@ package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -32,17 +34,17 @@ public class libSentenciasSQL extends Conexion{
                     devuelve = st.executeUpdate(sentencia);
                     if(devuelve==1)
                     {
-                        Imprime("Datos Insertados Correctamente");
+                        //Imprime("Datos Insertados Correctamente");
                     }
                     else
                     {
-                        Imprime("Datos no insertados");
+                        //Imprime("Datos no insertados");
                     }
                 }
                 catch (SQLException ex)
                 {
                     estado = ex.getMessage();
-                    Imprime(estado);
+                    //Imprime(estado);
                 }
             
             return devuelve;
@@ -105,11 +107,11 @@ public class libSentenciasSQL extends Conexion{
                 resultado = st.executeQuery(sentencia);
                 if(resultado.first())
                 {
-                 //   Imprime("Se encontraron resultados");
+                    //Imprime("Se encontraron resultados");
                 }
                 else
                 {
-                 //  Imprime("No se encontraron resultados");
+                   //Imprime("No se encontraron resultados");
                 }
             }
             catch (SQLException ex)
@@ -131,18 +133,36 @@ public class libSentenciasSQL extends Conexion{
                 devuelve = st.executeUpdate(sentencia);
                 if(devuelve==1)
                 {
-                    Imprime("Borrado Exitoso");
+                   // Imprime("Borrado Exitoso");
                 }
                 else
                 {
-                    Imprime("Borrado no realizado");
+                   // Imprime("Borrado no realizado");
                 }
             }
             catch (SQLException ex) 
             {
                 estado = ex.getMessage();
-                Imprime(estado);
+               // Imprime(estado);
             } 
             return devuelve;
+        }
+        
+        //realiza una consulta en mysql sin acceso a las tablas
+        public ResultSet sentencias()
+        {
+            ResultSet resultado = null;
+            String sentencia = "SELECT "+ campos +";";
+            //Imprime(sentencia);
+            try
+            {
+                resultado = st.executeQuery(sentencia);
+            }
+            catch (SQLException ex)
+            {
+                 estado = ex.getMessage();
+                //Imprime(estado);
+            }
+            return resultado;
         }
 }

@@ -158,29 +158,28 @@ public class Complementarios
         int id = 0;
         String tipoLicencia = "";
         String detalle = "";
-        int dias = 0;
-        float pago = 0;
+        int dias = 0;        
         int concepto = 0;
         int valides = 0;
         // constructor
         public TipoLicencia()
         {
             this.tabla = "tipolicencia";
-            this.campos = "tipoLicencia,detalle,dias,pago,concepto,valides";
+            this.campos = "tipoLicencia,detalle,dias,concepto,valides";
         }
         
         public int nuevo()
         {
-            this.valores = "'"+tipoLicencia+"','"+detalle+"',"+dias+","+pago+
-                            ","+concepto+","+valides;
+            this.valores = "'"+tipoLicencia+"','"+detalle+"',"+dias+","+
+                            concepto+","+valides;
             return this.insertaSQL();
         }
         
         public int modifica()
         {
             this.condicion = "id="+id;
-            this.valores = "'"+tipoLicencia+"','"+detalle+"',"+dias+","+pago+
-                            ","+concepto+","+valides;
+            this.valores = "'"+tipoLicencia+"','"+detalle+"',"+dias+","+
+                            concepto+","+valides;
             return this.modificaSQL();
         }
         

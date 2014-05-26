@@ -115,16 +115,16 @@ public class test {
         con.recibo();
         con.asignaciones();*/
         
-        /* prueba licencia medica - verificar la inasistencia
+        /* prueba licencia medica 
         Legajolib con = new Legajolib();               
         Legajolib.Licencias resultado;
         resultado = con.new Licencias();        
         resultado.idLegajo=1;
-        resultado.motivo="Licencia medica";
-        resultado.cantidad=5;
-        resultado.inicio="2014-04-01";
-        resultado.fin = "2014-04-30";
-        resultado.tipoLic = 1;
+        resultado.motivo="Examen final";
+        resultado.cantidad=2;
+        resultado.inicio="2014-05-01";
+        resultado.fin = "2014-05-02";
+        resultado.tipoLic = 3;
         resultado.alta();       */
         
         /* Crear los complementarios  
