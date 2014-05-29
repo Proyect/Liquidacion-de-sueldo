@@ -438,6 +438,28 @@ public class Liquidacion extends libSentenciasSQL
         try 
         {
             int ant = antiguedad(FechaActual());
+            if (ant>=20)
+            {
+                
+            }
+            else
+            {
+                if (ant>=10)
+                {
+                    
+                }
+                else
+                {
+                    if (ant>=5)
+                    {
+                    
+                    }
+                    else
+                    {
+                    
+                    }
+                }
+            }
         }
         catch (SQLException ex) 
         {

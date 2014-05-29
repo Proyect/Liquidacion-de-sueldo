@@ -148,7 +148,7 @@ public class libSentenciasSQL extends Conexion{
             return devuelve;
         }
         
-        //realiza una consulta en mysql sin acceso a las tablas
+        //realiza una consulta en mysql sin acceso a las tablas.
         public ResultSet sentencias()
         {
             ResultSet resultado = null;
