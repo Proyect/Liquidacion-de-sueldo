@@ -52,7 +52,7 @@ public class Liquidacion extends libSentenciasSQL
     }
     
     //obtiene el puesto del empleado en cuestion
-    public ResultSet obtienePuesto()
+    public void obtienePuesto()
     {   
         ResultSet reg = null;     
         Legajolib.Puestos puesto = fsLegajo.new Puestos();       
@@ -79,8 +79,8 @@ public class Liquidacion extends libSentenciasSQL
         {
             Imprime("El legajo no tiene ningun puesto activo");
             // aqui hay que liquidar cuando se despide al empleado
-        }   
-        return reg;
+        }  
+        
     }
     
     
@@ -92,7 +92,7 @@ public class Liquidacion extends libSentenciasSQL
     }    
     
     // obtiene los datos basicos de la liquidacion
-    public int obtieneDatos()
+    public void obtieneDatos()
     {
         Complementarios complemento= new Complementarios();
         Complementarios.Cargos cargo = complemento.new Cargos();
@@ -116,13 +116,11 @@ public class Liquidacion extends libSentenciasSQL
             {
                 estado = ex.getMessage();
                 Imprime(estado);
-            }
-            return 1;
+            }            
         }
         else
         {
-            Imprime("Datos no obtenidos");
-            return 0;
+            Imprime("Datos no obtenidos");           
         }
     }
     
@@ -279,7 +277,7 @@ public class Liquidacion extends libSentenciasSQL
     } 
     
     //calcula  las horas extras del  empleado
-    public int horasExtras() throws SQLException
+    public void horasExtras() throws SQLException
     {
         Legajolib.HorasExtras horasExtras = fsLegajo.new HorasExtras();
         horasExtras.condicion = "(idLegajo ="+idLegajo+")"
@@ -301,18 +299,27 @@ public class Liquidacion extends libSentenciasSQL
                 resultado.next();
             }
             Imprime("Horas al 50%: "+cantHs50);
-            Imprime("Horas al 100%: "+cantHs100);
-            return 1;
+            Imprime("Horas al 100%: "+cantHs100);            
         }
         else
         {
-            Imprime("No existen hs extras registradas");
-            return 0;
-        }
-        
+            Imprime("No existen hs extras registradas");            
+        }        
     }
-    public void  recibo()
+    
+    //realiza el recibo de sueldo
+    public void  recibo() throws SQLException
     {
+        obtienePuesto();
+        obtieneDatos();
+         horasExtras();
+        obtieneObraSocial();
+        obtieneSindicato();
+        devuelveAntiguedad();
+        devuelveJubilacion();
+        devuelveART();
+        presentismo();
+        
         Imprime("guardando recibo de sueldo");
         this.valores = idLegajo+","+costoHs50+","+costoHs100+","+idPuesto+",'"+
                        periodoIni+"','"+periodoFin+"','"+emision+"',"+obraSocial+
@@ -334,6 +341,7 @@ public class Liquidacion extends libSentenciasSQL
             estado = ex.getMessage();
         }
         Imprime("Recibo de sueldo nro: "+idRecibo);
+        asignaciones();
     }
     
     //realiza la consulta de un recibo de sueldo
@@ -342,6 +350,7 @@ public class Liquidacion extends libSentenciasSQL
         this.condicion= "idRecibo="+this.idRecibo;
         return this.consultaSQL();
     }
+    
     
     // controla y agrega las asignaciones correspondientes, falta terminar
     public void asignaciones() 
@@ -418,11 +427,25 @@ public class Liquidacion extends libSentenciasSQL
                     vector =null;
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Liquidacion.class.getName()).log(Level.SEVERE, null, ex);
+                estado = ex.getMessage();
             }
         }
     }
-    // faltan conceptos adjuntos
+    
+    //genera el concepto de vacaciones
+    public void vacaciones(int diasVacaciones)
+    {
+        try 
+        {
+            int ant = antiguedad(FechaActual());
+        }
+        catch (SQLException ex) 
+        {
+            estado = ex.getMessage();
+        }
+    }
+    
+    // faltan conceptos adjuntos al recibo
 
     //aplica los conceptos pre ajustados
 }
