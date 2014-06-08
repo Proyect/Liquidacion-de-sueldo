@@ -16,7 +16,18 @@ public class test {
          
         Imprimir("Conectando \n");   
         
-        /*  */
+        /*Prueba liquidacion de sac
+        Liquidacion con = new Liquidacion();
+        con.idLegajo = 1;
+        con.periodoIni = "2014-01-01";
+        con.periodoFin = "2014-06-06";
+        con.dias = 60;
+        con.SAC();*/
+        
+        /* Prueba de vacaciones - no termina 
+        Liquidacion con = new Liquidacion();
+        con.idLegajo = 3;
+        con.vacaciones();*/
         
         /* Prueba estado legajo
         Legajolib con = new Legajolib();
@@ -88,12 +99,17 @@ public class test {
         con.nueva();*/
         
         /* prueba clase personas
-        Personaslib con = new Personaslib();        
+        Personaslib con = new Personaslib();
+        con.idPersona=2;
         con.apellido = "prueba";
         con.tipoDoc = "D.N.I.";
+        con.nroDoc = "123456789";
         con.estadoCivil ="Soltero/a";
+        con.mail = "hola.hola";
+        con.celular = "1555555555";
         con.fechaNac = Personaslib.FechaActual();
-        con.nueva(); */
+        con.idProvincia=2;
+        con.modificar(); */
         
        /* Pueba de liquidacion de sueldo
          Liquidacion con = new Liquidacion();
@@ -115,7 +131,7 @@ public class test {
         con.recibo();
         con.asignaciones();*/
         
-        /* prueba licencia medica 
+        /*prueba licencia medica 
         Legajolib con = new Legajolib();               
         Legajolib.Licencias resultado;
         resultado = con.new Licencias();        
@@ -125,7 +141,7 @@ public class test {
         resultado.inicio="2014-05-01";
         resultado.fin = "2014-05-02";
         resultado.tipoLic = 3;
-        resultado.alta();       */
+        resultado.alta();  */     
         
         /* Crear los complementarios  
         Complementarios con = new Complementarios();

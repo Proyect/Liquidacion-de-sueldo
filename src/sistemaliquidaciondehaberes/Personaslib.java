@@ -6,8 +6,7 @@ package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /** * Ariel Marcelo Diaz*/
 public class Personaslib extends libSentenciasSQL
@@ -46,7 +45,7 @@ public class Personaslib extends libSentenciasSQL
     public void nueva()
     {       
        this.valores= "'"+apellido+"','"+nombre+"','"+telefono+"','"+telefono2+"','"+
-                        celular+"',"+idProvincia+","+cp+",'"+barrio+ "','"+direccion+"','"+tipoDoc+"','"+nroDoc+
+                        celular+"',"+idProvincia+",'"+cp+"','"+barrio+ "','"+direccion+"','"+tipoDoc+"','"+nroDoc+
                         "','"+cuil+"','"+estadoCivil+"','"+fechaNac+"','"+nacionalidad+"',"+sexo+",'"+mail+
                         "','"+mail2+"','"+otrosDatos+"'";
        this.condicion="cuil='"+cuil+"'";
@@ -74,7 +73,7 @@ public class Personaslib extends libSentenciasSQL
     {
         this.condicion = "idpersona="+idPersona;
         this.valores= "'"+apellido+"','"+nombre+"','"+telefono+"','"+telefono2+"','"+
-                        celular+"',"+idProvincia+","+cp+",'"+barrio+ "','"+direccion+"','"+tipoDoc+"','"+nroDoc+
+                        celular+"',"+idProvincia+",'"+cp+"','"+barrio+ "','"+direccion+"','"+tipoDoc+"','"+nroDoc+
                         "','"+cuil+"','"+estadoCivil+"','"+fechaNac+"','"+nacionalidad+"',"+sexo+",'"+mail+
                         "','"+mail2+"','"+otrosDatos+"'";
          return modificaSQL();

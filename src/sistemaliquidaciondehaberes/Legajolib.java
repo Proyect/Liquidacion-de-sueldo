@@ -6,8 +6,7 @@ package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 /** * Ariel Marcelo Diaz*/
@@ -346,7 +345,7 @@ public class Legajolib extends libSentenciasSQL
         }
         
         //Crea una nueva licencia
-        public int alta() // sin provar
+        public int alta() // probar
         {
             Complementarios control = new Complementarios();
             Complementarios.TipoLicencia tipolicenciaCtrl = control.new TipoLicencia();
@@ -370,7 +369,7 @@ public class Legajolib extends libSentenciasSQL
                     
                     //licencia permitida por año
                     case 1:
-                        this.condicion += "YEAR(fechaInicio)=YEAR(CURDATE()) GROUP BY fechaInicio";
+                        this.condicion += " AND YEAR(fechaInicio)=YEAR(CURDATE()) GROUP BY fechaInicio";
                         
                     break;
                         
@@ -380,7 +379,7 @@ public class Legajolib extends libSentenciasSQL
                     break;
                 }
                 ResultSet resultado = this.consultaSQL();
-                if (diasLicenciaPermitidos > resultado.getInt("dias"))
+                if (diasLicenciaPermitidos > resultado.getInt("dias")) 
                 {
                     diasLicenciaPermitidos -= resultado.getInt("dias");
                     if(diasLicenciaPermitidos < this.cantidad)
