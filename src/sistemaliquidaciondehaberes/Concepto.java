@@ -78,23 +78,26 @@ public class Concepto extends libSentenciasSQL
         String detalleCons = "";
         int idFormula = 0;
         int idLicencia = 0;
+        int tipo = 0;
         // constructor
         public Detalle()
         {
             this.tabla = "conceptosdetalle";
-            this.campos = "nombreCons,detalleCons,idFormula,idLicencia";
+            this.campos = "nombreCons,detalleCons,idFormula,idLicencia,tipo";
         }
         
         public int nuevo()
         {
-            this.valores = "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+idLicencia;
+            this.valores = "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+
+                            idLicencia+","+tipo;
             return this.insertaSQL();
         }
         
         public int modifica()
         {
             this.condicion = "idConcepto="+idConcepto;
-            this.valores = "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+idLicencia;
+            this.valores =  "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+
+                            idLicencia+","+tipo;
             return this.modificaSQL();
         }
         
@@ -125,18 +128,18 @@ public class Concepto extends libSentenciasSQL
         public int nuevo() 
         {
             det.idConcepto = this.idConcepto;    
-            ResultSet form=det.consulta();            
-           
+            ResultSet form=det.consulta();       
             Concepto valform = new Concepto();
             try 
             {
                 valform.idFormula = form.getInt("idFormula");
-            } catch (SQLException ex)
+            } 
+            catch (SQLException ex)
             {
                 estado = ex.getMessage();
             }
             this.valor= valform.formulas();
-            
+            this.tipo = det.tipo;
             this.valores = idRecibo+","+idConcepto+","+valor+","+unidad+","+tipo;
             return this.insertaSQL();
         }
@@ -168,23 +171,24 @@ public class Concepto extends libSentenciasSQL
     {
         int idLegajo=0;
         int idConcepto=0;
+        float unidades = 0;
         int estadoConcepto = 1;
         public Control()
         {
             this.tabla = "legajoconcepto";
-            this.campos = "idLegajo,idConcepto,estado";
+            this.campos = "idLegajo,idConcepto,unidades,estado";
         }
         
         public int nuevo()
         {
-            this.valores = idLegajo+","+idConcepto+","+estadoConcepto;
+            this.valores = idLegajo+","+idConcepto+","+unidades+","+estadoConcepto;
             return this.insertaSQL();
         }
         
         public int modifica()
         {
             this.condicion = "idLegajo="+idLegajo+" AND idConcepto="+idConcepto;
-            this.valores = idLegajo+","+idConcepto+","+estadoConcepto;
+            this.valores = idLegajo+","+idConcepto+","+unidades+","+estadoConcepto;
             return this.modificaSQL();
         }
         

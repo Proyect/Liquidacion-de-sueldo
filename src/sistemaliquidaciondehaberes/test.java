@@ -16,12 +16,18 @@ public class test {
          
         Imprimir("Conectando \n");   
         
+        /* prueba para conceptos pre establecidos
+        Liquidacion con = new Liquidacion();
+        con.idLegajo = 1;
+        con.idRecibo = 13;
+        con.preajustados();*/
+        
         /*Prueba liquidacion de sac
         Liquidacion con = new Liquidacion();
         con.idLegajo = 1;
         con.periodoIni = "2014-01-01";
         con.periodoFin = "2014-06-06";
-        con.dias = 60;
+        con.dias = 360;
         con.SAC();*/
         
         /* Prueba de vacaciones - no termina 

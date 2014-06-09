@@ -90,7 +90,7 @@ public class Liquidacion extends libSentenciasSQL
     //obtiene el basico del empleado
     public float obtieneBasico(float basico)
     {
-        Imprime("basico:"+basico+" trab: "+diasTrabajados+" dias:"+dias);
+        //Imprime("basico:"+basico+" trab: "+diasTrabajados+" dias:"+dias);
         float resultado = (basico * this.diasTrabajados)/this.dias;        
         return resultado;
     }    
@@ -537,18 +537,32 @@ public class Liquidacion extends libSentenciasSQL
         {
             estado = ex.getMessage();
         }
-    }
+    }    
     
-    // conceptos adjuntos al recibo
-    public void otrosConceptos()
-    {
-    
-    }
 
     //aplica los conceptos pre ajustados
     public void preajustados()
     {
-    
+        Concepto.Control concep = fsConceptos.new Control();
+        Concepto.Aplica aplicarConcep = fsConceptos.new Aplica();
+        concep.idLegajo = this.idLegajo;  
+        aplicarConcep.idRecibo = this.idRecibo;    
+        ResultSet resultado = concep.consulta();
+        try
+        {
+            resultado.first();
+            while(resultado.isLast())
+            {
+                 aplicarConcep.idConcepto = resultado.getInt("idConcepto");
+                 aplicarConcep.unidad = resultado.getFloat("unidades");  
+                 aplicarConcep.nuevo();
+                 resultado.next();
+            }
+        }
+        catch (SQLException ex)
+        {
+            estado = ex.getMessage();
+        }
     }
     
     //realiza el concepto del sac
@@ -562,18 +576,20 @@ public class Liquidacion extends libSentenciasSQL
                         +" idLegajo="+idLegajo;
         ResultSet resultado = this.consultaSQL();
         float acum = 0; //acumular el basico
-        int di = 0; // dias trabajados        
+        int di = 0; // dias trabajados  
+        int i=0;
         try {
             resultado.first();
             while (!resultado.isLast())
             {              
                 acum += resultado.getFloat("basico");
-                di += resultado.getInt("diasTrabajados");  
-                Imprime("basico:"+acum+" dias trabajados:"+di);
+                di += resultado.getInt("diasTrabajados");                  
+                i++;
                 resultado.next();
             }
             this.diasTrabajados = di;
-            this.basico = obtieneBasico(acum/2);             
+            this.basico = obtieneBasico(acum/(i*2));     
+            Imprime("basico:"+basico);
             obtieneObraSocial();
             obtieneSindicato();
             devuelveAntiguedad();

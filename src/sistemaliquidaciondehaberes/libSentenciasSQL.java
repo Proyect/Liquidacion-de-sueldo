@@ -33,19 +33,18 @@ public class libSentenciasSQL extends Conexion{
                     devuelve = st.executeUpdate(sentencia);
                     if(devuelve==1)
                     {
-                        //Imprime("Datos Insertados Correctamente");
+                        Imprime("Datos Insertados Correctamente");
                     }
                     else
                     {
-                        //Imprime("Datos no insertados");
+                        Imprime("Datos no insertados");
                     }
                 }
                 catch (SQLException ex)
                 {
                     estado = ex.getMessage();
                     //Imprime(estado);
-                }
-            
+                }            
             return devuelve;
         }
         
@@ -85,7 +84,7 @@ public class libSentenciasSQL extends Conexion{
             catch (SQLException ex)
             {
                 estado = ex.getMessage();
-                Imprime(estado);
+                //Imprime(estado);
             }
             return devuelve;
         }
@@ -106,17 +105,17 @@ public class libSentenciasSQL extends Conexion{
                 resultado = st.executeQuery(sentencia);
                 if(resultado.first())
                 {
-                    //Imprime("Se encontraron resultados");
+                    Imprime("Se encontraron resultados");
                 }
                 else
                 {
-                   //Imprime("No se encontraron resultados");
+                   Imprime("No se encontraron resultados");
                 }
             }
             catch (SQLException ex)
             {
                 estado = ex.getMessage();
-                Imprime(estado);
+                //Imprime(estado);
             }
             return resultado;
         }
@@ -126,7 +125,7 @@ public class libSentenciasSQL extends Conexion{
         {
             int devuelve =0;
             String sentencia ="DELETE FROM "+ tabla +" WHERE " + condicion+";";
-            //Imprime(sentencia);
+            Imprime(sentencia);
             try 
             {
                 devuelve = st.executeUpdate(sentencia);
@@ -152,7 +151,7 @@ public class libSentenciasSQL extends Conexion{
         {
             ResultSet resultado = null;
             String sentencia = "SELECT "+ campos +";";
-            //Imprime(sentencia);
+            Imprime(sentencia);
             try
             {
                 resultado = st.executeQuery(sentencia);
