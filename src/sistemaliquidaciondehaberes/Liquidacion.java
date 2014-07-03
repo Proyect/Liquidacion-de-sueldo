@@ -3,6 +3,7 @@
  */
 package sistemaliquidaciondehaberes;
 
+import java.lang.String;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -385,6 +386,33 @@ public class Liquidacion extends libSentenciasSQL
     }
     
     //realiza la consulta de conceptos de un recibo
+    public ResultSet consultaConceptos()
+    {
+        Concepto.Aplica concept= fsConceptos.new Aplica();
+        concept.condicion= "idRecibo="+this.idRecibo;
+        return concept.consultaSQL();
+    }
+    
+    //realiza el vector del recibo de sueldo
+    public String[][] vectorRecibo()
+    {
+        String[][] list = null;
+        String[] fila = new String[5];
+        ResultSet resultado = consultarecibo();
+        
+        try 
+        {
+            fila[0] = "Basico";
+            fila[1] = resultado.getString("diasTrabajados");
+            fila[2] = resultado.getString("basico");
+            list[0] = fila;
+        }
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(Liquidacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }        
     
     //modifica los valores del recibo de sueldo
     public int modificaRecibo()
