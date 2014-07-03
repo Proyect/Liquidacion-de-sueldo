@@ -118,6 +118,7 @@ public class Concepto extends libSentenciasSQL
         float unidad = 0;
         int tipo =0;
         Concepto.Detalle det = new Detalle();
+        
         //constructor
         public Aplica()
         {
@@ -133,8 +134,17 @@ public class Concepto extends libSentenciasSQL
             try 
             {
                 valform.idFormula = form.getInt("idFormula");
+                ResultSet resultado = valform.consulta(); //aqui me quede
+                if (resultado.isFirst())
+                {
+                    resultado.getString("fin");
+                }
+                else
+                {
+                    Imprime("No se produjeron resultados viables");
+                }
             } 
-            catch (SQLException ex)
+            catch (SQLException ex) 
             {
                 estado = ex.getMessage();
             }

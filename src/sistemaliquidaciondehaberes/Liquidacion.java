@@ -138,8 +138,7 @@ public class Liquidacion extends libSentenciasSQL
         try
         {
             if ( resultados.next())
-            {
-            
+            {       
                 this.idObraSocial = resultados.getInt(2);
                 fsConceptos.idFormula = 2;            
                 this.obraSocial = this.basico*fsConceptos.formulas();
@@ -150,7 +149,7 @@ public class Liquidacion extends libSentenciasSQL
             {
                 Imprime("no se registro obra social");
                 return 0;           
-            }
+            }            
         }
         catch (SQLException ex) 
         {
@@ -384,6 +383,8 @@ public class Liquidacion extends libSentenciasSQL
         this.condicion= "idRecibo="+this.idRecibo;
         return this.consultaSQL();
     }
+    
+    //realiza la consulta de conceptos de un recibo
     
     //modifica los valores del recibo de sueldo
     public int modificaRecibo()

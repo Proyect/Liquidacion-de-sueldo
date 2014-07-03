@@ -16,6 +16,13 @@ public class test {
          
         Imprimir("Conectando \n");   
         
+        /*prueba aplicacion de conceptos
+        Concepto cons= new Concepto();
+        Concepto.Aplica con= cons.new Aplica();
+        con.idRecibo = 10;
+        con.idConcepto = 3;
+        con.nuevo();*/
+        
         /* prueba para conceptos pre establecidos
         Liquidacion con = new Liquidacion();
         con.idLegajo = 1;
@@ -112,7 +119,7 @@ public class test {
         con.nroDoc = "123456789";
         con.estadoCivil ="Soltero/a";
         con.mail = "hola.hola";
-        con.celular = "1555555555";
+        con.celular = "1555554555";
         con.fechaNac = Personaslib.FechaActual();
         con.idProvincia=2;
         con.modificar(); */
