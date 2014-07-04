@@ -41,6 +41,7 @@ public class Liquidacion extends libSentenciasSQL
     int idART = 0;
     float totalRemunerativo =0;
     float totalNoRemunerativo = 0;
+    float totalDescuentos = 0;
     float total = 0;
     String fechaInicio = "";
     Legajolib fsLegajo = new Legajolib();
@@ -395,21 +396,44 @@ public class Liquidacion extends libSentenciasSQL
     
     //realiza el vector del recibo de sueldo
     public String[][] vectorRecibo()
-    {
+    {   //variables
         String[][] list = null;
         String[] fila = new String[5];
         ResultSet resultado = consultarecibo();
+        Empresaslib empresa = new Empresaslib();
+        ResultSet auxiliar = null;
+        int sind = 0;
         
-        try 
-        {
+        try
+        {      
             fila[0] = "Basico";
-            fila[1] = resultado.getString("diasTrabajados");
-            fila[2] = resultado.getString("basico");
-            list[0] = fila;
+             fila[1] = resultado.getString("diasTrabajados");
+             fila[2] = resultado.getString("basico");
+             list[0] = fila;
+             fila = null;
+
+            auxiliar = empresa.consulta("idEmpresa="+resultado.getInt("idObraSocial"));
+            fila[0] = "Obra Social:"+auxiliar.getString("razonSocial"); 
+            fila[4] = String.valueOf(resultado.getFloat("obrasocial"));            
+            //list[] = fila;
+            
+            auxiliar = empresa.consulta("idEmpresa="+resultado.getInt("idART"));
+            fila[0] = "ART:"+auxiliar.getString("razonSocial");  
+            fila[4] = String.valueOf(resultado.getFloat("art"));
+            //list[] = fila;
+            
+            sind = resultado.getInt("idSindicato");
+            if(sind !=0)
+            {    
+                auxiliar = empresa.consulta("idEmpresa="+sind);
+                fila[0] = "Sindicato:"+auxiliar.getString("razonSocial");  
+                fila[4] = String.valueOf(resultado.getFloat("sindicato"));
+                //list[] = fila;
+            }
         }
         catch (SQLException ex) 
         {
-            Logger.getLogger(Liquidacion.class.getName()).log(Level.SEVERE, null, ex);
+            estado = ex.getMessage();
         }
         return list;
     }        
