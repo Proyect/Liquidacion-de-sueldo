@@ -13,8 +13,11 @@ public class test {
 
     public static void main(String[] args) throws SQLException 
     {    
-         
-        Imprimir("Conectando \n");   
+         //prueba de consulta de recibo - aun no terminada
+        Liquidacion con = new Liquidacion();        
+        con.idRecibo = 12;
+        con.imprimeVector(con.vectorRecibo());
+        
         
         /*prueba aplicacion de conceptos
         Concepto cons= new Concepto();

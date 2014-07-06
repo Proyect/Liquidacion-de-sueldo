@@ -1,17 +1,13 @@
-/*
- * Faltan provar varias cosas
- */
+
+/**************************************
+Autor: Ariel Marcelo Diaz
+ *Sitio Web: http://www.infrasoft.com.ar 
+Desarrollo de sistemas a medidas
+ ****************************************/
 package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-
-
-
-/*  librerias a
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-import java.sql.*;
 
 /** * Ariel Marcelo Diaz*/
 public class libSentenciasSQL extends Conexion{
@@ -27,7 +23,7 @@ public class libSentenciasSQL extends Conexion{
             int devuelve = 0;
             String sentencia = null;
             sentencia = "INSERT INTO "+tabla+" ("+campos+") VALUES ("+valores+");";
-            Imprime(sentencia);
+            //Imprime(sentencia);
             try
                 {
                     devuelve = st.executeUpdate(sentencia);
@@ -68,7 +64,7 @@ public class libSentenciasSQL extends Conexion{
             {
                 sentencia = sentencia+" WHERE "+condicion+";";
             }
-            Imprime(sentencia);
+            //Imprime(sentencia);
             try
             {
                 devuelve = st.executeUpdate(sentencia);
@@ -99,7 +95,7 @@ public class libSentenciasSQL extends Conexion{
                 sentencia = sentencia + " WHERE "+ condicion;
             }
             sentencia = sentencia + ";";
-            Imprime(sentencia);            
+            //Imprime(sentencia);            
             try
             {
                 resultado = st.executeQuery(sentencia);
@@ -125,7 +121,7 @@ public class libSentenciasSQL extends Conexion{
         {
             int devuelve =0;
             String sentencia ="DELETE FROM "+ tabla +" WHERE " + condicion+";";
-            Imprime(sentencia);
+            //Imprime(sentencia);
             try 
             {
                 devuelve = st.executeUpdate(sentencia);
@@ -151,7 +147,7 @@ public class libSentenciasSQL extends Conexion{
         {
             ResultSet resultado = null;
             String sentencia = "SELECT "+ campos +";";
-            Imprime(sentencia);
+            //Imprime(sentencia);
             try
             {
                 resultado = st.executeQuery(sentencia);

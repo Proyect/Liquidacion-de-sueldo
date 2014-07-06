@@ -394,10 +394,11 @@ public class Liquidacion extends libSentenciasSQL
         return concept.consultaSQL();
     }
     
-    //realiza el vector del recibo de sueldo
+    //realiza el vector del recibo de sueldo - aun no terminada
     public String[][] vectorRecibo()
     {   //variables
-        String[][] list = null;
+      String[][] list ;  
+        list = new String[100][5];
         String[] fila = new String[5];
         ResultSet resultado = consultarecibo();
         Empresaslib empresa = new Empresaslib();
@@ -408,19 +409,21 @@ public class Liquidacion extends libSentenciasSQL
         {      
             fila[0] = "Basico";
              fila[1] = resultado.getString("diasTrabajados");
-             fila[2] = resultado.getString("basico");
+             fila[2] = resultado.getString("basico");             
              list[0] = fila;
              fila = null;
 
             auxiliar = empresa.consulta("idEmpresa="+resultado.getInt("idObraSocial"));
             fila[0] = "Obra Social:"+auxiliar.getString("razonSocial"); 
             fila[4] = String.valueOf(resultado.getFloat("obrasocial"));            
-            //list[] = fila;
+            list[1] = fila;
+            fila = null;
             
             auxiliar = empresa.consulta("idEmpresa="+resultado.getInt("idART"));
             fila[0] = "ART:"+auxiliar.getString("razonSocial");  
             fila[4] = String.valueOf(resultado.getFloat("art"));
-            //list[] = fila;
+            list[2] = fila;
+            fila = null;
             
             sind = resultado.getInt("idSindicato");
             if(sind !=0)
@@ -428,7 +431,8 @@ public class Liquidacion extends libSentenciasSQL
                 auxiliar = empresa.consulta("idEmpresa="+sind);
                 fila[0] = "Sindicato:"+auxiliar.getString("razonSocial");  
                 fila[4] = String.valueOf(resultado.getFloat("sindicato"));
-                //list[] = fila;
+                list[3] = fila;
+                fila = null;
             }
         }
         catch (SQLException ex) 
@@ -436,7 +440,20 @@ public class Liquidacion extends libSentenciasSQL
             estado = ex.getMessage();
         }
         return list;
-    }        
+    } 
+    
+    //Muestra el vector del recibo de sueldo
+    public void imprimeVector(String[][] vect)
+    {
+        for (int i = 0; i < vect.length; i++)
+        {
+            for (int j = 0; j < vect[0].length; j++)
+            {
+                Imprime(vect[i][j]);
+            }
+            Imprime("-------------");
+        }
+    }    
     
     //modifica los valores del recibo de sueldo
     public int modificaRecibo()
