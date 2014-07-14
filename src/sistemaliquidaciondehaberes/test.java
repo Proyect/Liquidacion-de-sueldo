@@ -1,6 +1,9 @@
-/*
-Solo es para probar algunas funciones y clases .
- */
+/**************************************
+Autor: Ariel Marcelo Diaz
+ *Sitio Web: http://www.infrasoft.com.ar 
+Desarrollo de sistemas a medidas
+ ****************************************/
+//sirve para probar algunas cosas
 package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
@@ -13,18 +16,18 @@ public class test {
 
     public static void main(String[] args) throws SQLException 
     {    
-         //prueba de consulta de recibo - aun no terminada
+         /*prueba de consulta de recibo - aun no terminada
         Liquidacion con = new Liquidacion();        
         con.idRecibo = 12;
-        con.vectorRecibo();
+        con.vectorRecibo();*/
         
         
-        /*prueba aplicacion de conceptos
+        /*prueba aplicacion de conceptos*/
         Concepto cons= new Concepto();
         Concepto.Aplica con= cons.new Aplica();
-        con.idRecibo = 10;
+        con.idRecibo = 12;
         con.idConcepto = 3;
-        con.nuevo();*/
+        con.nuevo();
         
         /* prueba para conceptos pre establecidos
         Liquidacion con = new Liquidacion();

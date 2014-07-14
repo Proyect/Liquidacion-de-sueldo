@@ -1,4 +1,8 @@
-
+/**************************************
+Autor: Ariel Marcelo Diaz
+ *Sitio Web: http://www.infrasoft.com.ar 
+Desarrollo de sistemas a medidas
+ ****************************************/
 package sistemaliquidaciondehaberes;
 
 /*** *  Ariel Marcelo Diaz */

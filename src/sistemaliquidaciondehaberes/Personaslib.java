@@ -1,7 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/**************************************
+Autor: Ariel Marcelo Diaz
+ *Sitio Web: http://www.infrasoft.com.ar 
+Desarrollo de sistemas a medidas
+ ****************************************/
 package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;

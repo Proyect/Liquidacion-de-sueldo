@@ -1,6 +1,8 @@
-/*
- *Esta clase es realizar la liquidacion de haberes
- */
+/**************************************
+Autor: Ariel Marcelo Diaz
+ *Sitio Web: http://www.infrasoft.com.ar 
+Desarrollo de sistemas a medidas
+ ****************************************/
 package sistemaliquidaciondehaberes;
 
 import java.lang.String;
@@ -54,7 +56,7 @@ public class Liquidacion extends libSentenciasSQL
         this.campos = "idLegajo,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
                         "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,"+
                         "CantHs100,jubilacion,art,idObraSocial,idSindicato,idART,diasTrabajados"
-                        +",antiguedad,totalRemunerativo,totalNoRemunerativo,total"; 
+                        +",antiguedad,totalRemunerativo,totalNoRemunerativo,totalDescuento,total"; 
     }
     
     //obtiene el puesto del empleado en cuestion
@@ -362,7 +364,8 @@ public class Liquidacion extends libSentenciasSQL
                         +","+costoHs+","+cantHs50+","+cantHs100+","
                         +jubilacion+","+art+","+idObraSocial+","+idSindicato+","+
                         idART+","+diasTrabajados+","+antiguedad+","+
-                        totalRemunerativo+","+totalNoRemunerativo+","+total; 
+                        totalRemunerativo+","+totalNoRemunerativo+","+
+                        totalDescuentos+","+total; 
         
         this.insertaSQL();
         this.campos="MAX( idRecibo )";
@@ -451,7 +454,7 @@ public class Liquidacion extends libSentenciasSQL
             resultado = consultaConceptos();
             fila[0]= "";fila[1]= "";fila[2]= "";fila[3]= "";fila[4]= "";
             resultado.first();
-            while (resultado.isLast()) //verificar
+            while (resultado.wasNull()) //verificar
             {               
                 detalle.idConcepto=resultado.getInt("idConcepto");
                 auxiliar = detalle.consulta();
@@ -494,7 +497,8 @@ public class Liquidacion extends libSentenciasSQL
                         +","+costoHs+","+cantHs50+","+cantHs100+","
                         +jubilacion+","+art+","+idObraSocial+","+idSindicato+","+
                         idART+","+diasTrabajados+","+antiguedad+","+
-                        totalRemunerativo+","+totalNoRemunerativo+","+total; 
+                        totalRemunerativo+","+totalNoRemunerativo+","+
+                        totalDescuentos+","+total; 
         return this.modificaSQL();
     }
     
