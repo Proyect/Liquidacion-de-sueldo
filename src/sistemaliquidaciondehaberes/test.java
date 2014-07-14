@@ -16,7 +16,7 @@ public class test {
          //prueba de consulta de recibo - aun no terminada
         Liquidacion con = new Liquidacion();        
         con.idRecibo = 12;
-        con.imprimeVector(con.vectorRecibo());
+        con.vectorRecibo();
         
         
         /*prueba aplicacion de conceptos

@@ -168,10 +168,18 @@ public class Concepto extends libSentenciasSQL
             return this.borraSQL();
         }
         
+       
         @Override
         public ResultSet consulta()
         {
             this.condicion = "idRecibo="+idRecibo+" AND idConcepto="+idConcepto;
+            return this.consultaSQL();
+        }
+        
+        //muestra todas las consultas del recibo
+        public ResultSet consultaRecibo()
+        {
+            this.condicion = "idRecibo="+idRecibo;
             return this.consultaSQL();
         }
     }

@@ -6,6 +6,7 @@ package sistemaliquidaciondehaberes;
 import java.lang.String;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -395,35 +396,47 @@ public class Liquidacion extends libSentenciasSQL
     }
     
     //realiza el vector del recibo de sueldo - aun no terminada
-    public String[][] vectorRecibo()
+    public ArrayList vectorRecibo()
     {   //variables
-      String[][] list ;  
-        list = new String[100][5];
+        ArrayList<String[]> list = new ArrayList<String[]>();
         String[] fila = new String[5];
         ResultSet resultado = consultarecibo();
         Empresaslib empresa = new Empresaslib();
         ResultSet auxiliar = null;
         int sind = 0;
+        Concepto.Detalle detalle = fsConceptos.new Detalle();
         
         try
         {      
             fila[0] = "Basico";
              fila[1] = resultado.getString("diasTrabajados");
              fila[2] = resultado.getString("basico");             
-             list[0] = fila;
-             fila = null;
+             list.add(fila);             
+              fila[1] = null;
+              Imprime( list.get(0)[0]);
 
+            fila[0] = "Presentismo";
+             fila[2] = String.valueOf(resultado.getFloat("presentismo"));
+             list.add(fila);
+             Imprime( list.get(1)[0]);
+         
+             
+             fila[0] = "Antiguedad";
+             fila[2] = resultado.getString("antiguedad");
+             list.add(fila);
+             Imprime( list.get(2)[0]);
+             
             auxiliar = empresa.consulta("idEmpresa="+resultado.getInt("idObraSocial"));
             fila[0] = "Obra Social:"+auxiliar.getString("razonSocial"); 
             fila[4] = String.valueOf(resultado.getFloat("obrasocial"));            
-            list[1] = fila;
-            fila = null;
+            list.add(fila);
+            Imprime( list.get(3)[0]);
             
             auxiliar = empresa.consulta("idEmpresa="+resultado.getInt("idART"));
             fila[0] = "ART:"+auxiliar.getString("razonSocial");  
             fila[4] = String.valueOf(resultado.getFloat("art"));
-            list[2] = fila;
-            fila = null;
+            list.add(fila);
+            Imprime( list.get(4)[0]);
             
             sind = resultado.getInt("idSindicato");
             if(sind !=0)
@@ -431,9 +444,37 @@ public class Liquidacion extends libSentenciasSQL
                 auxiliar = empresa.consulta("idEmpresa="+sind);
                 fila[0] = "Sindicato:"+auxiliar.getString("razonSocial");  
                 fila[4] = String.valueOf(resultado.getFloat("sindicato"));
-                list[3] = fila;
-                fila = null;
+                list.add(fila);
+                Imprime( list.get(5)[0]);
             }
+                        
+            resultado = consultaConceptos();
+            fila[0]= "";fila[1]= "";fila[2]= "";fila[3]= "";fila[4]= "";
+            resultado.first();
+            while (resultado.isLast()) //verificar
+            {               
+                detalle.idConcepto=resultado.getInt("idConcepto");
+                auxiliar = detalle.consulta();
+                fila[0] = auxiliar.getString("nombreCons");
+                Imprime(fila[0]);
+                fila[1] = String.valueOf(resultado.getFloat("unidad"));
+                switch(auxiliar.getInt("tipo"))
+                {
+                    case 1:
+                        fila[2] = String.valueOf(resultado.getFloat("valor"));
+                    break;
+                    
+                    case 2:
+                        fila[3] = String.valueOf(resultado.getFloat("valor"));
+                    break;
+                        
+                    case 3:
+                        fila[4] = String.valueOf(resultado.getFloat("valor"));
+                    break;
+                }                
+                resultado.next();
+            }
+            
         }
         catch (SQLException ex) 
         {
@@ -442,18 +483,7 @@ public class Liquidacion extends libSentenciasSQL
         return list;
     } 
     
-    //Muestra el vector del recibo de sueldo
-    public void imprimeVector(String[][] vect)
-    {
-        for (int i = 0; i < vect.length; i++)
-        {
-            for (int j = 0; j < vect[0].length; j++)
-            {
-                Imprime(vect[i][j]);
-            }
-            Imprime("-------------");
-        }
-    }    
+      
     
     //modifica los valores del recibo de sueldo
     public int modificaRecibo()
