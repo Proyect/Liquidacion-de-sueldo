@@ -22,12 +22,12 @@ public class test {
         con.vectorRecibo();*/
         
         
-        /*prueba aplicacion de conceptos*/
+        /*prueba aplicacion de conceptos - seguir provando
         Concepto cons= new Concepto();
         Concepto.Aplica con= cons.new Aplica();
         con.idRecibo = 12;
         con.idConcepto = 3;
-        con.nuevo();
+        con.nuevo();*/
         
         /* prueba para conceptos pre establecidos
         Liquidacion con = new Liquidacion();
@@ -130,25 +130,16 @@ public class test {
         con.idProvincia=2;
         con.modificar(); */
         
-       /* Pueba de liquidacion de sueldo
+       /* Pueba de liquidacion de sueldo*/
          Liquidacion con = new Liquidacion();
         //con.idRecibo=1;
         con.idLegajo=1;
         con.periodoIni = "2014-03-01";
         con.periodoFin = "2014-03-30";
         con.dias=30;
-        con.diasTrabajados=30;
-        ResultSet obtienePuesto = con.obtienePuesto();
-        con.obtieneDatos();
-        con.horasExtras();
-        con.obtieneObraSocial();
-        con.obtieneSindicato();
-        con.devuelveAntiguedad();
-        con.devuelveJubilacion();
-        con.devuelveART();
-        con.presentismo();
+        con.diasTrabajados=29;       
         con.recibo();
-        con.asignaciones();*/
+        
         
         /*prueba licencia medica 
         Legajolib con = new Legajolib();               

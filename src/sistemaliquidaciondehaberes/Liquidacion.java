@@ -283,7 +283,8 @@ public class Liquidacion extends libSentenciasSQL
             {           
                 Imprime("El empleado tiene presentismo");
                 fsConceptos.idFormula = 3;
-                this.presentismo = this.basico*fsConceptos.formulas();
+                //ver si se aplica a todo concepto remunerativo
+                this.presentismo = this.basico*fsConceptos.formulas(); 
                 Imprime("Presentismo: "+this.presentismo);
                 while(resultado.isLast() == true) // controlar aqui, 
                 {
@@ -344,6 +345,30 @@ public class Liquidacion extends libSentenciasSQL
         }
     }
     
+    //genera los totales de los recibos: remunerativo, no remunerativo y descuentos
+    public int totalRecibo(int opcion)
+    {
+        ResultSet resultado = null;
+        float acu = 0;
+        switch( opcion )
+        {
+            case 1:
+                resultado = this.consultarecibo();
+                try
+                {
+                    acu = acu+ resultado.getFloat("basico");
+                    acu = acu+ resultado.getFloat("presentismo");
+                    acu = acu+ resultado.getFloat("antiguedad");
+                    acu = acu+ resultado.getFloat("basico");
+                }
+                catch (SQLException ex)
+                {
+                    estado = ex.getMessage();
+                }
+            break;
+        }
+        return 1;
+    }
     //realiza el recibo de sueldo
     public void  recibo() 
     {
@@ -485,7 +510,6 @@ public class Liquidacion extends libSentenciasSQL
         }
         return list;
     } 
-    
       
     
     //modifica los valores del recibo de sueldo
