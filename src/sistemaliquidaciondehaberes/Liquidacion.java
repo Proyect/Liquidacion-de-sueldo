@@ -345,30 +345,91 @@ public class Liquidacion extends libSentenciasSQL
         }
     }
     
-    //genera los totales de los recibos: remunerativo, no remunerativo y descuentos
-    public int totalRecibo(int opcion)
-    {
-        ResultSet resultado = null;
+    //genera los totales de los recibos: remunerativo, 
+    //no remunerativo y descuentos - verificar
+    public float totalRecibo(int opcion)
+    {    
+        Concepto.Aplica otrosConcep = fsConceptos.new Aplica();        
+        ResultSet resultado = this.consultarecibo();
+        otrosConcep.idRecibo = idRecibo; //conceptos
+        ResultSet resulConcept = otrosConcep.consultaRecibo();
         float acu = 0;
-        switch( opcion )
-        {
-            case 1:
-                resultado = this.consultarecibo();
+        Imprime("Imprimiendo totales");
+        System.out.println("la "+opcion);
+        switch(opcion)
+        {            //conceptos remunerativos
+            case 1:                
                 try
                 {
-                    acu = acu+ resultado.getFloat("basico");
-                    acu = acu+ resultado.getFloat("presentismo");
+                    acu = acu+ resultado.getFloat("basico");                    
                     acu = acu+ resultado.getFloat("antiguedad");
-                    acu = acu+ resultado.getFloat("basico");
+                    Imprime("Parcial "+acu);
+                    while(!resulConcept.wasNull())
+                    { 
+                        if(resulConcept.getInt("tipo")==1)
+                        {
+                            acu = acu+resulConcept.getFloat("valor");
+                        }    
+                        resulConcept.next();
+                    }
+                    Imprime("Total remunerativos:"+acu);
                 }
                 catch (SQLException ex)
                 {
                     estado = ex.getMessage();
+                    Imprime(estado);
                 }
             break;
+            
+            //conceptos no remunerativos
+            case 2:
+                 try 
+                 {
+                    acu = acu+ resultado.getFloat("presentismo");
+                    while(!resulConcept.wasNull())
+                    { 
+                        if(resulConcept.getInt("tipo")==2)
+                        {
+                            acu = acu+resulConcept.getFloat("valor");
+                        }    
+                        resulConcept.next();
+                    }
+                 }
+                 catch (SQLException ex) 
+                 {
+                     estado = ex.getMessage();
+                     Imprime(estado);
+                 }
+            break;
+            
+            //Descuentos
+            case 3:
+              try 
+              {
+                acu = acu+ resultado.getFloat("art");
+                acu = acu+ resultado.getFloat("jubilacion");
+                acu = acu+ resultado.getFloat("sindicato");
+                acu = acu+ resultado.getFloat("obraSocial");
+                while(!resulConcept.wasNull())
+                { 
+                   if(resulConcept.getInt("tipo")==3)
+                   {
+                      acu = acu+resulConcept.getFloat("valor");
+                   }    
+                   resulConcept.next();
+                }
+              }
+              catch (SQLException ex)
+              {
+                  estado = ex.getMessage();
+                  Imprime(estado);
+              }
+                
+            break;
         }
-        return 1;
+        return acu;
     }
+    
     //realiza el recibo de sueldo
     public void  recibo() 
     {
@@ -406,6 +467,16 @@ public class Liquidacion extends libSentenciasSQL
         }
         Imprime("Recibo de sueldo nro: "+idRecibo);
         asignaciones();
+        this.campos = "idLegajo,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
+                        "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,"+
+                        "CantHs100,jubilacion,art,idObraSocial,idSindicato,idART,diasTrabajados"
+                        +",antiguedad,totalRemunerativo,totalNoRemunerativo,totalDescuento,total";
+        totalRemunerativo = totalRecibo(1);
+        totalNoRemunerativo = totalRecibo(2);
+        totalDescuentos = totalRecibo(3);
+        total = totalRemunerativo + totalNoRemunerativo - totalDescuentos;
+        
+        modificaRecibo();        
     }
     
     //realiza la consulta de un recibo de sueldo
@@ -478,8 +549,9 @@ public class Liquidacion extends libSentenciasSQL
                         
             resultado = consultaConceptos();
             fila[0]= "";fila[1]= "";fila[2]= "";fila[3]= "";fila[4]= "";
-            resultado.first();
-            while (resultado.wasNull()) //verificar
+            if(resultado.first())
+            {    
+            while (!resultado.wasNull()) 
             {               
                 detalle.idConcepto=resultado.getInt("idConcepto");
                 auxiliar = detalle.consulta();
@@ -502,7 +574,7 @@ public class Liquidacion extends libSentenciasSQL
                 }                
                 resultado.next();
             }
-            
+            }
         }
         catch (SQLException ex) 
         {
@@ -729,7 +801,8 @@ public class Liquidacion extends libSentenciasSQL
                         +","+costoHs+","+cantHs50+","+cantHs100+","
                         +jubilacion+","+art+","+idObraSocial+","+idSindicato+","+
                         idART+","+diasTrabajados+","+antiguedad+","+
-                        totalRemunerativo+","+totalNoRemunerativo+","+total; 
+                        totalRemunerativo+","+totalNoRemunerativo+","+
+                        totalDescuentos+","+total; 
             Imprime("Guardando el SAC");
             this.insertaSQL();
         }

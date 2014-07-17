@@ -16,7 +16,7 @@ public class test {
 
     public static void main(String[] args) throws SQLException 
     {    
-         /*prueba de consulta de recibo - aun no terminada
+         /*prueba de consulta de recibo 
         Liquidacion con = new Liquidacion();        
         con.idRecibo = 12;
         con.vectorRecibo();*/
@@ -78,7 +78,7 @@ public class test {
         horaextras.tipoHs=2;//100
         horaextras.nueva();*/
                 
-        /*Prueba asignaciones
+        /*Prueba asignaciones - seguir provando
         Legajolib con = new Legajolib();
         Legajolib.Asignaciones asignar= con.new Asignaciones();
         asignar.idLegajo=2;
@@ -134,10 +134,10 @@ public class test {
          Liquidacion con = new Liquidacion();
         //con.idRecibo=1;
         con.idLegajo=1;
-        con.periodoIni = "2014-03-01";
-        con.periodoFin = "2014-03-30";
+        con.periodoIni = "2014-04-01";
+        con.periodoFin = "2014-04-30";
         con.dias=30;
-        con.diasTrabajados=29;       
+        con.diasTrabajados=30;       
         con.recibo();
         
         

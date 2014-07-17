@@ -163,7 +163,7 @@ public class Concepto extends libSentenciasSQL
                         case 3:
                         break;
                         
-                        //aplicada a descuentos
+                        
                         case 4:
                         break;
                     }
