@@ -157,12 +157,17 @@ public class Concepto extends libSentenciasSQL
                         
                         //aplicada a conceptos remunerativos
                         case 2:
+                            liq.idRecibo=idRecibo;
+                            this.valor = resultado.getFloat("formula")*
+                                            liq.totalRecibo(1);
                         break;
                             
                         //aplicada a conceptos no remunerativos
                         case 3:
-                        break;
-                        
+                            liq.idRecibo=idRecibo;
+                            this.valor = resultado.getFloat("formula")*
+                                            liq.totalRecibo(2);
+                        break;                        
                         
                         case 4:
                         break;

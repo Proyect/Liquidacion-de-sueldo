@@ -354,8 +354,7 @@ public class Liquidacion extends libSentenciasSQL
         otrosConcep.idRecibo = idRecibo; //conceptos
         ResultSet resulConcept = otrosConcep.consultaRecibo();
         float acu = 0;
-        Imprime("Imprimiendo totales");
-        System.out.println("la "+opcion);
+        Imprime("Imprimiendo totales");        
         switch(opcion)
         {            //conceptos remunerativos
             case 1:                
@@ -789,7 +788,7 @@ public class Liquidacion extends libSentenciasSQL
             }
             this.diasTrabajados = di;
             this.basico = obtieneBasico(acum/(i*2));     
-            Imprime("basico:"+basico);
+            Imprime("SAC:"+basico);
             obtieneObraSocial();
             obtieneSindicato();
             devuelveAntiguedad();
