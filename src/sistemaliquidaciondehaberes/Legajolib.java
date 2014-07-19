@@ -360,17 +360,20 @@ public class Legajolib extends libSentenciasSQL
                 int concept = controlTipo.getInt("concepto"); //idconcepto
                 
                 this.campos = "SUM(cantDias)  as dias";
-                this.condicion = "tipoLicencia="+this.tipoLic;
+                this.condicion = "idLegajo="+this.idLegajo+
+                                " AND tipoLicencia="+this.tipoLic;
                 switch(valides)
                 {
                     //licencia permitida por mes
                     case 2:
-                        this.condicion += " AND MONTH(fechaInicio)=MONTH(CURDATE()) GROUP BY fechaInicio";
+                        this.condicion += " AND MONTH(fechaInicio)=MONTH(CURDATE())"
+                                            +" GROUP BY fechaInicio";
                     break;
                     
                     //licencia permitida por año
                     case 1:
-                        this.condicion += " AND YEAR(fechaInicio)=YEAR(CURDATE()) GROUP BY fechaInicio";
+                        this.condicion += " AND YEAR(fechaInicio)=YEAR(CURDATE())"
+                                            +" GROUP BY fechaInicio";
                         
                     break;
                         

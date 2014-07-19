@@ -130,7 +130,7 @@ public class test {
         con.idProvincia=2;
         con.modificar(); */
         
-       /* Pueba de liquidacion de sueldo*/
+       /* Pueba de liquidacion de sueldo
          Liquidacion con = new Liquidacion();
         //con.idRecibo=1;
         con.idLegajo=1;
@@ -139,19 +139,19 @@ public class test {
         con.dias=30;
         con.diasTrabajados=30;       
         con.recibo();
+        */
         
-        
-        /*prueba licencia medica 
+        /*prueba licencia  */
         Legajolib con = new Legajolib();               
         Legajolib.Licencias resultado;
         resultado = con.new Licencias();        
-        resultado.idLegajo=1;
-        resultado.motivo="Examen final";
+        resultado.idLegajo=2;
+        resultado.motivo="Duelo del madre";
         resultado.cantidad=2;
         resultado.inicio="2014-05-01";
         resultado.fin = "2014-05-02";
-        resultado.tipoLic = 3;
-        resultado.alta();  */     
+        resultado.tipoLic = 2;
+        resultado.alta();       
         
         /* Crear los complementarios  
         Complementarios con = new Complementarios();

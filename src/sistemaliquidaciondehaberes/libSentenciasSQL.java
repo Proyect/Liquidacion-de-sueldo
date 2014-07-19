@@ -23,7 +23,7 @@ public class libSentenciasSQL extends Conexion{
             int devuelve = 0;
             String sentencia = null;
             sentencia = "INSERT INTO "+tabla+" ("+campos+") VALUES ("+valores+");";
-            //Imprime(sentencia);
+            Imprime(sentencia);
             try
                 {
                     devuelve = st.executeUpdate(sentencia);
@@ -64,7 +64,7 @@ public class libSentenciasSQL extends Conexion{
             {
                 sentencia = sentencia+" WHERE "+condicion+";";
             }
-            //Imprime(sentencia);
+            Imprime(sentencia);
             try
             {
                 devuelve = st.executeUpdate(sentencia);
@@ -95,7 +95,7 @@ public class libSentenciasSQL extends Conexion{
                 sentencia = sentencia + " WHERE "+ condicion;
             }
             sentencia = sentencia + ";";
-            //Imprime(sentencia);            
+            Imprime(sentencia);            
             try
             {
                 resultado = st.executeQuery(sentencia);
@@ -147,7 +147,7 @@ public class libSentenciasSQL extends Conexion{
         {
             ResultSet resultado = null;
             String sentencia = "SELECT "+ campos +";";
-            //Imprime(sentencia);
+            Imprime(sentencia);
             try
             {
                 resultado = st.executeQuery(sentencia);
