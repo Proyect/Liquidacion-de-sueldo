@@ -620,80 +620,76 @@ public class Liquidacion extends libSentenciasSQL
     // controla y agrega las asignaciones correspondientes, falta terminar
     public void asignaciones() 
     {       
-        Legajolib control = new Legajolib();
-        Legajolib.Asignaciones familiares = control.new Asignaciones();
-        Imprime("Buscando asignaciones familiares:");
-        familiares.idLegajo = this.idLegajo;
-        ResultSet  vector = null;
-        vector = familiares.consulta();
-        while((vector != null) )
-        {   
-            Concepto concep = new Concepto();
-            Concepto.Aplica asignacion = concep.new Aplica();
-            asignacion.idRecibo = this.idRecibo;
-            asignacion.unidad = 1;
-            asignacion.tipo = 2;
-            if(vector != null)
-            {                
-                try
-                {
-                    switch(vector.getInt("idvinculo"))
-                    {   
-                        //Marido
-                        case 1:
-                            Imprime("Asignacion por conyugue: Marido");
-                            asignacion.idConcepto=1;
-                        break;
-                        
-                        //Mujer
-                        case 2:
-                            Imprime("Asignacion por conyugue: Mujer");
-                            asignacion.idConcepto=1;
-                        break;
-                           
-                        // Hijo o hija
-                        case 3:
-                            Imprime("Asignacion por hijo");
-                            asignacion.idConcepto=2;
-                        break;
+        try 
+        {
+            Legajolib control = new Legajolib();
+            Legajolib.Asignaciones familiares = control.new Asignaciones();
+            Imprime("Buscando asignaciones familiares:");
+            familiares.idLegajo = this.idLegajo;
+            ResultSet  vector = null;
+            vector = familiares.consulta();
+            vector.first();            
+            while(!vector.wasNull()) 
+            {   
+                Concepto concep = new Concepto();
+                Concepto.Aplica asignacion = concep.new Aplica();
+                asignacion.idRecibo = this.idRecibo;
+                asignacion.unidad = 1;
+                asignacion.tipo = 2;
+                if(vector != null)
+                {                
+                    try
+                    {
+                        switch(vector.getInt("idvinculo"))
+                        {   
+                            //Marido
+                            case 1:
+                                Imprime("Asignacion por conyugue: Marido");
+                                asignacion.idConcepto=1;
+                            break;
                             
-                        //hijo o hija discapacitada
-                        case 4:
-                            Imprime("Asignacion por hijo Discapacitado");
-                            asignacion.idConcepto=3;
-                        break;        
+                            //Mujer
+                            case 2:
+                                Imprime("Asignacion por conyugue: Mujer");
+                                asignacion.idConcepto=1;
+                            break;
+                               
+                            // Hijo o hija
+                            case 3:
+                                Imprime("Asignacion por hijo");
+                                asignacion.idConcepto=2;
+                            break;
+                                
+                            //hijo o hija discapacitada
+                            case 4:
+                                Imprime("Asignacion por hijo Discapacitado");
+                                asignacion.idConcepto=3;
+                            break;        
+                        }
                     }
-                }
-                catch (SQLException ex) 
+                    catch (SQLException ex) 
+                    {
+                        estado = ex.getMessage();
+                    }
+                }     
+                
+                
+                if(asignacion.idConcepto != 0)
                 {
-                    estado = ex.getMessage();
-                }
-            }     
-            
-            
-            if(asignacion.idConcepto != 0)
-            {
-                asignacion.nuevo();
-                Imprime("Asignacion cagada correctamente");
-            }
-            else
-            {
-                Imprime("Asignacion no cargada");//optimizar
-            }
-            
-            try 
-            {
-                if(!vector.isLast())
-                {
-                    vector.next();
+                    asignacion.nuevo();
+                    Imprime("Asignacion cagada correctamente");
                 }
                 else
                 {
-                    vector =null;
+                    Imprime("Asignacion no cargada");//optimizar
+                    vector.close();
                 }
-            } catch (SQLException ex) {
-                estado = ex.getMessage();
+                vector.next();          
             }
+        }
+        catch (SQLException ex)
+        {
+            estado = ex.getMessage(); 
         }
     }
     

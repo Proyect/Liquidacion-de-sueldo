@@ -15,7 +15,17 @@ import java.sql.SQLException;
 public class test {
 
     public static void main(String[] args) throws SQLException 
-    {    
+    {  
+        /**************************************
+         *    Liquidacion de Sueldo
+         *************************************/
+        
+        /* Prueba de asignaciones familiares
+        Liquidacion con = new Liquidacion();
+        con.idRecibo=41;
+        con.idLegajo=1;
+        con.asignaciones();*/
+        
          /*prueba de consulta de recibo 
         Liquidacion con = new Liquidacion();        
         con.idRecibo = 12;
@@ -48,6 +58,32 @@ public class test {
         con.idLegajo = 3;
         con.vacaciones();*/
         
+        /* Pueba de liquidacion de sueldo
+         Liquidacion con = new Liquidacion();
+        //con.idRecibo=1;
+        con.idLegajo=3;
+        con.periodoIni = "2014-07-01";
+        con.periodoFin = "2014-07-30";
+        con.dias=30;
+        con.diasTrabajados=30;       
+        con.recibo();*/
+        
+        /**************************************
+         *      Legajos
+         **************************************/
+        
+         /*prueba licencia  
+        Legajolib con = new Legajolib();               
+        Legajolib.Licencias resultado;
+        resultado = con.new Licencias();        
+        resultado.idLegajo=2;
+        resultado.motivo="Duelo del madre";
+        resultado.cantidad=2;
+        resultado.inicio="2014-05-01";
+        resultado.fin = "2014-05-02";
+        resultado.tipoLic = 2;
+        resultado.alta();   */   
+        
         /* Prueba estado legajo
         Legajolib con = new Legajolib();
         con.idLegajo=2;
@@ -78,7 +114,7 @@ public class test {
         horaextras.tipoHs=2;//100
         horaextras.nueva();*/
                 
-        /*Prueba asignaciones - seguir provando
+        /*Prueba asignaciones 
         Legajolib con = new Legajolib();
         Legajolib.Asignaciones asignar= con.new Asignaciones();
         asignar.idLegajo=2;
@@ -101,9 +137,7 @@ public class test {
       // llegadastarde.fecha="2014-04-22";
        // llegadastarde.hora = llegadastarde.
         llegadastarde.alta();*/
-        
-        
-        
+                
         
         /* Pruebas de legajo - Inasistencia
         Legajolib con = new Legajolib();
@@ -113,9 +147,17 @@ public class test {
         inasistencia.fecha="2014-04-30";
         inasistencia.nueva();*/
         
+        /************************************
+         *      Empresas
+         **********************************/
+        
        /* Empresaslib con = new Empresaslib();
         con.tipo = "S.R.L.";
         con.nueva();*/
+        
+        /*********************************
+         *      Personas
+         ********************************/
         
         /* prueba clase personas
         Personaslib con = new Personaslib();
@@ -130,28 +172,10 @@ public class test {
         con.idProvincia=2;
         con.modificar(); */
         
-       /* Pueba de liquidacion de sueldo
-         Liquidacion con = new Liquidacion();
-        //con.idRecibo=1;
-        con.idLegajo=1;
-        con.periodoIni = "2014-04-01";
-        con.periodoFin = "2014-04-30";
-        con.dias=30;
-        con.diasTrabajados=30;       
-        con.recibo();
-        */
+       /*******************************************
+         *         Complementarios
+         *****************************************/  
         
-        /*prueba licencia  */
-        Legajolib con = new Legajolib();               
-        Legajolib.Licencias resultado;
-        resultado = con.new Licencias();        
-        resultado.idLegajo=2;
-        resultado.motivo="Duelo del madre";
-        resultado.cantidad=2;
-        resultado.inicio="2014-05-01";
-        resultado.fin = "2014-05-02";
-        resultado.tipoLic = 2;
-        resultado.alta();       
         
         /* Crear los complementarios  
         Complementarios con = new Complementarios();
