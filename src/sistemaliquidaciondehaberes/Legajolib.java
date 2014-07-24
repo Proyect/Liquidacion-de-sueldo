@@ -349,7 +349,8 @@ public class Legajolib extends libSentenciasSQL
         public int alta() // probar
         {
             Complementarios control = new Complementarios();
-            Complementarios.TipoLicencia tipolicenciaCtrl = control.new TipoLicencia();
+            Complementarios.TipoLicencia tipolicenciaCtrl =
+                                control.new TipoLicencia();
             tipolicenciaCtrl.id = this.tipoLic;
             ResultSet controlTipo = tipolicenciaCtrl.consulta(); 
             //consulta el tipo de licencia

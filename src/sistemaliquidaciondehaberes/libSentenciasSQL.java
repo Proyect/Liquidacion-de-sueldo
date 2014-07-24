@@ -39,7 +39,7 @@ public class libSentenciasSQL extends Conexion{
                 catch (SQLException ex)
                 {
                     estado = ex.getMessage();
-                    //Imprime(estado);
+                    Imprime(estado);
                 }            
             return devuelve;
         }
@@ -80,7 +80,7 @@ public class libSentenciasSQL extends Conexion{
             catch (SQLException ex)
             {
                 estado = ex.getMessage();
-                //Imprime(estado);
+                Imprime(estado);
             }
             return devuelve;
         }
@@ -111,7 +111,7 @@ public class libSentenciasSQL extends Conexion{
             catch (SQLException ex)
             {
                 estado = ex.getMessage();
-                //Imprime(estado);
+                Imprime(estado);
             }
             return resultado;
         }
@@ -137,7 +137,7 @@ public class libSentenciasSQL extends Conexion{
             catch (SQLException ex) 
             {
                 estado = ex.getMessage();
-               // Imprime(estado);
+                Imprime(estado);
             } 
             return devuelve;
         }
@@ -155,7 +155,7 @@ public class libSentenciasSQL extends Conexion{
             catch (SQLException ex)
             {
                  estado = ex.getMessage();
-                //Imprime(estado);
+                 Imprime(estado);
             }
             return resultado;
         }

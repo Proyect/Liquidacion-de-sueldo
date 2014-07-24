@@ -185,7 +185,27 @@ public class test {
         capacitacion.fechaIni = "2014-04-10";
         capacitacion.fechaFin = "2014-04-20";
         capacitacion.nueva();*/
-
+        
+        /*  Carga un nuevo tipo de licencia
+        Complementarios con = new Complementarios();
+        Complementarios.TipoLicencia tipoLic = con.new TipoLicencia();
+        tipoLic.tipoLicencia = "Maternidad";
+        tipoLic.detalle = "La empleada entro en perido de maternidad";  
+        tipoLic.dias = 60;
+        tipoLic.concepto=0;
+        tipoLic.valides = 3;
+        tipoLic.nuevo();*/
+        
+        /* realiza la carga de un nuevo titulo */
+        Complementarios con = new Complementarios();
+        Complementarios.Titulos titulosCreacion = con.new Titulos();
+        titulosCreacion.idInstitucion= 2;
+        titulosCreacion.carrera = "Lic en Analisis de Sistemas";
+        titulosCreacion.titulo = "Licienciatura en Analisis de Sistema";
+        titulosCreacion.objetivo = "";
+        titulosCreacion.materias = "";
+        titulosCreacion.analitico = "";
+        titulosCreacion.nueva();
     }
     // Imprime en pantalla el mensaje que se envia
 
