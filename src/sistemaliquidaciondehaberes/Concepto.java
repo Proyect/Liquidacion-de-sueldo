@@ -177,20 +177,36 @@ public class Concepto extends libSentenciasSQL
                 {
                     this.valor = resultado.getFloat("formula");
                 }
+                this.tipo = form.getInt("tipo");
+                liq.campos = "totalRemunerativo,totalNoRemunerativo,"+
+                                "totalDescuento,total";
+                liq.idRecibo= this.idRecibo;
+                resultado =liq.consultarecibo();
+                float rem = resultado.getFloat("totalRemunerativo");
+                float noRem = resultado.getFloat("totalNoRemunerativo");
+                float desc = resultado.getFloat("totalDescuento");
+                float total=0;
+                switch(this.tipo) //aqui me quede
+                {
+                    case 1:
+                        rem += this.valor;
+                    break;
+                        
+                    case 2:
+                        noRem += this.valor;
+                    break;
+                        
+                    case 3:
+                        desc += this.valor;
+                    break;
+                }
+                liq.valores = rem+","+noRem+","+desc+","+rem+noRem-desc;
             } 
             catch (SQLException ex) 
             {
                 estado = ex.getMessage();
-            }
+            }            
             
-            try 
-            {
-                this.tipo = form.getInt("tipo");
-            }
-            catch (SQLException ex)
-            {
-                estado = ex.getMessage();
-            }
             this.valores = idRecibo+","+idConcepto+","+valor+","+unidad+","+tipo;
             return this.insertaSQL();
         }

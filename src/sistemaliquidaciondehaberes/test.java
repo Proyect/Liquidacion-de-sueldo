@@ -174,7 +174,7 @@ public class test {
         
        /*******************************************
          *         Complementarios
-         *****************************************/  
+         *****************************************/ 
         
         
         /* Crear los complementarios  
@@ -196,7 +196,7 @@ public class test {
         tipoLic.valides = 3;
         tipoLic.nuevo();*/
         
-        /* realiza la carga de un nuevo titulo */
+        /* realiza la carga de un nuevo titulo 
         Complementarios con = new Complementarios();
         Complementarios.Titulos titulosCreacion = con.new Titulos();
         titulosCreacion.idInstitucion= 2;
@@ -205,7 +205,7 @@ public class test {
         titulosCreacion.objetivo = "";
         titulosCreacion.materias = "";
         titulosCreacion.analitico = "";
-        titulosCreacion.nueva();
+        titulosCreacion.nueva();*/
     }
     // Imprime en pantalla el mensaje que se envia
 
