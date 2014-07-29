@@ -133,7 +133,7 @@ public class Concepto extends libSentenciasSQL
         }
         
         //crea un nuevo concepto
-        public int nuevo() // sin terminar
+        public int nuevo() 
         {
             det.idConcepto = this.idConcepto;    
             ResultSet form=det.consulta();       
@@ -186,7 +186,7 @@ public class Concepto extends libSentenciasSQL
                 float noRem = resultado.getFloat("totalNoRemunerativo");
                 float desc = resultado.getFloat("totalDescuento");
                 float total=0;
-                switch(this.tipo) //aqui me quede
+                switch(this.tipo) 
                 {
                     case 1:
                         rem += this.valor;
