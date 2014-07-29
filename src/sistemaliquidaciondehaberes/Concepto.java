@@ -190,25 +190,37 @@ public class Concepto extends libSentenciasSQL
                 {
                     case 1:
                         rem += this.valor;
+                        total += rem;
                     break;
                         
                     case 2:
                         noRem += this.valor;
+                        total +=this.valor;
                     break;
                         
                     case 3:
                         desc += this.valor;
+                        total -= desc;
                     break;
                 }
-                liq.valores = rem+","+noRem+","+desc+","+rem+noRem-desc;
+                liq.valores = rem+","+noRem+","+desc+","+total;
             } 
             catch (SQLException ex) 
             {
                 estado = ex.getMessage();
+                Imprime(estado);
             }            
             
             this.valores = idRecibo+","+idConcepto+","+valor+","+unidad+","+tipo;
-            return this.insertaSQL();
+            if(this.insertaSQL()==1)
+            {
+                liq.modificaSQL();
+                return 1;
+            }
+            else
+            {
+                return 0; //no se pudo insertar los datos;
+            }
         }
         
         @Override

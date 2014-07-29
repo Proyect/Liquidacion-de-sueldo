@@ -32,10 +32,10 @@ public class test {
         con.vectorRecibo();*/
         
         
-        /*prueba aplicacion de conceptos - seguir provando
+        /*prueba aplicacion de conceptos 
         Concepto cons= new Concepto();
         Concepto.Aplica con= cons.new Aplica();
-        con.idRecibo = 12;
+        con.idRecibo = 27;
         con.idConcepto = 3;
         con.nuevo();*/
         
