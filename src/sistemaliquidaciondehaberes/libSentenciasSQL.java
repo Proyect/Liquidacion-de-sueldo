@@ -70,11 +70,11 @@ public class libSentenciasSQL extends Conexion{
                 devuelve = st.executeUpdate(sentencia);
                 if(devuelve == 1)
                 {
-                    Imprime("\n Modificacion realizada");
+                    Imprime("Modificacion realizada \n");
                 }
                 else
                 {
-                    Imprime("\n sentencia fallida");
+                    Imprime("Sentencia fallida \n");
                 }
             }
             catch (SQLException ex)

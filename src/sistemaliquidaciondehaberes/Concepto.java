@@ -82,19 +82,18 @@ public class Concepto extends libSentenciasSQL
         int idFormula = 0;
         int idLicencia = 0;
         int tipo = 0;
-        String inicio = "";
-        String fin = "";
+        
         // constructor
         public Detalle()
         {
             this.tabla = "conceptosdetalle";
-            this.campos = "nombreCons,detalleCons,idFormula,idLicencia,tipo,inicio,fin";
+            this.campos = "nombreCons,detalleCons,idFormula,idLicencia,tipo";
         }
         
         public int nuevo()
         {
             this.valores = "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+
-                            idLicencia+","+tipo+",'"+inicio+"','"+fin+"'";
+                            idLicencia+","+tipo;
             return this.insertaSQL();
         }
         
@@ -102,7 +101,7 @@ public class Concepto extends libSentenciasSQL
         {
             this.condicion = "idConcepto="+idConcepto;
             this.valores =  "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+
-                            idLicencia+","+tipo+",'"+inicio+"','"+fin+"'";
+                            idLicencia+","+tipo;
             return this.modificaSQL();
         }
         
@@ -227,6 +226,15 @@ public class Concepto extends libSentenciasSQL
         public int modifica()
         {
             this.condicion = "idRecibo="+idRecibo+" AND idConcepto="+idConcepto;
+            ResultSet resultado = this.consulta();
+            try 
+            {
+                float val = resultado.getFloat("valor");
+            }
+            catch (SQLException ex)
+            {
+                estado = ex.getMessage();
+            }
             this.valores = idRecibo+","+idConcepto+","+valor+","+unidad+","+tipo;
             return this.modificaSQL();
         }
