@@ -20,13 +20,15 @@ public class Liquidacion extends libSentenciasSQL
 {
     int idRecibo=0;
     int idLegajo = 0;
+    int idPuesto = 0;
+    int estadoR = 0;
     float costoHs = 0;
     float costoHs50 = 0;
-    float costoHs100 = 0;
-    int idPuesto = 0;
+    float costoHs100 = 0;    
     String periodoIni = "";
     String periodoFin = "";            
     String emision = FechaActual();
+    String fechaEntrega = "";
     int dias=0; // dias a trabajar
     int diasTrabajados = 0;
     float obraSocial = 0;
@@ -53,7 +55,7 @@ public class Liquidacion extends libSentenciasSQL
     public Liquidacion()
     {
         this.tabla = "recibos";
-        this.campos = "idLegajo,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
+        this.campos = "idLegajo,estadoR,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,fechaEntrega"+
                         "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,"+
                         "CantHs100,jubilacion,art,idObraSocial,idSindicato,idART,diasTrabajados"
                         +",antiguedad,totalRemunerativo,totalNoRemunerativo,totalDescuento,total"; 
@@ -443,8 +445,8 @@ public class Liquidacion extends libSentenciasSQL
         presentismo();
         
         Imprime("guardando recibo de sueldo");
-        this.valores = idLegajo+","+costoHs50+","+costoHs100+","+idPuesto+",'"+
-                       periodoIni+"','"+periodoFin+"','"+emision+"',"+obraSocial+
+        this.valores = idLegajo+","+estadoR+","+costoHs50+","+costoHs100+","+idPuesto+",'"+
+                       periodoIni+"','"+periodoFin+"','"+emision+"','"+fechaEntrega+"',"+obraSocial+
                        ","+sindicato+","+presentismo+","+basico+","+cantHs
                         +","+costoHs+","+cantHs50+","+cantHs100+","
                         +jubilacion+","+art+","+idObraSocial+","+idSindicato+","+
@@ -466,7 +468,7 @@ public class Liquidacion extends libSentenciasSQL
         }
         Imprime("Recibo de sueldo nro: "+idRecibo);
         asignaciones();
-        this.campos = "idLegajo,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
+        this.campos = "idLegajo,estadoR,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,fechaEntrega"+
                         "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,"+
                         "CantHs100,jubilacion,art,idObraSocial,idSindicato,idART,diasTrabajados"
                         +",antiguedad,totalRemunerativo,totalNoRemunerativo,totalDescuento,total";
@@ -586,8 +588,8 @@ public class Liquidacion extends libSentenciasSQL
     //modifica los valores del recibo de sueldo
     public int modificaRecibo()
     {
-        this.valores = idLegajo+","+costoHs50+","+costoHs100+","+idPuesto+",'"+
-                       periodoIni+"','"+periodoFin+"','"+emision+"',"+obraSocial+
+        this.valores = idLegajo+","+estadoR+","+costoHs50+","+costoHs100+","+idPuesto+",'"+
+                       periodoIni+"','"+periodoFin+"','"+emision+"','"+fechaEntrega+"',"+obraSocial+
                        ","+sindicato+","+presentismo+","+basico+","+cantHs
                         +","+costoHs+","+cantHs50+","+cantHs100+","
                         +jubilacion+","+art+","+idObraSocial+","+idSindicato+","+
@@ -790,8 +792,8 @@ public class Liquidacion extends libSentenciasSQL
             devuelveAntiguedad();
             devuelveJubilacion();
             devuelveART();
-            this.valores = idLegajo+","+costoHs50+","+costoHs100+","+idPuesto+",'"+
-                       periodoIni+"','"+periodoFin+"','"+emision+"',"+obraSocial+
+            this.valores = idLegajo+","+estadoR+","+costoHs50+","+costoHs100+","+idPuesto+",'"+
+                       periodoIni+"','"+periodoFin+"','"+emision+"','"+fechaEntrega+"',"+obraSocial+
                        ","+sindicato+","+presentismo+","+basico+","+cantHs
                         +","+costoHs+","+cantHs50+","+cantHs100+","
                         +jubilacion+","+art+","+idObraSocial+","+idSindicato+","+
