@@ -20,6 +20,11 @@ public class test {
          *    Liquidacion de Sueldo
          *************************************/
         
+        /* Prueba de totales del recibo*/
+        Liquidacion con = new Liquidacion();
+        con.idRecibo=56;
+        Imprimir("Total Descuento: "+con.totalRecibo(3));
+        
         /* Prueba de asignaciones familiares
         Liquidacion con = new Liquidacion();
         con.idRecibo=41;
@@ -61,7 +66,7 @@ public class test {
         /* Pueba de liquidacion de sueldo
          Liquidacion con = new Liquidacion();
         //con.idRecibo=1;
-        con.idLegajo=3;
+        con.idLegajo=1;
         con.periodoIni = "2014-07-01";
         con.periodoFin = "2014-07-30";
         con.dias=30;
