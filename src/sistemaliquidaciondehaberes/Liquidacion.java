@@ -150,6 +150,7 @@ public class Liquidacion extends libSentenciasSQL
                 this.idObraSocial = resultados.getInt(2);
                 fsConceptos.idFormula = 2;            
                 this.obraSocial = this.totalRemunerativo*fsConceptos.formulas();
+                this.totalDescuentos += this.obraSocial;
                 Imprime("Obra Social: "+this.obraSocial);            
                 return 1;  
             }        
@@ -183,6 +184,7 @@ public class Liquidacion extends libSentenciasSQL
                     this.idSindicato = resultado.getInt(1);
                     fsConceptos.idFormula = 2;
                     this.sindicato= this.totalRemunerativo*fsConceptos.formulas();
+                    this.totalDescuentos += this.sindicato;
                     Imprime("sindicato: "+this.sindicato);
                     valor=1;
                 } 
@@ -240,6 +242,7 @@ public class Liquidacion extends libSentenciasSQL
     {        
         fsConceptos.idFormula=5;
         this.jubilacion=this.totalRemunerativo*fsConceptos.formulas();
+        this.totalDescuentos += this.jubilacion;
         Imprime("Aportes jubilatorios: "+this.jubilacion);
         return this.jubilacion;
     }
@@ -256,6 +259,7 @@ public class Liquidacion extends libSentenciasSQL
             if(resultado.first())
             {
                 this.idART= resultado.getInt("idEmpresa");
+                this.totalDescuentos += this.idART; 
                 Imprime("ART:"+idART);
             }
             else
@@ -491,7 +495,7 @@ public class Liquidacion extends libSentenciasSQL
         obtieneSindicato();
         devuelveJubilacion();
         devuelveART();        
-        totalDescuentos = totalRecibo(3);        
+              
         total = totalRemunerativo + totalNoRemunerativo - totalDescuentos;
         modificaRecibo();        
     }
