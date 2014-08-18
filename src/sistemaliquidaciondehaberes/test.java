@@ -20,10 +20,10 @@ public class test {
          *    Liquidacion de Sueldo
          *************************************/
         
-        /* Prueba de totales del recibo*/
+        /* Prueba de totales del recibo
         Liquidacion con = new Liquidacion();
         con.idRecibo=56;
-        Imprimir("Total Descuento: "+con.totalRecibo(3));
+        Imprimir("Total Descuento: "+con.totalRecibo(3));*/
         
         /* Prueba de asignaciones familiares
         Liquidacion con = new Liquidacion();
@@ -43,6 +43,15 @@ public class test {
         con.idRecibo = 27;
         con.idConcepto = 3;
         con.nuevo();*/
+        
+        /* Prueba modificacion de conceptos        
+        Concepto cons= new Concepto();
+        Concepto.Aplica con= cons.new Aplica();
+        con.idRecibo = 56;
+        con.idConcepto = 2;
+        con.unidad=1;
+        con.valor=1;        
+        con.modifica();*/ 
         
         /* prueba para conceptos pre establecidos
         Liquidacion con = new Liquidacion();
@@ -176,6 +185,21 @@ public class test {
         con.fechaNac = Personaslib.FechaActual();
         con.idProvincia=2;
         con.modificar(); */
+        
+        /*Alta en clase persona
+        Personaslib con = new Personaslib();        
+        con.apellido = "prueba";
+        con.cuil="1234";
+        con.tipoDoc = "D.N.I.";
+        con.nroDoc = "123456789";
+        con.estadoCivil ="Soltero/a";
+        con.mail = "hola.hola";
+        con.celular = "1555554555";
+        con.calle ="Las Heras";
+        con.nro="23";
+        con.fechaNac = Personaslib.FechaActual();
+        con.idProvincia=2;
+        con.nueva();*/
         
        /*******************************************
          *         Complementarios
