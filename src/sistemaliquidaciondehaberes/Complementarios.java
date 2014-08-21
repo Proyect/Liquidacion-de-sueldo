@@ -23,11 +23,17 @@ public class Complementarios
         float costoHs=0;
         float costoHs50=0;
         float costoHs100=0;
+        String seccion = "";
+        String departamento = "";
+        int categoria = 0;
+        
         //constructor
         public Cargos()
         {
             this.tabla = "puesto";
-            this.campos = "nombrePuesto,funcionPuesto,basico,horario,hsSemanales,costoHs,costoHs50,costoHs100";
+            this.campos = "nombrePuesto,funcionPuesto,basico,horario,"
+                        + "hsSemanales,costoHs,costoHs50,costoHs100"
+                        + "seccion,departamento,categoria";
         }
         
         //crea un nuevo puesto en la empresa
@@ -35,7 +41,8 @@ public class Complementarios
         {
             this.valores = "'"+nombrePuesto+"','"+funcionPuesto+"',"+basico+",'"+
                            horario+"',"+hsSemanales+","+costoHs+","+costoHs50
-                            +","+costoHs100+",";
+                            +","+costoHs100+",'"+seccion+"','"+departamento+"',"
+                            +categoria;
             return this.insertaSQL();
         }
         
@@ -51,7 +58,8 @@ public class Complementarios
         {
             this.valores = "'"+nombrePuesto+"','"+funcionPuesto+"',"+basico+",'"+
                            horario+"',"+hsSemanales+","+costoHs+","+costoHs50
-                            +","+costoHs100+",";
+                            +","+costoHs100+",'"+seccion+"','"+departamento+"',"
+                            +categoria;
             return this.modificaSQL();
         }
     }

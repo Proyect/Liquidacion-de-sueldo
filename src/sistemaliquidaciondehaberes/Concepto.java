@@ -82,7 +82,7 @@ public class Concepto extends libSentenciasSQL
         int idFormula = 0;
         int idLicencia = 0;
         int tipo = 0;
-        
+        int idRecibo=0;
         // constructor
         public Detalle()
         {
@@ -109,6 +109,19 @@ public class Concepto extends libSentenciasSQL
         public ResultSet consulta()
         {
             this.condicion = "idConcepto="+idConcepto;
+            return this.consultaSQL();
+        }
+        
+        //devuelve los conceptos no relacionados con el recibo
+        public ResultSet noEnRecibos()
+        {
+          //  this.tabla="vista_conceptos_recibos";
+          //  this.campos += ",nombreCons";
+            this.condicion = "idConcepto NOT IN ("
+                                    + "SELECT "
+                                     + "idConcepto "
+                                    + "FROM conceptos "
+                                    + "WHERE idRecibo="+idRecibo+")";
             return this.consultaSQL();
         }
     }   
@@ -259,6 +272,8 @@ public class Concepto extends libSentenciasSQL
             this.condicion = "idRecibo="+idRecibo;
             return this.consultaSQL();
         }
+        
+        
     }
     
     //aplica los conceptos predeterminados de cada uno de los legajos

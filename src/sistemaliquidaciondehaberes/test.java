@@ -48,10 +48,16 @@ public class test {
         Concepto cons= new Concepto();
         Concepto.Aplica con= cons.new Aplica();
         con.idRecibo = 56;
-        con.idConcepto = 2;
+        con.idConcepto = 2;l
         con.unidad=1;
         con.valor=1;        
         con.modifica();*/ 
+        
+        /*Prueba de consulta de conceptos no incluidos en el recibo
+        Concepto cons= new Concepto();
+        Concepto.Detalle con= cons.new Detalle();
+        con.idRecibo = 56;
+        con.noEnRecibos();        */
         
         /* prueba para conceptos pre establecidos
         Liquidacion con = new Liquidacion();
