@@ -114,9 +114,7 @@ public class Concepto extends libSentenciasSQL
         
         //devuelve los conceptos no relacionados con el recibo
         public ResultSet noEnRecibos()
-        {
-          //  this.tabla="vista_conceptos_recibos";
-          //  this.campos += ",nombreCons";
+        {          
             this.condicion = "idConcepto NOT IN ("
                                     + "SELECT "
                                      + "idConcepto "
