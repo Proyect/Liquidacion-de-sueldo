@@ -82,7 +82,7 @@ public class Concepto extends libSentenciasSQL
         int idFormula = 0;
         int idLicencia = 0;
         int tipo = 0;
-        int idRecibo=0;
+        int idRecibo=0; //para la ultima funcion
         // constructor
         public Detalle()
         {

@@ -53,11 +53,11 @@ public class test {
         con.valor=1;        
         con.modifica();*/ 
         
-        /*Prueba de consulta de conceptos no incluidos en el recibo
+        /*Prueba de consulta de conceptos no incluidos en el recibo*/
         Concepto cons= new Concepto();
         Concepto.Detalle con= cons.new Detalle();
         con.idRecibo = 56;
-        con.noEnRecibos();        */
+        con.noEnRecibos();        
         
         /* prueba para conceptos pre establecidos
         Liquidacion con = new Liquidacion();
