@@ -82,16 +82,25 @@ public class test {
          Liquidacion con = new Liquidacion();
         //con.idRecibo=1;
         con.idLegajo=1;
-        con.periodoIni = "2014-07-01";
-        con.periodoFin = "2014-07-30";
+        con.periodoIni = "2014-08-01";
+        con.periodoFin = "2014-08-30";
         con.dias=30;
-        con.diasTrabajados=30;       
+        con.diasTrabajados=20;       
         con.recibo();*/
         
-        /* Realiza las consultas de un recibo de sueldo*/
+        /* Realiza las consultas de un recibo de sueldo
         Liquidacion con = new Liquidacion();
         con.idLegajo=23;
-        con.consultarecibo();
+        con.consultarecibo(); */
+        
+        /* Realiza las actualiaciones del recibo de sueldo */
+        Liquidacion con = new Liquidacion();
+        con.idRecibo=51;
+        con.diasTrabajados=30;
+        con.dias = 30;
+        con.periodoIni = "2014-08-01";
+        con.periodoFin = "2014-08-30";
+        con.reciboUpdate();
         
         /**************************************
          *      Legajos
@@ -169,7 +178,7 @@ public class test {
         Legajolib.Inasistencia inasistencia = con.new Inasistencia();
         inasistencia.idLegajo=3;
         inasistencia.justificada=0;
-        inasistencia.fecha="2014-04-30";
+        inasistencia.fecha="2014-08-29";
         inasistencia.nueva();*/
         
         /************************************

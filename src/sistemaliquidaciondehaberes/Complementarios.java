@@ -32,7 +32,7 @@ public class Complementarios
         {
             this.tabla = "puesto";
             this.campos = "nombrePuesto,funcionPuesto,basico,horario,"
-                        + "hsSemanales,costoHs,costoHs50,costoHs100"
+                        + "hsSemanales,costoHs,costoHs50,costoHs100,"
                         + "seccion,departamento,categoria";
         }
         

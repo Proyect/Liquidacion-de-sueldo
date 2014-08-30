@@ -623,6 +623,42 @@ public class Liquidacion extends libSentenciasSQL
         return this.modificaSQL();
     }
     
+    //realiza la actualizacion del recibo de sueldo
+    public int reciboUpdate()
+    {
+        ResultSet resultado = consultarecibo();
+        try
+        {
+            idLegajo = resultado.getInt("idLegajo");
+        }
+        catch (SQLException ex) 
+        {
+            estado = ex.getMessage();
+                    Imprime(estado);        }
+        obtienePuesto();
+        obtieneDatos();        
+        horasExtras();
+        presentismo();
+        devuelveAntiguedad();
+        asignaciones();
+        preajustados();
+        this.campos = "idLegajo,estadoR,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
+                        "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,"+
+                        "CantHs100,jubilacion,art,idObraSocial,idSindicato,idART,diasTrabajados"
+                        +",antiguedad,totalRemunerativo,totalNoRemunerativo,totalDescuento,total";
+        totalRemunerativo = totalRecibo(1);
+        totalNoRemunerativo = totalRecibo(2);
+        
+        //descuentos
+        obtieneObraSocial();
+        obtieneSindicato();
+        devuelveJubilacion();
+        devuelveART();        
+              
+        total = totalRemunerativo + totalNoRemunerativo - totalDescuentos;
+        return modificaRecibo();
+    }
+    
     //realiza la baja de un recibo de sueldo
     public int bajaRecibo()
     {   
