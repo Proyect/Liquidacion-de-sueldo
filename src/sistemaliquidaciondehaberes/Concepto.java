@@ -125,7 +125,7 @@ public class Concepto extends libSentenciasSQL
     }   
     
     // aplica los conceptos a cada recibo de sueldo
-    class Aplica extends Concepto
+    class Aplica extends Concepto // aun sin modificar
     {
         int idRecibo = 0;
         int idConcepto = 0;
@@ -179,7 +179,7 @@ public class Concepto extends libSentenciasSQL
                                             liq.totalRecibo(2);
                         break;                        
                         
-                        case 4:
+                        case 4:// esta parte es para el evaluador de wilson
                         break;
                     }
                 }
@@ -280,23 +280,28 @@ public class Concepto extends libSentenciasSQL
         int idLegajo=0;
         int idConcepto=0;
         float unidades = 0;
+        int tipo = 0;
+        String inicio = "";
+        String fin = "";
         int estadoConcepto = 1;
         public Control()
         {
             this.tabla = "legajoconcepto";
-            this.campos = "idLegajo,idConcepto,unidades,estado";
+            this.campos = "idLegajo,idConcepto,unidades,tipo,inicio,fin,estado";
         }
         
         public int nuevo()
         {
-            this.valores = idLegajo+","+idConcepto+","+unidades+","+estadoConcepto;
+            this.valores = idLegajo+","+idConcepto+","+unidades+","+tipo+","+
+                            ",'"+inicio+"','"+fin+"',"+estadoConcepto;
             return this.insertaSQL();
         }
         
         public int modifica()
         {
             this.condicion = "idLegajo="+idLegajo+" AND idConcepto="+idConcepto;
-            this.valores = idLegajo+","+idConcepto+","+unidades+","+estadoConcepto;
+            this.valores = idLegajo+","+idConcepto+","+unidades+","+tipo+","+
+                            ",'"+inicio+"','"+fin+"',"+estadoConcepto;
             return this.modificaSQL();
         }
         
