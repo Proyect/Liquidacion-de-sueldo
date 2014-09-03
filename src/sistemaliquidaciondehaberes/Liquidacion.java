@@ -112,7 +112,7 @@ public class Liquidacion extends libSentenciasSQL
         if (datos != null)
         {
             try 
-            {
+            {   //descontar dias no trabajados
                 this.basico = obtieneBasico(datos.getFloat("basico"));
                 Imprime("Basico: "+this.basico);
                 this.costoHs = datos.getFloat("costoHs");
@@ -798,7 +798,7 @@ public class Liquidacion extends libSentenciasSQL
     
 
     //aplica los conceptos pre ajustados
-    public void preajustados()
+    public void preajustados() //modifiar segun los parametros nuevos
     {
         Concepto.Control concep = fsConceptos.new Control();
         Concepto.Aplica aplicarConcep = fsConceptos.new Aplica();
