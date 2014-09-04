@@ -125,7 +125,7 @@ public class Concepto extends libSentenciasSQL
     }   
     
     // aplica los conceptos a cada recibo de sueldo
-    class Aplica extends Concepto // aun sin modificar
+    class Aplica extends Concepto 
     {
         int idRecibo = 0;
         int idConcepto = 0;
@@ -139,7 +139,7 @@ public class Concepto extends libSentenciasSQL
         public Aplica()
         {
             this.tabla = "conceptos";
-            this.campos = "idRecibo,idConcepto,valor,unidad,tipo";
+            this.campos = "idRecibo,idConcepto,valor,unidad,tipo,formula";
         }
         
         //crea un nuevo concepto
@@ -163,6 +163,7 @@ public class Concepto extends libSentenciasSQL
                             resultado2 = liq.consultarecibo();
                             this.valor = resultado.getFloat("formula")*
                                         resultado2.getFloat("basico");
+                            this.formula = "BasicoProporcional*"+String.valueOf(resultado.getFloat("formula"));
                         break;
                         
                         //aplicada a conceptos remunerativos

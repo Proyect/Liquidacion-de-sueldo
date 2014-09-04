@@ -801,24 +801,42 @@ public class Liquidacion extends libSentenciasSQL
     public void preajustados() //modifiar segun los parametros nuevos
     {
         Concepto.Control concep = fsConceptos.new Control();
+        concep.idLegajo = this.idLegajo;
+        
         Concepto.Aplica aplicarConcep = fsConceptos.new Aplica();
-        concep.idLegajo = this.idLegajo;  
-        aplicarConcep.idRecibo = this.idRecibo;    
+        aplicarConcep.idRecibo = this.idRecibo;          
+            
         ResultSet resultado = concep.consulta();
         try
         {
             resultado.first();
             while(resultado.isLast())
             {
-                 aplicarConcep.idConcepto = resultado.getInt("idConcepto");
-                 aplicarConcep.unidad = resultado.getFloat("unidades");  
-                 aplicarConcep.nuevo();
-                 resultado.next();
+                if(resultado.getInt("estado")!=0)
+                {
+                    aplicarConcep.idConcepto = resultado.getInt("idConcepto");
+                    aplicarConcep.unidad = resultado.getFloat("unidades");  
+                    aplicarConcep.nuevo();
+                    
+                    if (resultado.getInt("tipo")==2)
+                    {
+                        concep.idConcepto = resultado.getInt("idConcepto");
+                        concep.unidades = resultado.getFloat("unidades");
+                        concep.tipo = resultado.getInt("tipo");
+                        concep.inicio = resultado.getString("inicio");
+                        concep.fin = resultado.getString("fin");
+                        concep.estadoConcepto = resultado.getInt("estado")-1;
+                        concep.modifica();
+                    } 
+                    resultado.next();                   
+                }
+                 
             }
         }
         catch (SQLException ex)
         {
             estado = ex.getMessage();
+            Imprime(estado);
         }
     }
     
