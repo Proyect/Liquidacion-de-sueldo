@@ -162,8 +162,8 @@ public class Concepto extends libSentenciasSQL
                             liq.idRecibo=idRecibo;
                             resultado2 = liq.consultarecibo();
                             this.valor = resultado.getFloat("formula")*
-                                        resultado2.getFloat("basico");
-                            this.formula = "BasicoProporcional*"+String.valueOf(resultado.getFloat("formula"));
+                                        resultado2.getFloat("basico");//aqui me quede
+                           // this.formula = "BasicoProporcional*"+resultado.getFloat("formula");
                         break;
                         
                         //aplicada a conceptos remunerativos

@@ -76,21 +76,19 @@ public class Liquidacion extends libSentenciasSQL
                 this.idPuesto = reg.getInt(1);
                 Imprime("idPuesto: "+this.idPuesto);
                 this.fechaInicio = reg.getString("fechaInicio");
-                Imprime("inicio: "+this.fechaInicio);
+                Imprime("inicio: "+this.fechaInicio);                
             }
             catch (SQLException ex)
             {
                 estado = ex.getMessage();
                 Imprime(estado);
-            }
-            
+            }            
         }
         else
         {
             Imprime("El legajo no tiene ningun puesto activo");
             // aqui hay que liquidar cuando se despide al empleado
-        }  
-        
+        }          
     }
     
     
@@ -112,7 +110,8 @@ public class Liquidacion extends libSentenciasSQL
         if (datos != null)
         {
             try 
-            {   //descontar dias no trabajados
+            {   
+                this.inasistencias();
                 this.basico = obtieneBasico(datos.getFloat("basico"));
                 Imprime("Basico: "+this.basico);
                 this.costoHs = datos.getFloat("costoHs");
@@ -277,8 +276,8 @@ public class Liquidacion extends libSentenciasSQL
         return this.art;
     }
     
-    //realiza el presentismo del mes
-    public float presentismo() 
+    //controla las inasistencias del mes
+    public void inasistencias()
     {
         Legajolib.Inasistencia Faltas = fsLegajo.new Inasistencia();
         Faltas.condicion="(idLegajo ="+idLegajo+")"
@@ -290,30 +289,40 @@ public class Liquidacion extends libSentenciasSQL
         {
             if (!resultado.first())
             {           
-                Imprime("El empleado tiene presentismo");
-                fsConceptos.idFormula = 3;
-                //ver si se aplica a todo concepto remunerativo
-                this.presentismo = this.basico*fsConceptos.formulas(); 
-                Imprime("Presentismo: "+this.presentismo);
-                while(resultado.isLast() == true) // controlar aqui, 
+                Imprime("El empleado no tiene inasistencias");           
+            }
+            else
+            {  
+                while(resultado.isLast() == true) 
                 {
                     this.diasTrabajados = this.diasTrabajados - 1;
                     resultado.next();
                     Imprime("entro aqui");
-                }            
-                return this.presentismo;
-            }
-            else
-            {
-                Imprime("El empleado no tiene presentismo");
-                return 0;
+                }             
             }
         }
         catch (SQLException ex)
         {
-            estado = ex.getMessage();
-            return 0;
+            estado = ex.getMessage();            
         }
+    }
+    
+    //realiza el presentismo del mes
+    public float presentismo() 
+    {
+        if(this.diasTrabajados ==30)
+        {
+                fsConceptos.idFormula = 3;
+                //ver si se aplica a todo concepto remunerativo
+                this.presentismo = this.basico*fsConceptos.formulas(); 
+                Imprime("Presentismo: "+this.presentismo);
+                return this.presentismo;
+        }
+        else
+        {
+            Imprime("El empleado no tiene presentismo");
+            return 0;
+        }        
     } 
     
     //calcula  las horas extras del  empleado
@@ -602,8 +611,7 @@ public class Liquidacion extends libSentenciasSQL
             estado = ex.getMessage();
         }
         return list;
-    } 
-      
+    }      
     
     //modifica los valores del recibo de sueldo
     public int modificaRecibo()
@@ -798,14 +806,15 @@ public class Liquidacion extends libSentenciasSQL
     
 
     //aplica los conceptos pre ajustados
-    public void preajustados() //modifiar segun los parametros nuevos
+    public void preajustados() 
     {
         Concepto.Control concep = fsConceptos.new Control();
         concep.idLegajo = this.idLegajo;
         
         Concepto.Aplica aplicarConcep = fsConceptos.new Aplica();
-        aplicarConcep.idRecibo = this.idRecibo;          
-            
+        aplicarConcep.idRecibo = this.idRecibo;
+        
+        Imprime("Buscando conceptos predefinidos");
         ResultSet resultado = concep.consulta();
         try
         {
@@ -826,6 +835,7 @@ public class Liquidacion extends libSentenciasSQL
                         concep.inicio = resultado.getString("inicio");
                         concep.fin = resultado.getString("fin");
                         concep.estadoConcepto = resultado.getInt("estado")-1;
+                            
                         concep.modifica();
                     } 
                     resultado.next();                   

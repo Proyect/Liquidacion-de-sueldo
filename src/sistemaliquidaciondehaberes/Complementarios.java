@@ -123,16 +123,18 @@ public class Complementarios
         String objetivo = "";
         String materias = "";
         String analitico = "";
+        int nivel =0;
         //contructor
         public Titulos()
         {
             this.tabla = "titulo";
-            this.campos = "idInstitucion,Carrera,titulo,objetivos,materias,analitico";
+            this.campos = "idInstitucion,Carrera,titulo,objetivos,materias,"
+                        + "analitico,nivel";
         }
         public int nueva()
         {
             this.valores = idInstitucion+",'"+carrera+"','"+titulo+"','"+objetivo+
-                            "','"+materias+"','"+analitico+"'";
+                            "','"+materias+"','"+analitico+"',"+nivel;
             return this.insertaSQL();
         }
         
@@ -140,7 +142,7 @@ public class Complementarios
         {
             this.condicion = "idtitulo="+idTitulo;
             this.valores = idInstitucion+",'"+carrera+"','"+titulo+"','"+objetivo+
-                            "','"+materias+"','"+analitico+"'";
+                            "','"+materias+"','"+analitico+"',"+nivel;
             return this.modificaSQL();
         }
         

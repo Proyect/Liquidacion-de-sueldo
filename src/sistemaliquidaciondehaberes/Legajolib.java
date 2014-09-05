@@ -194,18 +194,20 @@ public class Legajolib extends libSentenciasSQL
         }
         
         //crea una nueva inasistencia
-        public int nueva() throws SQLException
+        public int nueva() throws SQLException // realizar control
         {   
             novedad.idLegajo = this.idLegajo;             
             Licencias licencia = new Licencias();            
             licencia.condicion = "idLegajo=" + this.idLegajo + " AND estado = 1";
             if (!licencia.consultaSQL().isFirst()) 
             {
-                idNovedad = novedad.nueva_novedad("Nueva inasistencia", "Injustificada", 1);
+                idNovedad = novedad.nueva_novedad("Nueva inasistencia",
+                                        "Injustificada", 1);
             }
             else
             {
-                idNovedad = novedad.nueva_novedad("Nueva inasistencia", "Justificada", 1);
+                idNovedad = novedad.nueva_novedad("Nueva inasistencia",
+                                        "Justificada", 1);
                 this.justificada=1;
             }
             
@@ -423,7 +425,17 @@ public class Legajolib extends libSentenciasSQL
                             inasist.campos = "justificada";
                             inasist.valores="1";
                             inasist.modificaSQL();
-                         } 
+                         }
+                         //carga el preconcepto al proximo recibo
+                         if (this.concepto != 0)
+                         {
+                             Concepto Consep = new Concepto();
+                             Concepto.Control con = Consep.new Control();
+                             con.idLegajo=this.idLegajo;
+                             con.idConcepto=this.concepto;
+                             con.tipo = 1;
+                             con.nuevo();
+                         }
                          return 1;
                     }
                     else
