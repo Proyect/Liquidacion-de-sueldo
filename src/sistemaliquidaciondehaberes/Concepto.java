@@ -82,7 +82,7 @@ public class Concepto extends libSentenciasSQL
         int idFormula = 0;
         int idLicencia = 0;
         int tipo = 0;
-        
+        int idRecibo=0; //para la ultima funcion
         // constructor
         public Detalle()
         {
@@ -111,10 +111,21 @@ public class Concepto extends libSentenciasSQL
             this.condicion = "idConcepto="+idConcepto;
             return this.consultaSQL();
         }
+        
+        //devuelve los conceptos no relacionados con el recibo
+        public ResultSet noEnRecibos()
+        {          
+            this.condicion = "idConcepto NOT IN ("
+                                    + "SELECT "
+                                     + "idConcepto "
+                                    + "FROM conceptos "
+                                    + "WHERE idRecibo="+idRecibo+")";
+            return this.consultaSQL();
+        }
     }   
     
     // aplica los conceptos a cada recibo de sueldo
-    class Aplica extends Concepto
+    class Aplica extends Concepto 
     {
         int idRecibo = 0;
         int idConcepto = 0;
@@ -128,11 +139,11 @@ public class Concepto extends libSentenciasSQL
         public Aplica()
         {
             this.tabla = "conceptos";
-            this.campos = "idRecibo,idConcepto,valor,unidad,tipo";
+            this.campos = "idRecibo,idConcepto,valor,unidad,tipo,formula";
         }
         
         //crea un nuevo concepto
-        public int nuevo() 
+        public int nuevo() //sin terminar
         {
             det.idConcepto = this.idConcepto;    
             ResultSet form=det.consulta();       
@@ -151,7 +162,8 @@ public class Concepto extends libSentenciasSQL
                             liq.idRecibo=idRecibo;
                             resultado2 = liq.consultarecibo();
                             this.valor = resultado.getFloat("formula")*
-                                        resultado2.getFloat("basico");
+                                        resultado2.getFloat("basico");//aqui me quede
+                           // this.formula = "BasicoProporcional*"+resultado.getFloat("formula");
                         break;
                         
                         //aplicada a conceptos remunerativos
@@ -168,7 +180,7 @@ public class Concepto extends libSentenciasSQL
                                             liq.totalRecibo(2);
                         break;                        
                         
-                        case 4:
+                        case 4:// esta parte es para el evaluador de wilson
                         break;
                     }
                 }
@@ -225,18 +237,30 @@ public class Concepto extends libSentenciasSQL
         @Override
         public int modifica()
         {
+            Liquidacion total = new Liquidacion();
+            total.idRecibo = idRecibo;
+            
             this.condicion = "idRecibo="+idRecibo+" AND idConcepto="+idConcepto;
             ResultSet resultado = this.consulta();
             try 
             {
                 float val = resultado.getFloat("valor");
+                int tip = resultado.getInt("tipo");
+                this.valores = idRecibo+","+idConcepto+","+valor+","+unidad
+                                +","+tipo;
+                this.modificaSQL();    
+                if (val != valor)
+                {
+                    total.totalRecibo(tipo);
+                }
+                return 1;
             }
             catch (SQLException ex)
             {
                 estado = ex.getMessage();
-            }
-            this.valores = idRecibo+","+idConcepto+","+valor+","+unidad+","+tipo;
-            return this.modificaSQL();
+                return 0;
+            }          
+             
         }
         
         public int baja()
@@ -258,7 +282,7 @@ public class Concepto extends libSentenciasSQL
         {
             this.condicion = "idRecibo="+idRecibo;
             return this.consultaSQL();
-        }
+        }     
     }
     
     //aplica los conceptos predeterminados de cada uno de los legajos
@@ -267,23 +291,28 @@ public class Concepto extends libSentenciasSQL
         int idLegajo=0;
         int idConcepto=0;
         float unidades = 0;
+        int tipo = 0;
+        String inicio = "";
+        String fin = "";
         int estadoConcepto = 1;
         public Control()
         {
             this.tabla = "legajoconcepto";
-            this.campos = "idLegajo,idConcepto,unidades,estado";
+            this.campos = "idLegajo,idConcepto,unidades,tipo,inicio,fin,estado";
         }
         
         public int nuevo()
         {
-            this.valores = idLegajo+","+idConcepto+","+unidades+","+estadoConcepto;
+            this.valores = idLegajo+","+idConcepto+","+unidades+","+tipo+","+
+                            ",'"+inicio+"','"+fin+"',"+estadoConcepto;
             return this.insertaSQL();
         }
         
         public int modifica()
         {
             this.condicion = "idLegajo="+idLegajo+" AND idConcepto="+idConcepto;
-            this.valores = idLegajo+","+idConcepto+","+unidades+","+estadoConcepto;
+            this.valores = idLegajo+","+idConcepto+","+unidades+","+tipo+","+
+                            ",'"+inicio+"','"+fin+"',"+estadoConcepto;
             return this.modificaSQL();
         }
         

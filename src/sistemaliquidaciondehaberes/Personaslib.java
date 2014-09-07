@@ -21,7 +21,10 @@ public class Personaslib extends libSentenciasSQL
     int idProvincia = 0;
     String cp= "";
     String barrio = "";
-    String direccion = "";
+    String calle = "";
+    String nro= "";
+    String dto = "";
+    String piso = "";
     String tipoDoc = "";
     String nroDoc = "";
     String cuil = "";
@@ -38,22 +41,25 @@ public class Personaslib extends libSentenciasSQL
     public Personaslib()
     {
         this.tabla="persona";
-        this.campos="apellido,nombre,telefono,telefono2,celular,idProvincia,cp,barrio,direccion,"+
-                    "tipoDoc,nroDoc,cuil,estadoCivil,fechaNac,nacionalidad,sexo,mail,mail2,otrosDatos";
+        this.campos="apellido,nombre,telefono,telefono2,celular,idProvincia,cp,"
+                    + "barrio,calle,nro,dto,piso,tipoDoc,nroDoc,cuil,estadoCivil"
+                    + ",fechaNac,nacionalidad,sexo,mail,mail2,otrosDatos";
     }       
     
     // inserta una nueva persona en la base de datos
     public void nueva()
     {       
-       this.valores= "'"+apellido+"','"+nombre+"','"+telefono+"','"+telefono2+"','"+
-                        celular+"',"+idProvincia+",'"+cp+"','"+barrio+ "','"+direccion+"','"+tipoDoc+"','"+nroDoc+
-                        "','"+cuil+"','"+estadoCivil+"','"+fechaNac+"','"+nacionalidad+"',"+sexo+",'"+mail+
-                        "','"+mail2+"','"+otrosDatos+"'";
+       this.valores= "'"+apellido+"','"+nombre+"','"+telefono+"','"+telefono2+
+                     "','"+celular+"',"+idProvincia+",'"+cp+"','"+barrio+ "','"+
+                     calle+"','"+nro+"','"+dto+"','"+piso+"','"+tipoDoc+"','"+
+                     nroDoc+"','"+cuil+"','"+estadoCivil+"','"+fechaNac+"','"+
+                     nacionalidad+"',"+sexo+",'"+mail+"','"+mail2+"','"+
+                     otrosDatos+"'";
        this.condicion="cuil='"+cuil+"'";
        ResultSet consulta = this.consultaSQL();
         try 
         {
-            if (consulta.next())
+            if (consulta.first())
             {
                 this.modificaSQL();
             }
@@ -73,10 +79,12 @@ public class Personaslib extends libSentenciasSQL
     public int modificar()
     {
         this.condicion = "idpersona="+idPersona;
-        this.valores= "'"+apellido+"','"+nombre+"','"+telefono+"','"+telefono2+"','"+
-                        celular+"',"+idProvincia+",'"+cp+"','"+barrio+ "','"+direccion+"','"+tipoDoc+"','"+nroDoc+
-                        "','"+cuil+"','"+estadoCivil+"','"+fechaNac+"','"+nacionalidad+"',"+sexo+",'"+mail+
-                        "','"+mail2+"','"+otrosDatos+"'";
+        this.valores= "'"+apellido+"','"+nombre+"','"+telefono+"','"+telefono2+
+                     "','"+celular+"',"+idProvincia+",'"+cp+"','"+barrio+ "','"+
+                     calle+"','"+nro+"','"+dto+"','"+piso+"','"+tipoDoc+"','"+
+                     nroDoc+"','"+cuil+"','"+estadoCivil+"','"+fechaNac+"','"+
+                     nacionalidad+"',"+sexo+",'"+mail+"','"+mail2+"','"+
+                     otrosDatos+"'";
          return modificaSQL();
     }
     

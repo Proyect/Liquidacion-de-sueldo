@@ -23,11 +23,17 @@ public class Complementarios
         float costoHs=0;
         float costoHs50=0;
         float costoHs100=0;
+        String seccion = "";
+        String departamento = "";
+        int categoria = 0;
+        
         //constructor
         public Cargos()
         {
             this.tabla = "puesto";
-            this.campos = "nombrePuesto,funcionPuesto,basico,horario,hsSemanales,costoHs,costoHs50,costoHs100";
+            this.campos = "nombrePuesto,funcionPuesto,basico,horario,"
+                        + "hsSemanales,costoHs,costoHs50,costoHs100,"
+                        + "seccion,departamento,categoria";
         }
         
         //crea un nuevo puesto en la empresa
@@ -35,7 +41,8 @@ public class Complementarios
         {
             this.valores = "'"+nombrePuesto+"','"+funcionPuesto+"',"+basico+",'"+
                            horario+"',"+hsSemanales+","+costoHs+","+costoHs50
-                            +","+costoHs100+",";
+                            +","+costoHs100+",'"+seccion+"','"+departamento+"',"
+                            +categoria;
             return this.insertaSQL();
         }
         
@@ -51,7 +58,8 @@ public class Complementarios
         {
             this.valores = "'"+nombrePuesto+"','"+funcionPuesto+"',"+basico+",'"+
                            horario+"',"+hsSemanales+","+costoHs+","+costoHs50
-                            +","+costoHs100+",";
+                            +","+costoHs100+",'"+seccion+"','"+departamento+"',"
+                            +categoria;
             return this.modificaSQL();
         }
     }
@@ -115,16 +123,18 @@ public class Complementarios
         String objetivo = "";
         String materias = "";
         String analitico = "";
+        int nivel =0;
         //contructor
         public Titulos()
         {
             this.tabla = "titulo";
-            this.campos = "idInstitucion,Carrera,titulo,objetivos,materias,analitico";
+            this.campos = "idInstitucion,Carrera,titulo,objetivos,materias,"
+                        + "analitico,nivel";
         }
         public int nueva()
         {
             this.valores = idInstitucion+",'"+carrera+"','"+titulo+"','"+objetivo+
-                            "','"+materias+"','"+analitico+"'";
+                            "','"+materias+"','"+analitico+"',"+nivel;
             return this.insertaSQL();
         }
         
@@ -132,7 +142,7 @@ public class Complementarios
         {
             this.condicion = "idtitulo="+idTitulo;
             this.valores = idInstitucion+",'"+carrera+"','"+titulo+"','"+objetivo+
-                            "','"+materias+"','"+analitico+"'";
+                            "','"+materias+"','"+analitico+"',"+nivel;
             return this.modificaSQL();
         }
         
@@ -192,4 +202,7 @@ public class Complementarios
             return this.consultaSQL();
         }
     }
+    
+    
+    
 }
