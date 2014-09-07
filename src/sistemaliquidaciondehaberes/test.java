@@ -20,12 +20,12 @@ public class test {
          *    Liquidacion de Sueldo
          *************************************/
         
-        /* Pruebas de inasistencias de un empleado
+        /* Pruebas de inasistencias de un empleado*/
         Liquidacion con = new Liquidacion();
         con.idLegajo=1;
         con.periodoIni = "2014-08-01";
         con.periodoFin = "2014-08-30";
-        con.inasistencias();*/
+        con.inasistencias();
         
         /* Prueba de totales del recibo
         Liquidacion con = new Liquidacion();
@@ -123,6 +123,11 @@ public class test {
         resultado.fin = "2014-05-02";
         resultado.tipoLic = 2;
         resultado.alta();   */   
+        
+        /* Prueba de control de licencias vencidas
+        Legajolib con = new Legajolib();               
+        Legajolib.Licencias resultado = con.new Licencias(); 
+        resultado.control();*/
         
         /* Prueba estado legajo
         Legajolib con = new Legajolib();

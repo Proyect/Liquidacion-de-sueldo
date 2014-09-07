@@ -283,7 +283,7 @@ public class Liquidacion extends libSentenciasSQL
         Faltas.condicion="(idLegajo ="+idLegajo+")"
                     + "  AND (fecha >= '"+periodoIni
                     +"' AND fecha <= '"+periodoFin+"') AND"
-                    + "(justificada =0);";
+                    + "(justificada =0)";
         ResultSet resultado= Faltas.consulta(Faltas.condicion);
         try
         {
@@ -293,11 +293,11 @@ public class Liquidacion extends libSentenciasSQL
             }
             else
             {  
+                Imprime("El empleado registra inasistencias");
                 while(resultado.isLast() == true) 
                 {
                     this.diasTrabajados = this.diasTrabajados - 1;
-                    resultado.next();
-                    Imprime("entro aqui");
+                    resultado.next();                    
                 }             
             }
         }

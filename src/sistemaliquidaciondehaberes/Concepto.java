@@ -143,7 +143,7 @@ public class Concepto extends libSentenciasSQL
         }
         
         //crea un nuevo concepto
-        public int nuevo() 
+        public int nuevo() //sin terminar
         {
             det.idConcepto = this.idConcepto;    
             ResultSet form=det.consulta();       
@@ -237,18 +237,30 @@ public class Concepto extends libSentenciasSQL
         @Override
         public int modifica()
         {
+            Liquidacion total = new Liquidacion();
+            total.idRecibo = idRecibo;
+            
             this.condicion = "idRecibo="+idRecibo+" AND idConcepto="+idConcepto;
             ResultSet resultado = this.consulta();
             try 
             {
                 float val = resultado.getFloat("valor");
+                int tip = resultado.getInt("tipo");
+                this.valores = idRecibo+","+idConcepto+","+valor+","+unidad
+                                +","+tipo;
+                this.modificaSQL();    
+                if (val != valor)
+                {
+                    total.totalRecibo(tipo);
+                }
+                return 1;
             }
             catch (SQLException ex)
             {
                 estado = ex.getMessage();
-            }
-            this.valores = idRecibo+","+idConcepto+","+valor+","+unidad+","+tipo;
-            return this.modificaSQL();
+                return 0;
+            }          
+             
         }
         
         public int baja()
@@ -270,9 +282,7 @@ public class Concepto extends libSentenciasSQL
         {
             this.condicion = "idRecibo="+idRecibo;
             return this.consultaSQL();
-        }
-        
-        
+        }     
     }
     
     //aplica los conceptos predeterminados de cada uno de los legajos

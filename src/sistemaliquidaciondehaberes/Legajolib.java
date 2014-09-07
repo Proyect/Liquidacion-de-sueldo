@@ -490,6 +490,17 @@ public class Legajolib extends libSentenciasSQL
             this.condicion = "idLicencia="+this.idLicencia;
             return this.borraSQL();
         }
+        
+        //realiza la actualizacion de las licencias
+        public void control()
+        {
+            this.campos="estado";
+            this.valores="0";
+            this.condicion = "fechaFin <= '"+this.fecha+"'";
+            this.modificaSQL();
+            this.campos="idNovedad,idLegajo,Motivo,cantDias,fechaInicio,"+
+                            "fechaFin,tipoLicencia,estado,concepto";
+        }
     }  
         
 
