@@ -142,6 +142,7 @@ public class Liquidacion extends libSentenciasSQL
         ResultSet resultados = null;
         resultados = obrasocial.consulta("idLegajo="+idLegajo
                         +" AND Vinculacion='Obra Social'");
+        Concepto.Aplica concep = fsConceptos.new Aplica();
         try
         {
             if ( resultados.first())

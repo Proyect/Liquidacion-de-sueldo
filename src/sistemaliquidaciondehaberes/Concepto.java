@@ -179,8 +179,7 @@ public class Concepto extends libSentenciasSQL
                                     this.descuentos = form.getFloat("formula")*
                                             liq.totalRecibo(1);
                                 break;
-                            }
-                                    
+                            }         
                             
                         break;                                       
                         
@@ -192,16 +191,18 @@ public class Concepto extends libSentenciasSQL
                 {
                     switch(form.getInt("tipo")) //me quede aqui
                     {
-                        case 1:  
+                        case 1:  //remunerativos
+                            this.remunerativo = form.getFloat("formula");
                         break;
                             
                         case 2:
+                            this.noremunerativo = form.getFloat("formula");
                         break;
                            
                         case 3:
+                            this.descuentos = form.getFloat("formula");
                         break;   
-                    }
-                    this.valor = form.getFloat("formula");
+                    }                    
                 }
                 
                 liq.campos = "totalRemunerativo,totalNoRemunerativo,"+
@@ -212,7 +213,7 @@ public class Concepto extends libSentenciasSQL
                 float noRem = form.getFloat("totalNoRemunerativo");
                 float desc = form.getFloat("totalDescuento");
                 float total=0;
-                switch(this.tipo) 
+                switch(form.getInt("tipo")) 
                 {
                     case 1:
                         rem += this.remunerativo;
@@ -260,14 +261,29 @@ public class Concepto extends libSentenciasSQL
             ResultSet resultado = this.consulta();
             try 
             {
-                float val = resultado.getFloat("valor");
-                int tip = resultado.getInt("tipo");
+                float remu = resultado.getFloat("remunerativo");
+                float noRemu = resultado.getFloat("noremunerativo");
+                float desc = resultado.getFloat("descuento");
                 this.valores = idRecibo+","+idConcepto+","+unidad+",'"+formula+"',"
                             +remunerativo+","+noremunerativo+","+descuentos;
-                this.modificaSQL();    
-                if (val != valor)
+                this.modificaSQL();     //aqui tengo que modificar
+                if (remu != remunerativo)
                 {
-                    total.totalRecibo(tipo);
+                    total.totalRecibo(1);
+                }
+                else
+                {
+                    if (noRemu != noremunerativo)
+                    {
+                        total.totalRecibo(2);
+                    } 
+                    else
+                    {
+                        if (desc != descuentos)
+                        {
+                            total.totalRecibo(3);
+                        }
+                    }
                 }
                 return 1;
             }
@@ -275,7 +291,7 @@ public class Concepto extends libSentenciasSQL
             {
                 estado = ex.getMessage();
                 return 0;
-            }          
+            }  
              
         }
         
