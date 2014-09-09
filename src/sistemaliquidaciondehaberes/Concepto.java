@@ -126,71 +126,107 @@ public class Concepto extends libSentenciasSQL
         {
             det.idConcepto = this.idConcepto;    
             ResultSet form=det.consulta();       
-            Concepto valform = new Concepto();
+            
             try 
-            {
-                valform.idFormula = form.getInt("idFormula");
-                ResultSet resultado = valform.consulta(); 
-                if(resultado.getInt("claseform")==1 )
+            {                
+                if(form.getInt("claseform")==1 )
                 {
                     ResultSet resultado2 = null;
-                    switch(resultado.getInt("tipoform"))
+                    switch(form.getInt("tipoform"))
                     {
                         //aplicada al basico
                         case 1:
                             liq.idRecibo=idRecibo;
                             resultado2 = liq.consultarecibo();
-                            this.valor = resultado.getFloat("formula")*
-                                        resultado2.getFloat("basico");//aqui me quede
-                           // this.formula = "BasicoProporcional*"+resultado.getFloat("formula");
+                            switch(form.getInt("tipo"))
+                            {
+                                case 1: //conceptos remunerativos
+                                    this.remunerativo = form.getFloat("formula")*
+                                        resultado2.getFloat("basico");
+                                    this.formula = "BasicoProporcional*"+
+                                                    form.getFloat("formula");
+                                break;
+                                    
+                                case 2: //conceptos no remunerativos
+                                    this.remunerativo = form.getFloat("formula")*
+                                        resultado2.getFloat("basico");
+                                    this.formula = "BasicoProporcional*"+
+                                                    form.getFloat("formula");
+                                break;
+                                    
+                                case 3:
+                                    this.descuentos = form.getFloat("formula")*
+                                        resultado2.getFloat("basico");
+                                    this.formula = "BasicoProporcional*"+
+                                                    form.getFloat("formula");
+                                break;
+                            }
+                            
                         break;
                         
                         //aplicada a conceptos remunerativos
                         case 2:
-                            liq.idRecibo=idRecibo;
-                            this.valor = resultado.getFloat("formula")*
+                            switch(form.getInt("tipo"))
+                            {
+                                case 2:
+                                    liq.idRecibo=idRecibo;
+                                    this.noremunerativo = form.getFloat("formula")*
                                             liq.totalRecibo(1);
-                        break;
+                                break;
+                                
+                                case 3:
+                                    liq.idRecibo=idRecibo;
+                                    this.descuentos = form.getFloat("formula")*
+                                            liq.totalRecibo(1);
+                                break;
+                            }
+                                    
                             
-                        //aplicada a conceptos no remunerativos
-                        case 3:
-                            liq.idRecibo=idRecibo;
-                            this.valor = resultado.getFloat("formula")*
-                                            liq.totalRecibo(2);
-                        break;                        
+                        break;                                       
                         
-                        case 4:// esta parte es para el evaluador de wilson
+                        case 3:// esta parte es para el evaluador de wilson
                         break;
                     }
                 }
                 else
                 {
-                    this.valor = resultado.getFloat("formula");
+                    switch(form.getInt("tipo")) //me quede aqui
+                    {
+                        case 1:  
+                        break;
+                            
+                        case 2:
+                        break;
+                           
+                        case 3:
+                        break;   
+                    }
+                    this.valor = form.getFloat("formula");
                 }
-                this.tipo = form.getInt("tipo");
+                
                 liq.campos = "totalRemunerativo,totalNoRemunerativo,"+
                                 "totalDescuento,total";
                 liq.idRecibo= this.idRecibo;
-                resultado =liq.consultarecibo();
-                float rem = resultado.getFloat("totalRemunerativo");
-                float noRem = resultado.getFloat("totalNoRemunerativo");
-                float desc = resultado.getFloat("totalDescuento");
+                form =liq.consultarecibo();
+                float rem = form.getFloat("totalRemunerativo");
+                float noRem = form.getFloat("totalNoRemunerativo");
+                float desc = form.getFloat("totalDescuento");
                 float total=0;
                 switch(this.tipo) 
                 {
                     case 1:
-                        rem += this.valor;
-                        total += rem;
+                        rem += this.remunerativo;
+                        total += remunerativo;
                     break;
                         
                     case 2:
-                        noRem += this.valor;
-                        total +=this.valor;
+                        noRem += this.noremunerativo;
+                        total +=this.noremunerativo;
                     break;
                         
                     case 3:
-                        desc += this.valor;
-                        total -= desc;
+                        desc += this.descuentos; //verificar aqui
+                        total -= descuentos;
                     break;
                 }
                 liq.valores = rem+","+noRem+","+desc+","+total;
