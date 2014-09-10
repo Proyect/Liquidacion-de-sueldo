@@ -57,6 +57,7 @@ public class libSentenciasSQL extends Conexion{
             for (int i=0; i<n; i++)
             {
                sentencia = sentencia + camp[i] + "=" + val[i] + ",";
+               Imprime(sentencia);
             }
             sentencia= sentencia.substring(0,sentencia.length()-1);            
            
@@ -121,7 +122,7 @@ public class libSentenciasSQL extends Conexion{
         {
             int devuelve =0;
             String sentencia ="DELETE FROM "+ tabla +" WHERE " + condicion+";";
-            //Imprime(sentencia);
+            Imprime(sentencia);
             try 
             {
                 devuelve = st.executeUpdate(sentencia);

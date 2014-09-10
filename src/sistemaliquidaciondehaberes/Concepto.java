@@ -39,7 +39,7 @@ public class Concepto extends libSentenciasSQL
         public Detalle()
         {
             this.tabla = "conceptosdetalle";
-            this.campos = "nombreCons,detalleCons,idFormula,idLicencia,tipo,"
+            this.campos = "nombreCons,detalleCons,idLicencia,tipo,"
                             + "inicio,fin,formula,formula2,tipoForm,claseForm,"
                             + "aplicacion";
         }
@@ -82,7 +82,7 @@ public class Concepto extends libSentenciasSQL
         }
         
         //devuelve el valor de una formula
-        public float formulas() // sin terminar
+        public float formulas() 
         {        
             ResultSet consul = this.consulta();
             float aux=0;            
@@ -166,7 +166,7 @@ public class Concepto extends libSentenciasSQL
                         
                         //aplicada a conceptos remunerativos
                         case 2:
-                            switch(form.getInt("tipo"))
+                            switch(form.getInt("tipo")) // ver aqui
                             {
                                 case 2:
                                     liq.idRecibo=idRecibo;

@@ -20,12 +20,12 @@ public class test {
          *    Liquidacion de Sueldo
          *************************************/
         
-        /* Pruebas de inasistencias de un empleado*/
+        /* Pruebas de inasistencias de un empleado
         Liquidacion con = new Liquidacion();
         con.idLegajo=1;
         con.periodoIni = "2014-08-01";
         con.periodoFin = "2014-08-30";
-        con.inasistencias();
+        con.inasistencias();*/
         
         /* Prueba de totales del recibo
         Liquidacion con = new Liquidacion();
@@ -85,14 +85,14 @@ public class test {
         con.idLegajo = 3;
         con.vacaciones();*/
         
-        /* Pueba de liquidacion de sueldo
+        /* Pueba de liquidacion de sueldo*/
          Liquidacion con = new Liquidacion();        
         con.idLegajo=1;
         con.periodoIni = "2014-08-01";
         con.periodoFin = "2014-08-30";
         con.dias=30;
         con.diasTrabajados=30;       
-        con.recibo();*/
+        con.recibo();
         
         /* Realiza las consultas de un recibo de sueldo
         Liquidacion con = new Liquidacion();

@@ -51,6 +51,8 @@ public class Liquidacion extends libSentenciasSQL
     String fechaInicio = "";
     Legajolib fsLegajo = new Legajolib();
     Concepto fsConceptos = new Concepto(); 
+    Concepto.Detalle detall= fsConceptos.new Detalle();
+            
     //constructor
     public Liquidacion()
     {
@@ -141,15 +143,15 @@ public class Liquidacion extends libSentenciasSQL
         obrasocial.idLegajo = this.idLegajo;
         ResultSet resultados = null;
         resultados = obrasocial.consulta("idLegajo="+idLegajo
-                        +" AND Vinculacion='Obra Social'");
-        Concepto.Aplica concep = fsConceptos.new Aplica();
+                        +" AND Vinculacion='Obra Social'");        
+       
         try
         {
             if ( resultados.first())
             {       
                 this.idObraSocial = resultados.getInt(2);
-                fsConceptos.idFormula = 2;            
-                this.obraSocial = this.totalRemunerativo*fsConceptos.formulas();
+                detall.idConcepto = 6;            
+                this.obraSocial = this.totalRemunerativo*detall.formulas();
                 this.totalDescuentos += this.obraSocial;
                 Imprime("Obra Social: "+this.obraSocial);            
                 return 1;  
@@ -182,8 +184,8 @@ public class Liquidacion extends libSentenciasSQL
                 try 
                 {
                     this.idSindicato = resultado.getInt(1);
-                    fsConceptos.idFormula = 2;
-                    this.sindicato= this.totalRemunerativo*fsConceptos.formulas();
+                    detall.idConcepto = 5;
+                    this.sindicato= this.totalRemunerativo*detall.formulas();
                     this.totalDescuentos += this.sindicato;
                     Imprime("sindicato: "+this.sindicato);
                     valor=1;
@@ -231,8 +233,8 @@ public class Liquidacion extends libSentenciasSQL
         {
             estado = ex.getMessage();
         }
-        fsConceptos.idFormula=6;
-        this.antiguedad = ant*this.basico*fsConceptos.formulas();
+        detall.idConcepto=10;
+        this.antiguedad = ant*this.basico*detall.formulas();
         Imprime("Antiguedad valor:"+this.antiguedad);
         return ant;
     }
@@ -240,8 +242,8 @@ public class Liquidacion extends libSentenciasSQL
     // realiza el calculo de jubilacion del empleado
     public float devuelveJubilacion()
     {        
-        fsConceptos.idFormula=5;
-        this.jubilacion=this.totalRemunerativo*fsConceptos.formulas();
+        detall.idConcepto=9;
+        this.jubilacion=this.totalRemunerativo*detall.formulas();
         this.totalDescuentos += this.jubilacion;
         Imprime("Aportes jubilatorios: "+this.jubilacion);
         return this.jubilacion;
@@ -271,8 +273,8 @@ public class Liquidacion extends libSentenciasSQL
         {
             estado = ex.getMessage();
         }
-        fsConceptos.idFormula=4;
-        this.art=this.totalRemunerativo*fsConceptos.formulas();
+        detall.idConcepto=8;
+        this.art=this.totalRemunerativo*detall.formulas();
         Imprime("ART: "+this.art);
         return this.art;
     }
@@ -313,11 +315,10 @@ public class Liquidacion extends libSentenciasSQL
     {
         if(this.diasTrabajados ==30)
         {
-                fsConceptos.idFormula = 3;
-                //ver si se aplica a todo concepto remunerativo
-                this.presentismo = this.basico*fsConceptos.formulas(); 
-                Imprime("Presentismo: "+this.presentismo);
-                return this.presentismo;
+            detall.idConcepto = 7;  //ver si se aplica a todo concepto remunerativo
+            this.presentismo = this.basico*detall.formulas(); 
+            Imprime("Presentismo: "+this.presentismo);
+            return this.presentismo;
         }
         else
         {
@@ -695,18 +696,18 @@ public class Liquidacion extends libSentenciasSQL
         {
             Legajolib control = new Legajolib();
             Legajolib.Asignaciones familiares = control.new Asignaciones();
-            Imprime("Buscando asignaciones familiares:");
-            familiares.idLegajo = this.idLegajo;
-            ResultSet  vector = null;
-            vector = familiares.consulta();
-            vector.first();            
+            
+            familiares.idLegajo = this.idLegajo;            
+            ResultSet vector = familiares.consulta();
+            vector.first(); 
+            Imprime("Buscando asignaciones familiares:");          
             while(!vector.wasNull()) 
             {   
                 Concepto concep = new Concepto();
                 Concepto.Aplica asignacion = concep.new Aplica();
                 asignacion.idRecibo = this.idRecibo;
                 asignacion.unidad = 1;
-                asignacion.tipo = 2;
+               
                 if(vector != null)
                 {                
                     try
@@ -808,7 +809,7 @@ public class Liquidacion extends libSentenciasSQL
 
     //aplica los conceptos pre ajustados
     public void preajustados() 
-    {
+    {        
         Concepto.Control concep = fsConceptos.new Control();
         concep.idLegajo = this.idLegajo;
         
