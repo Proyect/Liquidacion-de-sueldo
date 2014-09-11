@@ -34,7 +34,7 @@ public class test {
         
         /* Prueba de asignaciones familiares
         Liquidacion con = new Liquidacion();
-        con.idRecibo=41;
+        con.idRecibo=45;
         con.idLegajo=1;
         con.asignaciones();*/
         
@@ -85,14 +85,14 @@ public class test {
         con.idLegajo = 3;
         con.vacaciones();*/
         
-        /* Pueba de liquidacion de sueldo*/
+        /* Pueba de liquidacion de sueldo
          Liquidacion con = new Liquidacion();        
         con.idLegajo=1;
         con.periodoIni = "2014-08-01";
         con.periodoFin = "2014-08-30";
         con.dias=30;
         con.diasTrabajados=30;       
-        con.recibo();
+        con.recibo();*/
         
         /* Realiza las consultas de un recibo de sueldo
         Liquidacion con = new Liquidacion();

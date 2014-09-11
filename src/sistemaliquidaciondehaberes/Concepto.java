@@ -126,19 +126,19 @@ public class Concepto extends libSentenciasSQL
         {
             det.idConcepto = this.idConcepto;    
             ResultSet form=det.consulta();       
-            
+            ResultSet resultado2 = null;
             try 
             {                
                 if(form.getInt("claseform")==1 )
                 {
-                    ResultSet resultado2 = null;
-                    switch(form.getInt("tipoform"))
+                    
+                    switch(form.getInt("tipo"))
                     {
                         //aplicada al basico
                         case 1:
                             liq.idRecibo=idRecibo;
                             resultado2 = liq.consultarecibo();
-                            switch(form.getInt("tipo"))
+                            switch(form.getInt("tipoform"))
                             {
                                 case 1: //conceptos remunerativos
                                     this.remunerativo = form.getFloat("formula")*
@@ -166,7 +166,7 @@ public class Concepto extends libSentenciasSQL
                         
                         //aplicada a conceptos remunerativos
                         case 2:
-                            switch(form.getInt("tipo")) // ver aqui
+                            switch(form.getInt("tipo")) 
                             {
                                 case 2:
                                     liq.idRecibo=idRecibo;
@@ -189,7 +189,7 @@ public class Concepto extends libSentenciasSQL
                 }
                 else
                 {
-                    switch(form.getInt("tipo")) //me quede aqui
+                    switch(form.getInt("tipo")) 
                     {
                         case 1:  //remunerativos
                             this.remunerativo = form.getFloat("formula");
@@ -208,12 +208,13 @@ public class Concepto extends libSentenciasSQL
                 liq.campos = "totalRemunerativo,totalNoRemunerativo,"+
                                 "totalDescuento,total";
                 liq.idRecibo= this.idRecibo;
-                form =liq.consultarecibo();
-                float rem = form.getFloat("totalRemunerativo");
-                float noRem = form.getFloat("totalNoRemunerativo");
-                float desc = form.getFloat("totalDescuento");
+                resultado2 =liq.consultarecibo();
+                float rem = resultado2.getFloat("totalRemunerativo");
+                float noRem = resultado2.getFloat("totalNoRemunerativo");
+                float desc = resultado2.getFloat("totalDescuento");
                 float total=0;
-                switch(form.getInt("tipo")) 
+                
+                switch(form.getInt("tipoform")) 
                 {
                     case 1:
                         rem += this.remunerativo;
@@ -226,7 +227,7 @@ public class Concepto extends libSentenciasSQL
                     break;
                         
                     case 3:
-                        desc += this.descuentos; //verificar aqui
+                        desc += this.descuentos; 
                         total -= descuentos;
                     break;
                 }
@@ -238,7 +239,7 @@ public class Concepto extends libSentenciasSQL
                 Imprime(estado);
             }            
             
-            this.valores = idRecibo+","+idConcepto+","+unidad+",'"+formula+"',"
+            liq.valores = idRecibo+","+idConcepto+","+unidad+",'"+formula+"',"
                             +remunerativo+","+noremunerativo+","+descuentos;
             if(this.insertaSQL()==1)
             {
@@ -247,7 +248,7 @@ public class Concepto extends libSentenciasSQL
             }
             else
             {
-                return 0; //no se pudo insertar los datos;
+                return 0; 
             }
         }
         
