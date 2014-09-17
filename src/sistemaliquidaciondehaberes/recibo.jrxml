@@ -1,44 +1,200 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="da86c798-04cb-49e4-abab-553c186a7a8c">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="59726137-01e3-4be6-8626-b68dbbad83ed">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="276"/>
+	<property name="ireport.y" value="13"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\derecho\\sistema_liquidacion_2\\src\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     *,
+     empresas.`clase` AS empresas_clase,
+     empresas.`cuit` AS empresas_cuit,
+     empresas.`razonSocial` AS empresas_razonSocial,
+     empresas.`direccion` AS empresas_direccion,
+     empresas.`barrio` AS empresas_barrio,
+     persona.`apellido` AS persona_apellido,
+     persona.`nombre` AS persona_nombre,
+     persona.`direccion` AS persona_direccion,
+     persona.`tipoDoc` AS persona_tipoDoc,
+     persona.`nroDoc` AS persona_nroDoc,
+     persona.`cuil` AS persona_cuil
+FROM
+     `empresas` empresas,
+     `persona` persona,
+     `legajo` legajo
+WHERE
+     `empresas`.idEmpresa = 1
+     and `legajo`.idLegajo = 1 and `persona`.idpersona=1]]>
+	</queryString>
+	<field name="idEmpresa" class="java.lang.Integer">
+		<fieldDescription><![CDATA[pk]]></fieldDescription>
+	</field>
+	<field name="tipo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clase" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuit" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="razonSocial" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="barrio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cp" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="celular" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="otros" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="idpersona" class="java.lang.Integer">
+		<fieldDescription><![CDATA[clave primaria]]></fieldDescription>
+	</field>
+	<field name="apellido" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="idProvincia" class="java.lang.Integer">
+		<fieldDescription><![CDATA[clave foranea a provincias]]></fieldDescription>
+	</field>
+	<field name="tipoDoc" class="java.lang.String">
+		<fieldDescription><![CDATA[clave foranea a tipoDoc]]></fieldDescription>
+	</field>
+	<field name="nroDoc" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cuil" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estadoCivil" class="java.lang.String">
+		<fieldDescription><![CDATA[clave foranea a estadoCivil]]></fieldDescription>
+	</field>
+	<field name="fechaNac" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nacionalidad" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sexo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[0: femenino, 1: masculino]]></fieldDescription>
+	</field>
+	<field name="mail" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mail2" class="java.lang.String">
+		<fieldDescription><![CDATA[clave foranea a tipoDoc]]></fieldDescription>
+	</field>
+	<field name="otrosDatos" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="idLegajo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[clave primaria]]></fieldDescription>
+	</field>
+	<field name="idEstado" class="java.lang.Integer">
+		<fieldDescription><![CDATA[clave foranea a estado]]></fieldDescription>
+	</field>
+	<field name="fechaIngreso" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="empresas_clase" class="java.lang.String"/>
+	<field name="empresas_cuit" class="java.lang.String"/>
+	<field name="empresas_razonSocial" class="java.lang.String"/>
+	<field name="empresas_direccion" class="java.lang.String"/>
+	<field name="empresas_barrio" class="java.lang.String"/>
+	<field name="persona_apellido" class="java.lang.String"/>
+	<field name="persona_nombre" class="java.lang.String"/>
+	<field name="persona_direccion" class="java.lang.String"/>
+	<field name="persona_tipoDoc" class="java.lang.String"/>
+	<field name="persona_nroDoc" class="java.lang.String"/>
+	<field name="persona_cuil" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement x="92" y="31" width="100" height="20" uuid="bf47e8ab-ab50-42fc-8494-5933915562c1"/>
+				<textFieldExpression><![CDATA[$F{tipoDoc}]]></textFieldExpression>
+			</textField>
+		</band>
 	</title>
 	<pageHeader>
 		<band height="35" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch"/>
-	</columnHeader>
-	<detail>
-		<band height="125" splitType="Stretch"/>
-	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch">
+		<band height="61" splitType="Stretch">
 			<staticText>
-				<reportElement x="267" y="13" width="100" height="20" uuid="b68d6abd-2073-4db7-9171-d7baafeff496"/>
-				<text><![CDATA[Static text]]></text>
+				<reportElement x="454" y="41" width="101" height="20" uuid="0a0e5f21-39e1-474a-8293-cf5bba31889f"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Descuento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="329" y="41" width="125" height="20" uuid="82c6b94f-1e97-4517-92e1-eb3f701603be"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[No Remunerativo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="229" y="41" width="100" height="20" uuid="2f84f8fd-73a2-4163-8c44-82a340e7a365"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Remunerativo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="204" y="41" width="25" height="20" uuid="c452f73c-3780-48bc-81e8-098f0c568060"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Ud]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="41" width="204" height="20" uuid="2efc0b43-fe58-4e3f-8f46-4e5f0f4672b2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Nombre de Concepto]]></text>
 			</staticText>
 		</band>
+	</columnHeader>
+	<detail>
+		<band height="34" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="34" uuid="ba6b79b0-c77f-4901-9aa5-5057d9cca9a3"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "recibo_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="54" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch">
-			<textField>
-				<reportElement x="440" y="0" width="100" height="20" uuid="d390b4c8-45e1-48bb-a428-2ad75ced04f4"/>
-				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="10" y="0" width="100" height="20" uuid="cf88e460-ccf3-4242-9ea3-52deefb19a4b"/>
-				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-		</band>
+		<band height="42" splitType="Stretch"/>
 	</summary>
 </jasperReport>
