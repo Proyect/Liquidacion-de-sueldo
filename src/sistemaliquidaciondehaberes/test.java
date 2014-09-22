@@ -17,6 +17,23 @@ public class test {
     public static void main(String[] args) throws SQLException 
     {  
         /**************************************
+                 Pruebas de Impresion
+         **************************************/
+         Imprime imp = new Imprime();
+         Liquidacion con = new Liquidacion();
+         con.idRecibo=47;
+         con.idLegajo=1;
+         con.idPuesto=1;
+         con.periodoIni="2014-08-01";
+         con.periodoFin="2014-08-30";
+         con.basico=2300;
+         con.presentismo=(float) 191.59;
+         con.antiguedad = 46;
+         con.obraSocial = (float) 76.1277;
+         con.art = (float) 50.7518;
+         imp.recibo(con);
+        
+        /**************************************
          *    Liquidacion de Sueldo
          *************************************/
         

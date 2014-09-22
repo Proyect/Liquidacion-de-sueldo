@@ -47,6 +47,13 @@ public class Legajolib extends libSentenciasSQL
         return this.modificaSQL();
     }
     
+    //Realiza la consulta del legajo
+    public ResultSet consulta()
+    {
+        this.condicion = "idLegajo="+idLegajo;
+        return this.consultaSQL();
+    }
+    
     //clase novedad
     class Novedad extends Legajolib
     {

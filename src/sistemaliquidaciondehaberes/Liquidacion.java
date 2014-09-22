@@ -37,6 +37,7 @@ public class Liquidacion extends libSentenciasSQL
     int idSindicato = 0;
     float presentismo = 0;
     float basico = 0;
+    int anti = 0;
     float antiguedad=0;    
     int cantHs = 0;
     int cantHs50 = 0;
@@ -60,7 +61,7 @@ public class Liquidacion extends libSentenciasSQL
         this.campos = "idLegajo,estadoR,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
                         "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,"+
                         "CantHs100,jubilacion,art,idObraSocial,idSindicato,idART,diasTrabajados"
-                        +",antiguedad,totalRemunerativo,totalNoRemunerativo,totalDescuento,total"; 
+                        +",anti,antiguedad,totalRemunerativo,totalNoRemunerativo,totalDescuento,total"; 
     }
     
     //obtiene el puesto del empleado en cuestion
@@ -97,7 +98,7 @@ public class Liquidacion extends libSentenciasSQL
     //obtiene el basico del empleado
     public float obtieneBasico(float basico)
     {
-        Imprime("basico:"+basico+" trab: "+diasTrabajados+" dias:"+dias);
+        //Imprime("basico:"+basico+" trab: "+diasTrabajados+" dias:"+dias);
         float resultado = (basico * this.diasTrabajados)/this.dias;        
         return resultado;
     }    
@@ -213,6 +214,7 @@ public class Liquidacion extends libSentenciasSQL
         {
              devolver = verFecha.getInt(1);
              Imprime("Antiguedad: "+devolver);
+             anti=devolver;
         }
         else
         {
@@ -369,7 +371,7 @@ public class Liquidacion extends libSentenciasSQL
     
     //genera los totales de los recibos: remunerativo, 
     //no remunerativo y descuentos - verificar
-    public float totalRecibo(int opcion)
+    public float totalRecibo(int opcion)//actualizar
     {    
         Concepto.Aplica otrosConcep = fsConceptos.new Aplica();        
         ResultSet resultado = this.consultarecibo();
