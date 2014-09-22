@@ -21,7 +21,7 @@ public class test {
          **************************************/
          Imprime imp = new Imprime();
          Liquidacion con = new Liquidacion();
-         con.idRecibo=47;
+         con.idRecibo=46;
          con.idLegajo=1;
          con.idPuesto=1;
          con.periodoIni="2014-08-01";
@@ -31,6 +31,7 @@ public class test {
          con.antiguedad = 46;
          con.obraSocial = (float) 76.1277;
          con.art = (float) 50.7518;
+         con.sindicato = (float) 50.7518;
          imp.recibo(con);
         
         /**************************************

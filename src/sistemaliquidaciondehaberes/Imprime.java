@@ -20,6 +20,9 @@ import java.util.logging.Logger;
 public class Imprime 
 {    
     Legajolib leg = new Legajolib();
+    Concepto con = new Concepto();
+    Concepto.Aplica apli = con.new Aplica();
+    Concepto.Detalle det = con.new Detalle();
     Empresaslib emp = new Empresaslib();
     Personaslib pers = new Personaslib();
     String destino ="D:/recibo.pdf";
@@ -30,16 +33,18 @@ public class Imprime
     public Imprime()
     {        
         documento = new Document();
-        documento.addAuthor("Ariel Marcelo Diaz");       
-        
+        documento.addAuthor("Ariel Marcelo Diaz");         
     }
     
     
     //imprime recibo de sueldo
-    public void recibo(Liquidacion liq) throws SQLException 
+    public void recibo(Liquidacion liq) throws SQLException  
     {           
         leg.idLegajo = liq.idLegajo;
         ResultSet resultadoLeg = leg.consulta(); //datos del recibo
+        
+        apli.idRecibo = liq.idRecibo;
+        ResultSet resultadoConcep = apli.consultaRecibo();
         try 
         {
              pers.idPersona = resultadoLeg.getInt("idPersona");
@@ -86,7 +91,60 @@ public class Imprime
                 table.addCell("");
                 table.addCell("");
             }
-            // hacer lo de hs extras
+            // hacer lo de hs 
+            
+            boolean salir=true;
+            resultadoConcep.first();
+            ResultSet resultadoDet = null;
+            while(!resultadoConcep.wasNull() && salir)
+            {
+                det.idConcepto = resultadoConcep.getInt("idConcepto");
+                resultadoDet = det.consulta();
+                if (resultadoDet.getInt("tipo")==1)
+                {
+                    table.addCell(resultadoDet.getString("nombreCons"));
+                    table.addCell(""+resultadoConcep.getFloat("unidad"));
+                    table.addCell(""+resultadoConcep.getFloat("remunerativo"));
+                    table.addCell("");
+                    table.addCell("");
+                }
+                if(resultadoConcep.isLast())
+                {                   
+                    salir=false;                    
+                }    
+                else
+                {
+                    resultadoConcep.next();
+                }                
+            }    
+            
+            resultadoConcep.first();
+            salir=true;
+            resultadoDet = null;
+            while(!resultadoConcep.wasNull() && salir)
+            {
+                if(resultadoConcep.getInt("idConcepto") !=0)
+                {    
+                    det.idConcepto = resultadoConcep.getInt("idConcepto");
+                    resultadoDet = det.consulta();
+                    if (resultadoDet.getInt("tipo")==2)
+                    {
+                        table.addCell(resultadoDet.getString("nombreCons"));
+                        table.addCell(""+resultadoConcep.getFloat("unidad"));
+                        table.addCell("");
+                        table.addCell(""+resultadoConcep.getFloat("noremunerativo"));
+                        table.addCell("");
+                    }
+                }
+                if(resultadoConcep.isLast())
+                {
+                    salir=false;                   
+                }    
+                else
+                {
+                    resultadoConcep.next();
+                }
+            }
             
             table.addCell("Obra Social");
             table.addCell("");
@@ -100,22 +158,53 @@ public class Imprime
             table.addCell("");
             table.addCell(""+liq.art);
             
+            if (liq.sindicato != 0)
+            {
+                table.addCell("Sindicato");
+                table.addCell("");
+                table.addCell("");
+                table.addCell("");
+                table.addCell(""+liq.sindicato);
+            }
             
+            resultadoConcep.first();
+            resultadoDet = null;
+            salir=true;
+            while(!resultadoConcep.wasNull() && salir)
+            {
+                det.idConcepto = resultadoConcep.getInt("idConcepto");
+                resultadoDet = det.consulta();
+                if (resultadoDet.getInt("tipo")==3)
+                {
+                    table.addCell(resultadoDet.getString("nombreCons"));
+                    table.addCell(""+resultadoConcep.getFloat("unidad"));
+                    table.addCell("");
+                    table.addCell("");
+                    table.addCell(""+resultadoConcep.getFloat("descuento"));
+                }
+                if(resultadoConcep.isLast())
+                {
+                    salir=false;                    
+                }    
+                else
+                {
+                    resultadoConcep.next();
+                }
+            }
             
             documento.add(table);
-            
+            documento.add(new Paragraph("Firma Responzable                     Firma Empleado \n \r"
+                                + "\n \r ........................                                    ...................."));
             documento.close();
         } 
         catch (DocumentException ex)
         {
-            
+            liq.Imprime("Entro en DocumentException");
         } 
         catch (java.io.IOException ex)
         {
             liq.Imprime("Entro en ioException");
         }
     }
-
-    
     
 }
