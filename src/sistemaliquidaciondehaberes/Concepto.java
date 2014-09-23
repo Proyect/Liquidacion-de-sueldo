@@ -239,7 +239,7 @@ public class Concepto extends libSentenciasSQL
                 Imprime(estado);
             }            
             
-            liq.valores = idRecibo+","+idConcepto+","+unidad+",'"+formula+"',"
+            valores = idRecibo+","+idConcepto+","+unidad+",'"+formula+"',"
                             +remunerativo+","+noremunerativo+","+descuentos;
             if(this.insertaSQL()==1)
             {

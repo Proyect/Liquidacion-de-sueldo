@@ -19,6 +19,8 @@ public class test {
         /**************************************
                  Pruebas de Impresion
          **************************************/
+        
+        /*Imprime el recibo de sueldo
          Imprime imp = new Imprime();
          Liquidacion con = new Liquidacion();
          con.idRecibo=46;
@@ -32,7 +34,7 @@ public class test {
          con.obraSocial = (float) 76.1277;
          con.art = (float) 50.7518;
          con.sindicato = (float) 50.7518;
-         imp.recibo(con);
+         imp.recibo(con);*/
         
         /**************************************
          *    Liquidacion de Sueldo
@@ -65,18 +67,17 @@ public class test {
         /*prueba aplicacion de conceptos 
         Concepto cons= new Concepto();
         Concepto.Aplica con= cons.new Aplica();
-        con.idRecibo = 27;
-        con.idConcepto = 3;
+        con.idRecibo = 48;
+        con.idConcepto = 2;
         con.nuevo();*/
         
         /* Prueba modificacion de conceptos        
         Concepto cons= new Concepto();
         Concepto.Aplica con= cons.new Aplica();
-        con.idRecibo = 56;
-        con.idConcepto = 2;l
-        con.unidad=1;
-        con.valor=1;        
-        con.modifica();*/ 
+        con.idRecibo = 48;
+        con.idConcepto = 2;
+        con.unidad=1;               
+        con.modifica(); */
         
         /*Prueba de consulta de conceptos no incluidos en el recibo
         Concepto cons= new Concepto();
@@ -103,14 +104,14 @@ public class test {
         con.idLegajo = 3;
         con.vacaciones();*/
         
-        /* Pueba de liquidacion de sueldo
+        /* Pueba de liquidacion de sueldo*/
          Liquidacion con = new Liquidacion();        
         con.idLegajo=1;
-        con.periodoIni = "2014-08-01";
-        con.periodoFin = "2014-08-30";
+        con.periodoIni = "2014-09-01";
+        con.periodoFin = "2014-09-30";
         con.dias=30;
         con.diasTrabajados=30;       
-        con.recibo();*/
+        con.recibo();
         
         /* Realiza las consultas de un recibo de sueldo
         Liquidacion con = new Liquidacion();
