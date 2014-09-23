@@ -48,7 +48,7 @@ public class libSentenciasSQL extends Conexion{
         public int modificaSQL()
         { 
             int devuelve=0;
-            String  sentencia = null; // aqui me quede, todavia falta
+            String  sentencia = null; 
             sentencia = "UPDATE "+tabla+" SET ";            
             
             String[] camp = campos.split(",");
@@ -57,6 +57,7 @@ public class libSentenciasSQL extends Conexion{
             for (int i=0; i<n; i++)
             {
                sentencia = sentencia + camp[i] + "=" + val[i] + ",";
+               //Imprime(sentencia);
             }
             sentencia= sentencia.substring(0,sentencia.length()-1);            
            
@@ -147,7 +148,7 @@ public class libSentenciasSQL extends Conexion{
         {
             ResultSet resultado = null;
             String sentencia = "SELECT "+ campos +";";
-            Imprime(sentencia);
+            //Imprime(sentencia);
             try
             {
                 resultado = st.executeQuery(sentencia);

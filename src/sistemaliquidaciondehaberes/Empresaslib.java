@@ -26,7 +26,8 @@ public class Empresaslib extends libSentenciasSQL
     public Empresaslib()
     {
         this.tabla = "empresas";
-        this.campos = "tipo,clase,cuit,razonSocial,cp,barrio,direccion,telefono,celular,otros";
+        this.campos = "tipo,clase,cuit,razonSocial,cp,barrio,direccion,telefono,"
+                     + "celular,otros";
     }
     
      // inserta una nueva persona en la base de datos

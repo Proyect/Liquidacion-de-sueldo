@@ -17,8 +17,35 @@ public class test {
     public static void main(String[] args) throws SQLException 
     {  
         /**************************************
+                 Pruebas de Impresion
+         **************************************/
+        
+        /*Imprime el recibo de sueldo
+         Imprime imp = new Imprime();
+         Liquidacion con = new Liquidacion();
+         con.idRecibo=46;
+         con.idLegajo=1;
+         con.idPuesto=1;
+         con.periodoIni="2014-08-01";
+         con.periodoFin="2014-08-30";
+         con.basico=2300;
+         con.presentismo=(float) 191.59;
+         con.antiguedad = 46;
+         con.obraSocial = (float) 76.1277;
+         con.art = (float) 50.7518;
+         con.sindicato = (float) 50.7518;
+         imp.recibo(con);*/
+        
+        /**************************************
          *    Liquidacion de Sueldo
          *************************************/
+        
+        /* Pruebas de inasistencias de un empleado
+        Liquidacion con = new Liquidacion();
+        con.idLegajo=1;
+        con.periodoIni = "2014-08-01";
+        con.periodoFin = "2014-08-30";
+        con.inasistencias();*/
         
         /* Prueba de totales del recibo
         Liquidacion con = new Liquidacion();
@@ -27,11 +54,11 @@ public class test {
         
         /* Prueba de asignaciones familiares
         Liquidacion con = new Liquidacion();
-        con.idRecibo=41;
+        con.idRecibo=45;
         con.idLegajo=1;
         con.asignaciones();*/
         
-         /*prueba de consulta de recibo 
+         /*prueba de consulta de recibo, fs vector recibo
         Liquidacion con = new Liquidacion();        
         con.idRecibo = 12;
         con.vectorRecibo();*/
@@ -40,18 +67,17 @@ public class test {
         /*prueba aplicacion de conceptos 
         Concepto cons= new Concepto();
         Concepto.Aplica con= cons.new Aplica();
-        con.idRecibo = 27;
-        con.idConcepto = 3;
+        con.idRecibo = 48;
+        con.idConcepto = 2;
         con.nuevo();*/
         
         /* Prueba modificacion de conceptos        
         Concepto cons= new Concepto();
         Concepto.Aplica con= cons.new Aplica();
-        con.idRecibo = 56;
-        con.idConcepto = 2;l
-        con.unidad=1;
-        con.valor=1;        
-        con.modifica();*/ 
+        con.idRecibo = 48;
+        con.idConcepto = 2;
+        con.unidad=1;               
+        con.modifica(); */
         
         /*Prueba de consulta de conceptos no incluidos en el recibo
         Concepto cons= new Concepto();
@@ -78,29 +104,28 @@ public class test {
         con.idLegajo = 3;
         con.vacaciones();*/
         
-        /* Pueba de liquidacion de sueldo
-         Liquidacion con = new Liquidacion();
-        //con.idRecibo=1;
+        /* Pueba de liquidacion de sueldo*/
+         Liquidacion con = new Liquidacion();        
         con.idLegajo=1;
-        con.periodoIni = "2014-08-01";
-        con.periodoFin = "2014-08-30";
+        con.periodoIni = "2014-09-01";
+        con.periodoFin = "2014-09-30";
         con.dias=30;
-        con.diasTrabajados=20;       
-        con.recibo();*/
+        con.diasTrabajados=30;       
+        con.recibo();
         
         /* Realiza las consultas de un recibo de sueldo
         Liquidacion con = new Liquidacion();
         con.idLegajo=23;
         con.consultarecibo(); */
         
-        /* Realiza las actualiaciones del recibo de sueldo */
+        /* Realiza las actualiaciones del recibo de sueldo 
         Liquidacion con = new Liquidacion();
         con.idRecibo=51;
         con.diasTrabajados=30;
-        con.dias = 30;
+        con.dias = 30; //aqui tengo que ver 
         con.periodoIni = "2014-08-01";
         con.periodoFin = "2014-08-30";
-        con.reciboUpdate();
+        con.reciboUpdate();*/
         
         /**************************************
          *      Legajos
@@ -117,6 +142,11 @@ public class test {
         resultado.fin = "2014-05-02";
         resultado.tipoLic = 2;
         resultado.alta();   */   
+        
+        /* Prueba de control de licencias vencidas
+        Legajolib con = new Legajolib();               
+        Legajolib.Licencias resultado = con.new Licencias(); 
+        resultado.control();*/
         
         /* Prueba estado legajo
         Legajolib con = new Legajolib();
@@ -159,8 +189,8 @@ public class test {
         /* Prueba inasistencia
         Legajolib con = new Legajolib();
         Legajolib.Inasistencia inasistencia = con.new Inasistencia();
-        inasistencia.idLegajo=3;
-        inasistencia.fecha= "2014-04-23";
+        inasistencia.idLegajo=1;
+        inasistencia.fecha= "2014-08-23";
         inasistencia.justificada=0;
         inasistencia.nueva();*/
         

@@ -37,6 +37,7 @@ public class Liquidacion extends libSentenciasSQL
     int idSindicato = 0;
     float presentismo = 0;
     float basico = 0;
+    int anti = 0;
     float antiguedad=0;    
     int cantHs = 0;
     int cantHs50 = 0;
@@ -51,6 +52,8 @@ public class Liquidacion extends libSentenciasSQL
     String fechaInicio = "";
     Legajolib fsLegajo = new Legajolib();
     Concepto fsConceptos = new Concepto(); 
+    Concepto.Detalle detall= fsConceptos.new Detalle();
+            
     //constructor
     public Liquidacion()
     {
@@ -58,7 +61,7 @@ public class Liquidacion extends libSentenciasSQL
         this.campos = "idLegajo,estadoR,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
                         "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,"+
                         "CantHs100,jubilacion,art,idObraSocial,idSindicato,idART,diasTrabajados"
-                        +",antiguedad,totalRemunerativo,totalNoRemunerativo,totalDescuento,total"; 
+                        +",anti,antiguedad,totalRemunerativo,totalNoRemunerativo,totalDescuento,total"; 
     }
     
     //obtiene el puesto del empleado en cuestion
@@ -76,28 +79,26 @@ public class Liquidacion extends libSentenciasSQL
                 this.idPuesto = reg.getInt(1);
                 Imprime("idPuesto: "+this.idPuesto);
                 this.fechaInicio = reg.getString("fechaInicio");
-                Imprime("inicio: "+this.fechaInicio);
+                Imprime("inicio: "+this.fechaInicio);                
             }
             catch (SQLException ex)
             {
                 estado = ex.getMessage();
                 Imprime(estado);
-            }
-            
+            }            
         }
         else
         {
             Imprime("El legajo no tiene ningun puesto activo");
             // aqui hay que liquidar cuando se despide al empleado
-        }  
-        
+        }          
     }
     
     
     //obtiene el basico del empleado
     public float obtieneBasico(float basico)
     {
-        Imprime("basico:"+basico+" trab: "+diasTrabajados+" dias:"+dias);
+        //Imprime("basico:"+basico+" trab: "+diasTrabajados+" dias:"+dias);
         float resultado = (basico * this.diasTrabajados)/this.dias;        
         return resultado;
     }    
@@ -112,7 +113,8 @@ public class Liquidacion extends libSentenciasSQL
         if (datos != null)
         {
             try 
-            {
+            {   
+                this.inasistencias();
                 this.basico = obtieneBasico(datos.getFloat("basico"));
                 Imprime("Basico: "+this.basico);
                 this.costoHs = datos.getFloat("costoHs");
@@ -142,14 +144,15 @@ public class Liquidacion extends libSentenciasSQL
         obrasocial.idLegajo = this.idLegajo;
         ResultSet resultados = null;
         resultados = obrasocial.consulta("idLegajo="+idLegajo
-                        +" AND Vinculacion='Obra Social'");
+                        +" AND Vinculacion='Obra Social'");        
+       
         try
         {
             if ( resultados.first())
             {       
                 this.idObraSocial = resultados.getInt(2);
-                fsConceptos.idFormula = 2;            
-                this.obraSocial = this.totalRemunerativo*fsConceptos.formulas();
+                detall.idConcepto = 6;            
+                this.obraSocial = this.totalRemunerativo*detall.formulas();
                 this.totalDescuentos += this.obraSocial;
                 Imprime("Obra Social: "+this.obraSocial);            
                 return 1;  
@@ -182,8 +185,8 @@ public class Liquidacion extends libSentenciasSQL
                 try 
                 {
                     this.idSindicato = resultado.getInt(1);
-                    fsConceptos.idFormula = 2;
-                    this.sindicato= this.totalRemunerativo*fsConceptos.formulas();
+                    detall.idConcepto = 5;
+                    this.sindicato= this.totalRemunerativo*detall.formulas();
                     this.totalDescuentos += this.sindicato;
                     Imprime("sindicato: "+this.sindicato);
                     valor=1;
@@ -211,6 +214,7 @@ public class Liquidacion extends libSentenciasSQL
         {
              devolver = verFecha.getInt(1);
              Imprime("Antiguedad: "+devolver);
+             anti=devolver;
         }
         else
         {
@@ -231,8 +235,8 @@ public class Liquidacion extends libSentenciasSQL
         {
             estado = ex.getMessage();
         }
-        fsConceptos.idFormula=6;
-        this.antiguedad = ant*this.basico*fsConceptos.formulas();
+        detall.idConcepto=10;
+        this.antiguedad = ant*this.basico*detall.formulas();
         Imprime("Antiguedad valor:"+this.antiguedad);
         return ant;
     }
@@ -240,8 +244,8 @@ public class Liquidacion extends libSentenciasSQL
     // realiza el calculo de jubilacion del empleado
     public float devuelveJubilacion()
     {        
-        fsConceptos.idFormula=5;
-        this.jubilacion=this.totalRemunerativo*fsConceptos.formulas();
+        detall.idConcepto=9;
+        this.jubilacion=this.totalRemunerativo*detall.formulas();
         this.totalDescuentos += this.jubilacion;
         Imprime("Aportes jubilatorios: "+this.jubilacion);
         return this.jubilacion;
@@ -271,49 +275,58 @@ public class Liquidacion extends libSentenciasSQL
         {
             estado = ex.getMessage();
         }
-        fsConceptos.idFormula=4;
-        this.art=this.totalRemunerativo*fsConceptos.formulas();
+        detall.idConcepto=8;
+        this.art=this.totalRemunerativo*detall.formulas();
         Imprime("ART: "+this.art);
         return this.art;
     }
     
-    //realiza el presentismo del mes
-    public float presentismo() 
+    //controla las inasistencias del mes
+    public void inasistencias()
     {
         Legajolib.Inasistencia Faltas = fsLegajo.new Inasistencia();
         Faltas.condicion="(idLegajo ="+idLegajo+")"
                     + "  AND (fecha >= '"+periodoIni
                     +"' AND fecha <= '"+periodoFin+"') AND"
-                    + "(justificada =0);";
+                    + "(justificada =0)";
         ResultSet resultado= Faltas.consulta(Faltas.condicion);
         try
         {
             if (!resultado.first())
             {           
-                Imprime("El empleado tiene presentismo");
-                fsConceptos.idFormula = 3;
-                //ver si se aplica a todo concepto remunerativo
-                this.presentismo = this.basico*fsConceptos.formulas(); 
-                Imprime("Presentismo: "+this.presentismo);
-                while(resultado.isLast() == true) // controlar aqui, 
-                {
-                    this.diasTrabajados = this.diasTrabajados - 1;
-                    resultado.next();
-                    Imprime("entro aqui");
-                }            
-                return this.presentismo;
+                Imprime("El empleado no tiene inasistencias");           
             }
             else
-            {
-                Imprime("El empleado no tiene presentismo");
-                return 0;
+            {  
+                Imprime("El empleado registra inasistencias");
+                while(resultado.isLast() == true) 
+                {
+                    this.diasTrabajados = this.diasTrabajados - 1;
+                    resultado.next();                    
+                }             
             }
         }
         catch (SQLException ex)
         {
-            estado = ex.getMessage();
-            return 0;
+            estado = ex.getMessage();            
         }
+    }
+    
+    //realiza el presentismo del mes
+    public float presentismo() 
+    {
+        if(this.diasTrabajados ==30)
+        {
+            detall.idConcepto = 7;  //ver si se aplica a todo concepto remunerativo
+            this.presentismo = this.basico*detall.formulas(); 
+            Imprime("Presentismo: "+this.presentismo);
+            return this.presentismo;
+        }
+        else
+        {
+            Imprime("El empleado no tiene presentismo");
+            return 0;
+        }        
     } 
     
     //calcula  las horas extras del  empleado
@@ -358,27 +371,31 @@ public class Liquidacion extends libSentenciasSQL
     
     //genera los totales de los recibos: remunerativo, 
     //no remunerativo y descuentos - verificar
-    public float totalRecibo(int opcion)
+    public float totalRecibo(int opcion)//actualizar
     {    
         Concepto.Aplica otrosConcep = fsConceptos.new Aplica();        
         ResultSet resultado = this.consultarecibo();
+        
         otrosConcep.idRecibo = idRecibo; //conceptos
         ResultSet resulConcept = otrosConcep.consultaRecibo();
+        ResultSet resulDetalle = null;
         float acu = 0;
         Imprime("Imprimiendo totales");        
         switch(opcion)
         {            //conceptos remunerativos
             case 1:                
                 try
-                {
+                {// ver lo de hs extras
                     acu = acu+ resultado.getFloat("basico");                    
                     acu = acu+ resultado.getFloat("antiguedad");
                     acu = acu+ resultado.getFloat("presentismo");
                     while(!resulConcept.wasNull())
                     { 
-                        if(resulConcept.getInt("tipo")==1)
+                        detall.idConcepto = resulConcept.getInt("idConcepto");
+                        resulDetalle=detall.consulta();
+                        if(resulDetalle.getInt("tipo")==1)
                         {
-                            acu = acu+resulConcept.getFloat("valor");
+                            acu = acu+resulConcept.getFloat("remunerativo");
                         }    
                         resulConcept.next();
                     }
@@ -397,9 +414,11 @@ public class Liquidacion extends libSentenciasSQL
                  {                    
                     while(!resulConcept.wasNull())
                     { 
-                        if(resulConcept.getInt("tipo")==2)
+                        detall.idConcepto = resulConcept.getInt("idConcepto");
+                        resulDetalle=detall.consulta();
+                        if(resulDetalle.getInt("tipo")==2)
                         {
-                            acu = acu+resulConcept.getFloat("valor");
+                            acu = acu+resulConcept.getFloat("noremunerativo");
                         }    
                         resulConcept.next();
                     }
@@ -423,9 +442,11 @@ public class Liquidacion extends libSentenciasSQL
                 resulConcept.first();                
                 while(!resulConcept.wasNull())
                 { 
-                   if(resulConcept.getInt("tipo")==3)
+                   detall.idConcepto = resulConcept.getInt("idConcepto");
+                   resulDetalle=detall.consulta();
+                   if(resulDetalle.getInt("tipo")==3)
                    {
-                      acu = acu+resulConcept.getFloat("valor");
+                      acu = acu+resulConcept.getFloat("descuento");
                    }    
                    resulConcept.next();
                 }
@@ -457,7 +478,7 @@ public class Liquidacion extends libSentenciasSQL
                        ","+sindicato+","+presentismo+","+basico+","+cantHs
                         +","+costoHs+","+cantHs50+","+cantHs100+","
                         +jubilacion+","+art+","+idObraSocial+","+idSindicato+","+
-                        idART+","+diasTrabajados+","+antiguedad+","+
+                        idART+","+diasTrabajados+","+anti+","+antiguedad+","+
                         totalRemunerativo+","+totalNoRemunerativo+","+
                         totalDescuentos+","+total; 
         
@@ -481,8 +502,8 @@ public class Liquidacion extends libSentenciasSQL
             Imprime("No se pudo imprimir el recibode sueldo");
         }
         
-        asignaciones();
-        preajustados();
+        asignaciones();//verificar
+        preajustados();//modificar aqui
         this.campos = "idLegajo,estadoR,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
                         "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,"+
                         "CantHs100,jubilacion,art,idObraSocial,idSindicato,idART,diasTrabajados"
@@ -602,8 +623,7 @@ public class Liquidacion extends libSentenciasSQL
             estado = ex.getMessage();
         }
         return list;
-    } 
-      
+    }      
     
     //modifica los valores del recibo de sueldo
     public int modificaRecibo()
@@ -686,18 +706,18 @@ public class Liquidacion extends libSentenciasSQL
         {
             Legajolib control = new Legajolib();
             Legajolib.Asignaciones familiares = control.new Asignaciones();
-            Imprime("Buscando asignaciones familiares:");
-            familiares.idLegajo = this.idLegajo;
-            ResultSet  vector = null;
-            vector = familiares.consulta();
-            vector.first();            
+            
+            familiares.idLegajo = this.idLegajo;            
+            ResultSet vector = familiares.consulta();
+            vector.first(); 
+            Imprime("Buscando asignaciones familiares:");          
             while(!vector.wasNull()) 
             {   
                 Concepto concep = new Concepto();
                 Concepto.Aplica asignacion = concep.new Aplica();
                 asignacion.idRecibo = this.idRecibo;
                 asignacion.unidad = 1;
-                asignacion.tipo = 2;
+               
                 if(vector != null)
                 {                
                     try
@@ -798,27 +818,47 @@ public class Liquidacion extends libSentenciasSQL
     
 
     //aplica los conceptos pre ajustados
-    public void preajustados()
-    {
+    public void preajustados() 
+    {        
         Concepto.Control concep = fsConceptos.new Control();
+        concep.idLegajo = this.idLegajo;
+        
         Concepto.Aplica aplicarConcep = fsConceptos.new Aplica();
-        concep.idLegajo = this.idLegajo;  
-        aplicarConcep.idRecibo = this.idRecibo;    
+        aplicarConcep.idRecibo = this.idRecibo;
+        
+        Imprime("Buscando conceptos predefinidos");
         ResultSet resultado = concep.consulta();
         try
         {
             resultado.first();
             while(resultado.isLast())
             {
-                 aplicarConcep.idConcepto = resultado.getInt("idConcepto");
-                 aplicarConcep.unidad = resultado.getFloat("unidades");  
-                 aplicarConcep.nuevo();
-                 resultado.next();
+                if(resultado.getInt("estado")!=0)
+                {
+                    aplicarConcep.idConcepto = resultado.getInt("idConcepto");
+                    aplicarConcep.unidad = resultado.getFloat("unidades");  
+                    aplicarConcep.nuevo();
+                    
+                    if (resultado.getInt("tipo")==2)
+                    {
+                        concep.idConcepto = resultado.getInt("idConcepto");
+                        concep.unidades = resultado.getFloat("unidades");
+                        concep.tipo = resultado.getInt("tipo");
+                        concep.inicio = resultado.getString("inicio");
+                        concep.fin = resultado.getString("fin");
+                        concep.estadoConcepto = resultado.getInt("estado")-1;
+                            
+                        concep.modifica();
+                    } 
+                    resultado.next();                   
+                }
+                 
             }
         }
         catch (SQLException ex)
         {
             estado = ex.getMessage();
+            Imprime(estado);
         }
     }
     
