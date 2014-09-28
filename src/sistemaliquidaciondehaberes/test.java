@@ -104,14 +104,14 @@ public class test {
         con.idLegajo = 3;
         con.vacaciones();*/
         
-        /* Pueba de liquidacion de sueldo*/
+        /* Pueba de liquidacion de sueldo
          Liquidacion con = new Liquidacion();        
         con.idLegajo=1;
         con.periodoIni = "2014-09-01";
         con.periodoFin = "2014-09-30";
         con.dias=30;
         con.diasTrabajados=30;       
-        con.recibo();
+        con.recibo();*/
         
         /* Realiza las consultas de un recibo de sueldo
         Liquidacion con = new Liquidacion();
@@ -161,6 +161,14 @@ public class test {
         cargaSocial.vinculacion ="Obra Social";
         //cargaSocial.nuevo();
         //cargaSocial.modifica("idLegajo="+cargaSocial.idLegajo);*/
+        
+        /*Modificacion de las cargas sociales
+        Legajolib con = new Legajolib();
+        Legajolib.CargasSociales cargaSocial = con.new CargasSociales();
+        cargaSocial.idLegajo=10;
+        cargaSocial.idEmpresa = 3;
+        cargaSocial.vinculacion="Art";
+        cargaSocial.modifica("idLegajo=10 AND idEmpresa=3 AND Vinculacion='Sindicato'");*/
         
         /* Pueba clase novedad
         Legajolib con = new Legajolib();
