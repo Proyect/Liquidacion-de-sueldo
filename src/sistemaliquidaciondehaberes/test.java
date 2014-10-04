@@ -156,11 +156,12 @@ public class test {
          /* Cargas sociales 
         Legajolib con = new Legajolib();
         Legajolib.CargasSociales cargaSocial = con.new CargasSociales(); 
-        cargaSocial.idLegajo=2;
-        cargaSocial.idEmpresa = 2;
+        cargaSocial.idLegajo=22;
+        cargaSocial.idEmpresa = 5;
         cargaSocial.vinculacion ="Obra Social";
         //cargaSocial.nuevo();
-        //cargaSocial.modifica("idLegajo="+cargaSocial.idLegajo);*/
+        //cargaSocial.modifica("idLegajo=22 AND idEmpresa=1 AND Vinculacion='Obra Social'");
+        */
         
         /*Modificacion de las cargas sociales
         Legajolib con = new Legajolib();
@@ -218,6 +219,19 @@ public class test {
         inasistencia.justificada=0;
         inasistencia.fecha="2014-08-29";
         inasistencia.nueva();*/
+        
+        /* Prueba modificacion de puestos*/
+        Legajolib con = new Legajolib();
+        Legajolib.Puestos puesto = con.new Puestos();
+        puesto.idLegajo=33;
+        puesto.idPuesto=3;
+        puesto.idNovedad = 9;
+        puesto.fechaInicio="2014-09-30";
+        puesto.fechaFin="2770-01-01";
+        puesto.estadoP=1;
+        puesto.condicion="idPuesto="+puesto.idPuesto+
+                            " AND idLegajo="+puesto.idLegajo;
+        puesto.modifica();
         
         /************************************
          *      Empresas
