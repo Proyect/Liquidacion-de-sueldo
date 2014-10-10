@@ -746,7 +746,7 @@ public class Legajolib extends libSentenciasSQL
         public Puestos()
         {
             this.tabla = "puestolegajo";
-            this.campos = "idLegajo,idNovedad,fechaInicio,fechaFin,estado";
+            this.campos = "idPuesto,idLegajo,idNovedad,fechaInicio,fechaFin,estado";
         }       
         
         // genera un nuevo puesto laboral
@@ -756,7 +756,7 @@ public class Legajolib extends libSentenciasSQL
                         "Puesto nro:"+this.idPuesto, 1);
             if (idNovedad !=0)
             {
-                this.valores = this.idLegajo+","+this.idNovedad + ",'"+ 
+                this.valores = this.idPuesto+","+this.idLegajo+","+this.idNovedad + ",'"+ 
                             this.fechaInicio+"','"+this.fechaFin+"',"+this.estadoP;
                 return this.insertaSQL();
             }
@@ -775,7 +775,7 @@ public class Legajolib extends libSentenciasSQL
         // modifica la relacion del puesto laboral
         public int modifica()
         {
-            this.valores=this.valores = this.idLegajo+","+this.idNovedad + ",'"+ 
+            this.valores=this.idPuesto+","+this.idLegajo+","+this.idNovedad + ",'"+ 
                             this.fechaInicio+"','"+this.fechaFin+"',"+this.estadoP;
             return this.modificaSQL();
         }
