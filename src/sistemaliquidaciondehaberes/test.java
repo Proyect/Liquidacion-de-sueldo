@@ -220,18 +220,18 @@ public class test {
         inasistencia.fecha="2014-08-29";
         inasistencia.nueva();*/
         
-        /* Prueba modificacion de puestos*/
+        /* Prueba modificacion de puestos
         Legajolib con = new Legajolib();
         Legajolib.Puestos puesto = con.new Puestos();
-        puesto.idLegajo=33;
-        puesto.idPuesto=3;
+        puesto.idLegajo=34;
+        puesto.idPuesto=5;
         puesto.idNovedad = 9;
         puesto.fechaInicio="2014-09-30";
         puesto.fechaFin="2770-01-01";
         puesto.estadoP=1;
-        puesto.condicion="idPuesto="+puesto.idPuesto+
+        puesto.condicion="idPuesto="+4+
                             " AND idLegajo="+puesto.idLegajo;
-        puesto.modifica();
+        puesto.modifica();*/
         
         /************************************
          *      Empresas
