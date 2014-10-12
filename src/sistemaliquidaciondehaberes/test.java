@@ -20,12 +20,12 @@ public class test {
                  Pruebas de Impresion
          **************************************/
         
-        /*Imprime el recibo de sueldo
+        /*Imprime el recibo de sueldo*/
          Imprime imp = new Imprime();
          Liquidacion con = new Liquidacion();
-         con.idRecibo=46;
-         con.idLegajo=1;
-         con.idPuesto=1;
+         con.idRecibo=1;
+         con.idLegajo=30;
+         con.idPuesto=5;
          con.periodoIni="2014-08-01";
          con.periodoFin="2014-08-30";
          con.basico=2300;
@@ -34,7 +34,7 @@ public class test {
          con.obraSocial = (float) 76.1277;
          con.art = (float) 50.7518;
          con.sindicato = (float) 50.7518;
-         imp.recibo(con);*/
+         imp.recibo(con);
         
         /**************************************
          *    Liquidacion de Sueldo
@@ -106,7 +106,7 @@ public class test {
         
         /* Pueba de liquidacion de sueldo
          Liquidacion con = new Liquidacion();        
-        con.idLegajo=1;
+        con.idLegajo=30;
         con.periodoIni = "2014-09-01";
         con.periodoFin = "2014-09-30";
         con.dias=30;

@@ -7,6 +7,7 @@ package sistemaliquidaciondehaberes;
 
 //librerias
 import com.itextpdf.text.*; 
+import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
@@ -25,15 +26,17 @@ public class Imprime
     Concepto.Detalle det = con.new Detalle();
     Empresaslib emp = new Empresaslib();
     Personaslib pers = new Personaslib();
-    String destino ="D:/recibo.pdf";
-    Document documento = null;
     
+    String destino ="D:/recibo.pdf";
+    Document documento = null;    
     PdfWriter writer = null;
+    Font font = new Font(FontFamily.HELVETICA, 6, Font.BOLD, BaseColor.WHITE);
     //constructor
     public Imprime()
     {        
         documento = new Document();
-        documento.addAuthor("Ariel Marcelo Diaz");         
+        documento.addAuthor("Ariel Marcelo Diaz"); 
+        documento.setPageSize(PageSize.A4);
     }
     
     
@@ -63,7 +66,8 @@ public class Imprime
                     + resultadoPers.getString("nombre")+" CUIL:"
                     +resultadoPers.getString("cuil")+" Fecha Nac:"+
                     resultadoPers.getString("fechaNac")+"\n \r"));
-            //genrando la tabla
+            
+            //generando la tabla
             PdfPTable table = new PdfPTable(5);            
             table.addCell("Concepto");
             table.addCell("Unidad");
@@ -96,7 +100,7 @@ public class Imprime
             boolean salir=true;
             resultadoConcep.first();
             ResultSet resultadoDet = null;
-            while(!resultadoConcep.wasNull() && salir)
+            while(resultadoConcep.wasNull() && salir)
             {
                 det.idConcepto = resultadoConcep.getInt("idConcepto");
                 resultadoDet = det.consulta();
@@ -121,7 +125,7 @@ public class Imprime
             resultadoConcep.first();
             salir=true;
             resultadoDet = null;
-            while(!resultadoConcep.wasNull() && salir)
+            while(resultadoConcep.wasNull() && salir)
             {
                 if(resultadoConcep.getInt("idConcepto") !=0)
                 {    
@@ -170,7 +174,7 @@ public class Imprime
             resultadoConcep.first();
             resultadoDet = null;
             salir=true;
-            while(!resultadoConcep.wasNull() && salir)
+            while(resultadoConcep.wasNull() && salir)
             {
                 det.idConcepto = resultadoConcep.getInt("idConcepto");
                 resultadoDet = det.consulta();
