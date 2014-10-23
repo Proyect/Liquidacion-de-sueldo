@@ -34,6 +34,7 @@ public class Concepto extends libSentenciasSQL
         int tipoform = 0;
         int aplicacion = 0;
         int clase = 0;
+        int auxiliar = 0;
         
         // constructor
         public Detalle()
@@ -41,7 +42,7 @@ public class Concepto extends libSentenciasSQL
             this.tabla = "conceptosdetalle";
             this.campos = "nombreCons,detalleCons,idLicencia,tipo,"
                             + "inicio,fin,formula,formula2,tipoForm,claseForm,"
-                            + "aplicacion";
+                            + "aplicacion,auxiliar";
         }
         
         public int nuevo()
@@ -49,7 +50,7 @@ public class Concepto extends libSentenciasSQL
             this.valores = "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+
                             idLicencia+","+tipo+",'"+inicio+"','"+fin+"',"+
                             formula+",'"+formula2+"',"+tipoform+","+aplicacion+
-                            ","+clase;
+                            ","+clase+","+auxiliar;
             return this.insertaSQL();
         }
         
@@ -59,7 +60,7 @@ public class Concepto extends libSentenciasSQL
             this.valores =  "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+
                             idLicencia+","+tipo+",'"+inicio+"','"+fin+"',"+
                             formula+",'"+formula2+"',"+tipoform+","+aplicacion+
-                            ","+clase;
+                            ","+clase+","+auxiliar;
             return this.modificaSQL();
         }
         
@@ -195,11 +196,11 @@ public class Concepto extends libSentenciasSQL
                             this.remunerativo = form.getFloat("formula");
                         break;
                             
-                        case 2:
+                        case 2://no remunerativo
                             this.noremunerativo = form.getFloat("formula");
                         break;
                            
-                        case 3:
+                        case 3://descuento
                             this.descuentos = form.getFloat("formula");
                         break;   
                     }                    
