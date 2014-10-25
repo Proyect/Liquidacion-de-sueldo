@@ -10,9 +10,11 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -30,7 +32,9 @@ public class Imprime
     String destino ="D:/recibo.pdf";
     Document documento = null;    
     PdfWriter writer = null;
-    Font font = new Font(FontFamily.HELVETICA, 6, Font.BOLD, BaseColor.WHITE);
+    //fuentes
+    Font fontbold = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE);
+    Font fontsimple = new Font(FontFamily.TIMES_ROMAN, 12);
     //constructor
     public Imprime()
     {        
@@ -211,4 +215,17 @@ public class Imprime
         }
     }
     
+    //abre el archivo generado
+    private void abre()
+    {
+        File path = new File (destino);
+        try 
+        {
+            Desktop.getDesktop().open(path);
+        } 
+        catch (IOException ex)
+        {
+            Logger.getLogger(Imprime.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
