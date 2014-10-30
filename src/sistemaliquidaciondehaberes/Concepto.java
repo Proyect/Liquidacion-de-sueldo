@@ -6,6 +6,7 @@ Desarrollo de sistemas a medidas
  ****************************************/
 package sistemaliquidaciondehaberes;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -128,68 +129,111 @@ public class Concepto extends libSentenciasSQL
             det.idConcepto = this.idConcepto;    
             ResultSet form=det.consulta();       
             ResultSet resultado2 = null;
+            Date inicio=null;
+            Date fin = null;
+            
             try 
-            {                
-                if(form.getInt("claseform")==1 )
+            { 
+                if(form.getInt("aplicacion")==2)//es un concepto temporal
                 {
+                    liq.idRecibo = idRecibo;
+                    resultado2 = liq.consultarecibo();
+                    if((resultado2.getDate("periodoIni").before(form.getDate("fin")))
+                       ||( form.getDate("inicio").before(resultado2.getDate("periodoFin"))))
+                    {
+                    
+                    }
+                    else
+                    {
+                        Imprime("Concepto Fuera de fecha");
+                    }    
+                }
+                
+                if(form.getInt("claseform")==1 )
+                {//formula
                     
                     switch(form.getInt("tipo"))
-                    {
-                        //aplicada al basico
-                        case 1:
+                    {                       
+                        case 1://remunerativo
                             liq.idRecibo=idRecibo;
                             resultado2 = liq.consultarecibo();
                             switch(form.getInt("tipoform"))
                             {
-                                case 1: //conceptos remunerativos
+                                case 1: //aplicada al basico
                                     this.remunerativo = form.getFloat("formula")*
                                         resultado2.getFloat("basico");
                                     this.formula = "BasicoProporcional*"+
                                                     form.getFloat("formula");
                                 break;
-                                    
-                                case 2: //conceptos no remunerativos
+                                   
+                                case 2: //conceptos remunerativos
                                     this.remunerativo = form.getFloat("formula")*
-                                        resultado2.getFloat("basico");
-                                    this.formula = "BasicoProporcional*"+
+                                        this.remunerativo;
+                                    this.formula = "Total Remunerativo*"+
                                                     form.getFloat("formula");
                                 break;
                                     
-                                case 3:
+                                case 3://conceptos no remunerativos
                                     this.descuentos = form.getFloat("formula")*
-                                        resultado2.getFloat("basico");
-                                    this.formula = "BasicoProporcional*"+
+                                        this.noremunerativo;
+                                    this.formula = "Total no remunerativo*"+
                                                     form.getFloat("formula");
                                 break;
                             }
                             
                         break;
                         
-                        //aplicada a conceptos remunerativos
+                        //no remunerativo
                         case 2:
-                            switch(form.getInt("tipo")) 
-                            {
-                                case 2:
+                            switch(form.getInt("tipoForm")) 
+                            {   //aplicada al basico
+                                case 1:
+                                    liq.totalNoRemunerativo = form.getFloat("formula")*
+                                            resultado2.getFloat("basico");
+                                break;
+                                    
+                                case 2://remunerativo
                                     liq.idRecibo=idRecibo;
                                     this.noremunerativo = form.getFloat("formula")*
                                             liq.totalRecibo(1);
                                 break;
                                 
-                                case 3:
+                                case 3: //no remunerativo
                                     liq.idRecibo=idRecibo;
-                                    this.descuentos = form.getFloat("formula")*
-                                            liq.totalRecibo(1);
+                                    this.noremunerativo = form.getFloat("formula")*
+                                            liq.totalRecibo(2);
                                 break;
                             }         
                             
                         break;                                       
                         
-                        case 3:// esta parte es para el evaluador de wilson
+                        case 3:// descuento
+                            switch(form.getInt("tipoForm"))
+                            {   //aplicada al basico
+                                case 1:
+                                    this.descuentos = form.getFloat("formula")*
+                                            resultado2.getFloat("basico");
+                                break;
+                                
+                                // conceptos remunerativos    
+                                case 2:
+                                    liq.idRecibo=idRecibo;
+                                    this.descuentos = form.getFloat("formula")*
+                                            liq.totalRecibo(1);
+                                break;
+                                    
+                                // conceptos no remunerativos
+                                case 3:
+                                    liq.idRecibo=idRecibo;
+                                    this.descuentos = form.getFloat("formula")*
+                                            liq.totalRecibo(2);
+                                break;
+                            }    
                         break;
                     }
                 }
                 else
-                {
+                {//importe
                     switch(form.getInt("tipo")) 
                     {
                         case 1:  //remunerativos
