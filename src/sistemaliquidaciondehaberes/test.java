@@ -20,7 +20,7 @@ public class test {
                  Pruebas de Impresion
          **************************************/
         
-        /*Imprime el recibo de sueldo*/
+        /*Imprime el recibo de sueldo
          Imprime imp = new Imprime();
          Liquidacion con = new Liquidacion();
          con.idRecibo=1;
@@ -34,7 +34,7 @@ public class test {
          con.obraSocial = (float) 76.1277;
          con.art = (float) 50.7518;
          con.sindicato = (float) 50.7518;
-         imp.recibo(con);
+         imp.recibo(con);*/
         
         /**************************************
          *    Liquidacion de Sueldo
