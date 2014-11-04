@@ -7,6 +7,8 @@ package sistemaliquidaciondehaberes;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -17,6 +19,7 @@ public class evaluador
 {
     ScriptEngineManager manager = new ScriptEngineManager();
     ScriptEngine engine = manager.getEngineByName("js");
+    Liquidacion liq = new Liquidacion();
     String exp="";
     float sb=0;
     float sp=0;
@@ -24,6 +27,7 @@ public class evaluador
     float tnr=0;
     float td=0;
     int tipo=0; //0: Test, 1: Busca y reemplazo de caracteres
+    String concep="";
     //ejecuta las funciones ya probadas
     public float ejecutar()
     {
@@ -46,8 +50,7 @@ public class evaluador
     // es para probar las funciones
     public float evaluar()
     {
-        float aux=0;
-        
+        float aux=0;        
         //reemplazo de expresion
         exp.replaceAll("SB", "1");
         exp.replaceAll("SP", "1");
@@ -66,13 +69,25 @@ public class evaluador
         return aux;
     }
     
-    //busca un concepto y devuelve un valor
-    public String concepto()
+    //busca un concepto 
+    public void concepto()
     {
-        int con= exp.indexOf("concep");
-        while(con != -1)
-        {
-         exp.indexOf(" ", con); //mejor busqueda por expresiones regulares
-        }
+        Pattern pat = Pattern.compile("concep\\d*");
+        Matcher mat = pat.matcher(exp);
+        if(mat.find())
+        { 
+            concep = mat.group();
+            System.out.println("inicio "+mat.start()+" fin "+mat.end()
+                    +" grupo "+concep);
+            if(tipo == 0)
+            {//test
+                exp.replaceAll(concep, "1");
+            }            else
+            {// se ejecuta conceptos                
+                int aux = Integer.parseInt(concep.substring(6));
+                System.out.println(exp);
+                exp.replaceAll(concep, "1");
+            }
+        }    
     }        
 }

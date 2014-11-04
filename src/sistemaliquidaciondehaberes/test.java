@@ -14,8 +14,17 @@ import java.sql.SQLException;
  */
 public class test {
 
-    public static void main(String[] args) throws SQLException 
+    public static void main(String[] args) throws SQLException             
     {  
+        /*************************************
+         * Pruebas del evaluador de funciones
+         * ***********************************
+         */
+        evaluador evalu = new evaluador();
+        evalu.tipo=1;
+        evalu.exp = "23*concep11+12";
+        evalu.concepto();
+        
         /**************************************
                  Pruebas de Impresion
          **************************************/
