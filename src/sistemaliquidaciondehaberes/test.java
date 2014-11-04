@@ -23,7 +23,7 @@ public class test {
         evaluador evalu = new evaluador();
         evalu.tipo=1;
         evalu.exp = "23*concep11+12";
-        evalu.concepto();
+        evalu.evaluar();
         
         /**************************************
                  Pruebas de Impresion
