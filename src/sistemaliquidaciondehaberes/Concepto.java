@@ -34,8 +34,7 @@ public class Concepto extends libSentenciasSQL
         String formula2 = null;
         int tipoform = 0;
         int aplicacion = 0;
-        int clase = 0;
-        int auxiliar = 0;
+        int clase = 0;        
         
         // constructor
         public Detalle()
@@ -43,7 +42,7 @@ public class Concepto extends libSentenciasSQL
             this.tabla = "conceptosdetalle";
             this.campos = "nombreCons,detalleCons,idLicencia,tipo,"
                             + "inicio,fin,formula,formula2,tipoForm,claseForm,"
-                            + "aplicacion,auxiliar";
+                            + "aplicacion";
         }
         
         public int nuevo()
@@ -51,7 +50,7 @@ public class Concepto extends libSentenciasSQL
             this.valores = "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+
                             idLicencia+","+tipo+",'"+inicio+"','"+fin+"',"+
                             formula+",'"+formula2+"',"+tipoform+","+aplicacion+
-                            ","+clase+","+auxiliar;
+                            ","+clase;
             return this.insertaSQL();
         }
         
@@ -61,7 +60,7 @@ public class Concepto extends libSentenciasSQL
             this.valores =  "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+
                             idLicencia+","+tipo+",'"+inicio+"','"+fin+"',"+
                             formula+",'"+formula2+"',"+tipoform+","+aplicacion+
-                            ","+clase+","+auxiliar;
+                            ","+clase;
             return this.modificaSQL();
         }
         
