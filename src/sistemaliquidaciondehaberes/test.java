@@ -18,12 +18,14 @@ public class test {
     {  
         /*************************************
          * Pruebas del evaluador de funciones
-         * ***********************************
-         */
+         * ************************************/
+         
         evaluador evalu = new evaluador();
+        evalu.liq = new Liquidacion();
+        evalu.liq.idRecibo=1;        
         evalu.tipo=1;
         evalu.exp = "23*concep11+12";
-        evalu.evaluar();
+        evalu.ejecutar();
         
         /**************************************
                  Pruebas de Impresion
