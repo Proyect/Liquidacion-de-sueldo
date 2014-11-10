@@ -112,7 +112,7 @@ public class Concepto extends libSentenciasSQL
         float noremunerativo = 0;
         float descuentos = 0;
         Concepto.Detalle det = new Detalle();
-        Liquidacion liq = new Liquidacion();
+        
          
         //constructor
         public Aplica()
@@ -123,7 +123,7 @@ public class Concepto extends libSentenciasSQL
         }
         
         //crea un nuevo concepto
-        public int nuevo() //sin terminar
+        public int nuevo(Liquidacion liq) //sin terminar
         {
             det.idConcepto = this.idConcepto;    
             ResultSet form=det.consulta();       
@@ -150,34 +150,24 @@ public class Concepto extends libSentenciasSQL
                 
                 if(form.getInt("claseform")==1 )
                 {//formula
-                    
+                    liq.idRecibo=idRecibo;
+                    resultado2 = liq.consultarecibo();
                     switch(form.getInt("tipo"))
                     {                       
                         case 1://remunerativo
-                            liq.idRecibo=idRecibo;
-                            resultado2 = liq.consultarecibo();
+                            
                             switch(form.getInt("tipoform"))
                             {
-                                case 1: //aplicada al basico
-                                    this.remunerativo = form.getFloat("formula")*
-                                        resultado2.getFloat("basico");
-                                    this.formula = "BasicoProporcional*"+
-                                                    form.getFloat("formula");
+                                case 1: //pre-establecida
+                                    this.remunerativo = 0;
+                                    this.formula = ""+form.getFloat("formula");
                                 break;
                                    
-                                case 2: //conceptos remunerativos
+                                case 2: //aplicar formula
                                     this.remunerativo = form.getFloat("formula")*
                                         this.remunerativo;
-                                    this.formula = "Total Remunerativo*"+
-                                                    form.getFloat("formula");
-                                break;
-                                    
-                                case 3://conceptos no remunerativos
-                                    this.descuentos = form.getFloat("formula")*
-                                        this.noremunerativo;
-                                    this.formula = "Total no remunerativo*"+
-                                                    form.getFloat("formula");
-                                break;
+                                    this.formula = ""+form.getFloat("formula");
+                                break;                      
                             }
                             
                         break;
@@ -185,22 +175,15 @@ public class Concepto extends libSentenciasSQL
                         //no remunerativo
                         case 2:
                             switch(form.getInt("tipoForm")) 
-                            {   //aplicada al basico
+                            {   //pre-establecida
                                 case 1:
-                                    liq.totalNoRemunerativo = form.getFloat("formula")*
-                                            resultado2.getFloat("basico");
+                                    liq.totalNoRemunerativo = 0;
+                                    this.formula = ""+form.getFloat("formula");
                                 break;
                                     
-                                case 2://remunerativo
-                                    liq.idRecibo=idRecibo;
-                                    this.noremunerativo = form.getFloat("formula")*
-                                            liq.totalRecibo(1);
-                                break;
-                                
-                                case 3: //no remunerativo
-                                    liq.idRecibo=idRecibo;
-                                    this.noremunerativo = form.getFloat("formula")*
-                                            liq.totalRecibo(2);
+                                case 2://aplicar la formula                                    
+                                    this.noremunerativo = 0;
+                                    this.formula = ""+form.getFloat("formula");
                                 break;
                             }         
                             
@@ -208,24 +191,16 @@ public class Concepto extends libSentenciasSQL
                         
                         case 3:// descuento
                             switch(form.getInt("tipoForm"))
-                            {   //aplicada al basico
+                            {   //pre-establecida
                                 case 1:
-                                    this.descuentos = form.getFloat("formula")*
-                                            resultado2.getFloat("basico");
+                                    this.descuentos = 0;
+                                    this.formula = ""+form.getFloat("formula");
                                 break;
                                 
-                                // conceptos remunerativos    
-                                case 2:
-                                    liq.idRecibo=idRecibo;
-                                    this.descuentos = form.getFloat("formula")*
-                                            liq.totalRecibo(1);
-                                break;
-                                    
-                                // conceptos no remunerativos
-                                case 3:
-                                    liq.idRecibo=idRecibo;
-                                    this.descuentos = form.getFloat("formula")*
-                                            liq.totalRecibo(2);
+                                // aplicada a la formula    
+                                case 2:                                    
+                                    this.descuentos = 0;
+                                    this.formula = ""+form.getFloat("formula");
                                 break;
                             }    
                         break;
@@ -258,7 +233,7 @@ public class Concepto extends libSentenciasSQL
                 float desc = resultado2.getFloat("totalDescuento");
                 float total=0;
                 
-                switch(form.getInt("tipoform")) 
+                switch(form.getInt("tipo")) 
                 {
                     case 1:
                         rem += this.remunerativo;

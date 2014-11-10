@@ -255,9 +255,9 @@ public class Liquidacion extends libSentenciasSQL
     public float devuelveART()
     {
         ResultSet resultado = null;
-        Legajolib.CargasSociales art= fsLegajo.new CargasSociales();
-        art.idLegajo= this.idLegajo;
-        resultado = art.consulta("idLegajo="+idLegajo+" AND Vinculacion='Art'");
+        Legajolib.CargasSociales artL= fsLegajo.new CargasSociales();
+        artL.idLegajo= this.idLegajo;
+        resultado = artL.consulta("idLegajo="+idLegajo+" AND Vinculacion='Art'");
         try 
         {
             if(resultado.first())
@@ -528,6 +528,31 @@ public class Liquidacion extends libSentenciasSQL
         return this.consultaSQL();
     }
     
+    //realiza la carga de los datos en el recibo
+    public void cargaRecibo()
+    {
+        ResultSet carga = consultarecibo();
+        try 
+        {// sn terminar
+            anti = carga.getInt("anti");
+            antiguedad = carga.getFloat("antiguedad");
+            art = carga.getFloat("art");
+            basico = carga.getFloat("basico");
+            cantHs = carga.getInt("CantHs");
+            cantHs100 = carga.getInt("CantHs100");
+            cantHs50  = carga.getInt("cantHs50");
+            costoHs = carga.getFloat("costoHs");
+            costoHs100 = carga.getFloat("costoHs100");
+            costoHs50 = carga.getFloat("costoHs50");
+            diasTrabajados = carga.getInt("diasTrabajados");
+            
+        }
+        catch (SQLException ex)
+        {
+            Imprime("Carga no realizada");
+        }
+    }
+    
     //realiza la consulta de conceptos de un recibo
     public ResultSet consultaConceptos()
     {
@@ -758,12 +783,12 @@ public class Liquidacion extends libSentenciasSQL
                 
                 if(asignacion.idConcepto != 0)
                 {
-                    asignacion.nuevo();
+                    asignacion.nuevo(this);
                     Imprime("Asignacion cagada correctamente");
                 }
                 else
                 {
-                    Imprime("Asignacion no cargada");//optimizar
+                    //Imprime("Asignacion no cargada");
                     vector.close();
                 }
                 vector.next();          
@@ -837,7 +862,7 @@ public class Liquidacion extends libSentenciasSQL
                 {
                     aplicarConcep.idConcepto = resultado.getInt("idConcepto");
                     aplicarConcep.unidad = resultado.getFloat("unidades");  
-                    aplicarConcep.nuevo();
+                    aplicarConcep.nuevo(this);
                     
                     if (resultado.getInt("tipo")==2)
                     {
