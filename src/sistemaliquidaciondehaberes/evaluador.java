@@ -21,31 +21,25 @@ public class evaluador
 {
     ScriptEngineManager manager = new ScriptEngineManager();
     ScriptEngine engine = manager.getEngineByName("js");
-    Liquidacion liq = new Liquidacion();
-    String exp = "";
-    float sb = 0;
     
+    String exp = "";
+    float sb = 0;    
     int tipo=0; //0: Test, 1: Busca y reemplazo de caracteres
     String concep="";
+    float pi=(float) 3.1415926535897932384626433832;
     //ejecuta las funciones ya probadas
-    public float ejecutar()
+    public float ejecutar(Liquidacion liq)
     {
-        float aux=0;
-        ResultSet resultado = liq.consultarecibo();
+        float aux=0;        
         tipo=1;
-        exp=exp.replaceAll("SB", "");
-        try 
-        {
-            exp=exp.replaceAll("SP", ""+resultado.getFloat("basico"));
-            exp=exp.replaceAll("TR", ""+resultado.getFloat("totalRemunerativo"));
-            exp=exp.replaceAll("TNR", ""+resultado.getFloat("totalNoRemunerativo"));
-            exp=exp.replaceAll("TD", ""+resultado.getFloat("totalDescuento"));
-        }
-        catch (SQLException ex) 
-        {
-            Logger.getLogger(evaluador.class.getName()).log(Level.SEVERE, null, ex);
-        }     
-        concepto();
+        exp=exp.replaceAll("SB", "0");
+        
+        exp=exp.replaceAll("SP", ""+liq.basico);
+        exp=exp.replaceAll("TR", ""+liq.totalRemunerativo);
+        exp=exp.replaceAll("TNR", ""+liq.totalNoRemunerativo);
+        exp=exp.replaceAll("TD", ""+liq.totalDescuentos);
+             
+        concepto(liq);
         try
         {
             Imprime(exp);
@@ -53,7 +47,7 @@ public class evaluador
         } 
         catch (ScriptException ex) 
         {
-            Logger.getLogger(evaluador.class.getName()).log(Level.SEVERE, null, ex);
+            Imprime("Fallo en la evaluacion de formula");
         }
         Imprime(""+aux);
         return aux;
@@ -64,12 +58,12 @@ public class evaluador
         float aux=0;        
         tipo = 0;
         //reemplazo de expresion
-        exp=exp.replaceAll("SB", "1");
-        exp=exp.replaceAll("SP", "1");
-        exp=exp.replaceAll("TR", "1");
-        exp=exp.replaceAll("TNR", "1");
-        exp=exp.replaceAll("TD", "1");        
-        concepto();
+        exp=exp.replaceAll("SB", ""+pi);
+        exp=exp.replaceAll("SP", ""+pi);
+        exp=exp.replaceAll("TR", ""+pi);
+        exp=exp.replaceAll("TNR", ""+pi);
+        exp=exp.replaceAll("TD", ""+pi);        
+        concepto(null);
         try
         {
             Imprime(exp);
@@ -77,14 +71,14 @@ public class evaluador
         } 
         catch (ScriptException ex) 
         {
-            Logger.getLogger(evaluador.class.getName()).log(Level.SEVERE, null, ex);
+            Imprime("Error en la funcion artimetica");
         }
         Imprime(""+aux);
         return aux;
     }
     
     //busca un concepto 
-    public void concepto()
+    public void concepto(Liquidacion liq)
     {
         Pattern pat = Pattern.compile("concep\\d*");
         Matcher mat = pat.matcher(exp);
@@ -95,68 +89,50 @@ public class evaluador
                     +" grupo "+concep);*/
             if(tipo == 0)
             {//test
-                exp=exp.replaceAll(concep, "1");
+                exp=exp.replaceAll(concep, ""+pi);
             }            
             else
             {// se ejecuta conceptos 
                 Concepto con = new Concepto();
                 Concepto.Detalle det = con.new Detalle();
-                Concepto.Aplica apli = con.new Aplica();
-                apli.idRecibo = liq.idRecibo;
+                Concepto.Aplica apli = con.new Aplica();                
                 
                 int aux = Integer.parseInt(concep.substring(6));
                 Imprime(""+aux);
                 det.idConcepto= aux;
                 apli.idConcepto= aux;
                 ResultSet resultado = det.consulta();
+                
+                apli.idRecibo = liq.idRecibo;
+                ResultSet resultado2 = apli.consultaRecibo();
+                float mostrar =0;
                 try
-                {//aqui me quede
+                {
                     if (resultado.getInt("claseForm")==0)
                     {//constante
-                        apli.nuevo();
+                        mostrar=resultado.getFloat("formula");
+                        Imprime("Datos a mostrar: "+mostrar);
                     }
                     else 
                     {//formula
-                        if (resultado.getInt("tipoForm")==4)
+                        if(resultado2.isFirst())
                         {
-                            String form=resultado.getString("formula");
-                            mat = pat.matcher(form);
-                            if (mat.find())
-                            {
-                                form = mat.group();
-                                aux = Integer.parseInt(form.substring(6));
-                                apli.idConcepto = aux;
-                                ResultSet resul = apli.consulta();
-                                if(resul != null)
-                                {
-                                    apli.nuevo();
-                                }
-                                else
-                                {
-                                    Imprime("Conepto no hayado");
-                                }
-                            }
-                            else
-                            {
-                                apli.nuevo();
-                            }
+                            mostrar=resultado2.getFloat("remunerativo")+
+                                   resultado2.getFloat("noremunerativo")+
+                                   resultado2.getFloat("descuento");
+                            Imprime("valor del concepto: "+mostrar);
                         }
                         else
                         {
-                           apli.nuevo(); 
+                            apli.nuevo(liq);
                         }
-                    }
-                    ResultSet resultado2=apli.consultaRecibo();
-                    float concepto=resultado2.getFloat("remunerativo")+
-                                   resultado2.getFloat("noremunerativo")+
-                                   resultado2.getFloat("descuento");
-                    exp=exp.replaceAll(concep, ""+concepto);
+                    }                    
                 }
                 catch (SQLException ex)
                 {
-                    Logger.getLogger(evaluador.class.getName()).log(Level.SEVERE, null, ex);
+                    Imprime("Fallo en el evaluador de conceptos");
                 }
-                exp.replaceAll(concep, "1");
+                exp=exp.replaceAll(concep, ""+mostrar);                
             }
         }    
     }  

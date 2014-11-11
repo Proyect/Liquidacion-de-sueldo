@@ -21,11 +21,12 @@ public class test {
          * ************************************/
          
         evaluador evalu = new evaluador();
-        evalu.liq = new Liquidacion();
-        evalu.liq.idRecibo=1;        
+        Liquidacion liq = new Liquidacion();
+        liq.idRecibo=2;        
         evalu.tipo=1;
-        evalu.exp = "23*concep11+12";
-        evalu.ejecutar();
+        evalu.exp = "23*concep12+12";
+        //evalu.evaluar();
+        evalu.concepto(liq);
         
         /**************************************
                  Pruebas de Impresion
