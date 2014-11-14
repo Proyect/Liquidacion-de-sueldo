@@ -23,8 +23,7 @@ public class Concepto extends libSentenciasSQL
     {
         int idConcepto = 0;
         String nombreCons = "";
-        String detalleCons = "";
-        int idFormula = 0;
+        String detalleCons = "";        
         int idLicencia = 0;
         int tipo = 0;
         String inicio = "";
@@ -32,35 +31,30 @@ public class Concepto extends libSentenciasSQL
         int idRecibo=0; //para la ultima funcion
         float formula =0;
         String formula2 = null;
-        int tipoform = 0;
-        int aplicacion = 0;
-        int clase = 0;        
+        int tipoform = 0;                    
         
         // constructor
         public Detalle()
         {
             this.tabla = "conceptosdetalle";
             this.campos = "nombreCons,detalleCons,idLicencia,tipo,"
-                            + "inicio,fin,formula,formula2,tipoForm,claseForm,"
-                            + "aplicacion";
+                            + "inicio,fin,formula,formula2,tipoForm,claseForm";                            
         }
         
         public int nuevo()
         {
-            this.valores = "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+
+            this.valores = "'"+nombreCons+"','"+detalleCons+"',"+
                             idLicencia+","+tipo+",'"+inicio+"','"+fin+"',"+
-                            formula+",'"+formula2+"',"+tipoform+","+aplicacion+
-                            ","+clase;
+                            formula+",'"+formula2+"',"+tipoform;
             return this.insertaSQL();
         }
         
         public int modifica()
         {
             this.condicion = "idConcepto="+idConcepto;
-            this.valores =  "'"+nombreCons+"','"+detalleCons+"',"+idFormula+","+
+            this.valores =  "'"+nombreCons+"','"+detalleCons+"',"+
                             idLicencia+","+tipo+",'"+inicio+"','"+fin+"',"+
-                            formula+",'"+formula2+"',"+tipoform+","+aplicacion+
-                            ","+clase;
+                            formula+",'"+formula2+"',"+tipoform;
             return this.modificaSQL();
         }
         
