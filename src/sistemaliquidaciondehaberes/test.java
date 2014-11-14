@@ -20,13 +20,13 @@ public class test {
          * Pruebas del evaluador de funciones
          * ************************************/
          
-        evaluador evalu = new evaluador();
+       /* evaluador evalu = new evaluador();
         Liquidacion liq = new Liquidacion();
         liq.idRecibo=2;        
         evalu.tipo=1;
         evalu.exp = "23*concep12+12";
         //evalu.evaluar();
-        evalu.concepto(liq);
+        evalu.concepto(liq);*/
         
         /**************************************
                  Pruebas de Impresion
