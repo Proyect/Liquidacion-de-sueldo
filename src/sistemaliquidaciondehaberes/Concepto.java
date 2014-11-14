@@ -31,7 +31,8 @@ public class Concepto extends libSentenciasSQL
         int idRecibo=0; //para la ultima funcion
         float formula =0;
         String formula2 = null;
-        int tipoform = 0;                    
+        int tipoform = 0; 
+        int claseForm=0;
         
         // constructor
         public Detalle()
@@ -45,7 +46,7 @@ public class Concepto extends libSentenciasSQL
         {
             this.valores = "'"+nombreCons+"','"+detalleCons+"',"+
                             idLicencia+","+tipo+",'"+inicio+"','"+fin+"',"+
-                            formula+",'"+formula2+"',"+tipoform;
+                            formula+",'"+formula2+"',"+tipoform+","+claseForm;
             return this.insertaSQL();
         }
         
@@ -54,7 +55,7 @@ public class Concepto extends libSentenciasSQL
             this.condicion = "idConcepto="+idConcepto;
             this.valores =  "'"+nombreCons+"','"+detalleCons+"',"+
                             idLicencia+","+tipo+",'"+inicio+"','"+fin+"',"+
-                            formula+",'"+formula2+"',"+tipoform;
+                            formula+",'"+formula2+"',"+tipoform+","+claseForm;
             return this.modificaSQL();
         }
         
