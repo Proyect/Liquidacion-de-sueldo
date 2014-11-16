@@ -27,6 +27,7 @@ public class evaluador
     int tipo=0; //0: Test, 1: Busca y reemplazo de caracteres
     String concep="";
     float pi=(float) 3.1415926535897932384626433832;
+    
     //ejecuta las funciones ya probadas
     public float ejecutar(Liquidacion liq)
     {
