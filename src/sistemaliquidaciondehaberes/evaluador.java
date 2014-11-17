@@ -33,14 +33,31 @@ public class evaluador
     {
         float aux=0;        
         tipo=1;
-        exp=exp.replaceAll("SB", "0");
-        
         exp=exp.replaceAll("SP", ""+liq.basico);
         exp=exp.replaceAll("TR", ""+liq.totalRemunerativo);
         exp=exp.replaceAll("TNR", ""+liq.totalNoRemunerativo);
-        exp=exp.replaceAll("TD", ""+liq.totalDescuentos);
-             
+        exp=exp.replaceAll("TD", ""+liq.totalDescuentos); 
+        exp=exp.replaceAll("DT", ""+liq.diasTrabajados);
+        exp=exp.replaceAll("Ant", ""+liq.antiguedad);
+        exp=exp.replaceAll("AñosT", ""+liq.anti);
+        exp=exp.replaceAll("Prec", ""+liq.presentismo);
         concepto(liq);
+        if(exp.indexOf("SB") != -1)
+        {
+            Complementarios complemento= new Complementarios();
+            Complementarios.Cargos cargo = complemento.new Cargos();
+            cargo.idPuesto = liq.idPuesto;
+            ResultSet datos = cargo.consulta();
+            try 
+            {
+                exp=exp.replaceAll("SB", ""+datos.getFloat("basico"));
+            }
+            catch (SQLException ex) 
+            {
+                Imprime("Error al obtener el sueldo basico");
+            }
+        }  
+        
         try
         {
             Imprime(exp);
@@ -63,7 +80,11 @@ public class evaluador
         exp=exp.replaceAll("SP", ""+pi);
         exp=exp.replaceAll("TR", ""+pi);
         exp=exp.replaceAll("TNR", ""+pi);
-        exp=exp.replaceAll("TD", ""+pi);        
+        exp=exp.replaceAll("TD", ""+pi);
+        exp=exp.replaceAll("DT", ""+pi); 
+        exp=exp.replaceAll("Ant", ""+pi); 
+        exp=exp.replaceAll("AñosT", ""+pi);
+        exp=exp.replaceAll("Prec", ""+pi); 
         concepto(null);
         try
         {

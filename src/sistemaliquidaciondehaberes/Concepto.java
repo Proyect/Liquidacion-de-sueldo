@@ -37,7 +37,7 @@ public class Concepto extends libSentenciasSQL
         {
             this.tabla = "conceptosdetalle";
             this.campos = "nombreCons,detalleCons,idLicencia,tipo,"
-                            + "inicio,fin,formula,formula2,tipoForm,claseForm,"
+                            + "formula,formula2,tipoForm,claseForm,"
                             + "aplicacion";                            
         }
         
