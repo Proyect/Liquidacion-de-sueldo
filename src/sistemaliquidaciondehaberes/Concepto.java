@@ -25,28 +25,28 @@ public class Concepto extends libSentenciasSQL
         String nombreCons = "";
         String detalleCons = "";        
         int idLicencia = 0;
-        int tipo = 0;
-        String inicio = "";
-        String fin = "";
+        int tipo = 0;        
         int idRecibo=0; //para la ultima funcion
         float formula =0;
         String formula2 = null;
         int tipoform = 0; 
         int claseForm=0;
-        
+        int aplicacion=0;
         // constructor
         public Detalle()
         {
             this.tabla = "conceptosdetalle";
             this.campos = "nombreCons,detalleCons,idLicencia,tipo,"
-                            + "inicio,fin,formula,formula2,tipoForm,claseForm";                            
+                            + "formula,formula2,tipoForm,claseForm,"
+                            + "aplicacion";                            
         }
         
         public int nuevo()
         {
             this.valores = "'"+nombreCons+"','"+detalleCons+"',"+
-                            idLicencia+","+tipo+",'"+inicio+"','"+fin+"',"+
-                            formula+",'"+formula2+"',"+tipoform+","+claseForm;
+                            idLicencia+","+tipo+","+
+                            formula+",'"+formula2+"',"+tipoform+","+claseForm
+                            +","+aplicacion;
             return this.insertaSQL();
         }
         
@@ -54,8 +54,9 @@ public class Concepto extends libSentenciasSQL
         {
             this.condicion = "idConcepto="+idConcepto;
             this.valores =  "'"+nombreCons+"','"+detalleCons+"',"+
-                            idLicencia+","+tipo+",'"+inicio+"','"+fin+"',"+
-                            formula+",'"+formula2+"',"+tipoform+","+claseForm;
+                            idLicencia+","+tipo+","+
+                            formula+",'"+formula2+"',"+tipoform+","+claseForm
+                            +","+aplicacion;
             return this.modificaSQL();
         }
         
@@ -127,44 +128,28 @@ public class Concepto extends libSentenciasSQL
             Date fin = null;
             
             try 
-            { 
-                if(form.getInt("aplicacion")==2)//es un concepto temporal
-                {
-                    liq.idRecibo = idRecibo;
-                    resultado2 = liq.consultarecibo();
-                    if((resultado2.getDate("periodoIni").before(form.getDate("fin")))
-                       ||( form.getDate("inicio").before(resultado2.getDate("periodoFin"))))
-                    {
-                    
-                    }
-                    else
-                    {
-                        Imprime("Concepto Fuera de fecha");
-                    }    
-                }
-                
+            {                 
                 if(form.getInt("claseform")==1 )
                 {//formula
                     liq.idRecibo=idRecibo;
                     resultado2 = liq.consultarecibo();
                     switch(form.getInt("tipo"))
                     {                       
-                        case 1://remunerativo
-                            
+                        case 1://remunerativo                            
                             switch(form.getInt("tipoform"))
                             {
                                 case 1: //pre-establecida
-                                    this.remunerativo = 0;
-                                    this.formula = ""+form.getFloat("formula");
+                                    this.remunerativo = form.getFloat("formula");
+                                    this.formula = form.getString("formula2");
                                 break;
                                    
                                 case 2: //aplicar formula
-                                    this.remunerativo = form.getFloat("formula")*
-                                        this.remunerativo;
-                                    this.formula = ""+form.getFloat("formula");
+                                    this.formula = form.getString("formula2");
+                                    evaluador evalu = new evaluador();                           
+                                    evalu.exp = formula; 
+                                    this.remunerativo = evalu.ejecutar(liq);
                                 break;                      
-                            }
-                            
+                            }                            
                         break;
                         
                         //no remunerativo
@@ -172,30 +157,33 @@ public class Concepto extends libSentenciasSQL
                             switch(form.getInt("tipoForm")) 
                             {   //pre-establecida
                                 case 1:
-                                    liq.totalNoRemunerativo = 0;
-                                    this.formula = ""+form.getFloat("formula");
+                                    this.noremunerativo = form.getFloat("formula");
+                                    this.formula = form.getString("formula2");
                                 break;
                                     
-                                case 2://aplicar la formula                                    
-                                    this.noremunerativo = 0;
-                                    this.formula = ""+form.getFloat("formula");
+                                case 2://aplicar la formula                             
+                                    this.formula = form.getString("formula2");
+                                    evaluador evalu = new evaluador();                           
+                                    evalu.exp = formula;
+                                    this.noremunerativo = evalu.ejecutar(liq);
                                 break;
-                            }         
-                            
+                            }                         
                         break;                                       
                         
                         case 3:// descuento
                             switch(form.getInt("tipoForm"))
                             {   //pre-establecida
                                 case 1:
-                                    this.descuentos = 0;
-                                    this.formula = ""+form.getFloat("formula");
+                                    this.descuentos = +form.getFloat("formula");
+                                    this.formula = form.getString("formula2");
                                 break;
                                 
                                 // aplicada a la formula    
-                                case 2:                                    
-                                    this.descuentos = 0;
-                                    this.formula = ""+form.getFloat("formula");
+                                case 2:                                     
+                                    this.formula = form.getString("formula2");
+                                    evaluador evalu = new evaluador();                           
+                                    evalu.exp = formula;
+                                    this.descuentos = evalu.ejecutar(liq);
                                 break;
                             }    
                         break;
@@ -207,14 +195,17 @@ public class Concepto extends libSentenciasSQL
                     {
                         case 1:  //remunerativos
                             this.remunerativo = form.getFloat("formula");
+                            this.formula= "Imp";
                         break;
                             
                         case 2://no remunerativo
                             this.noremunerativo = form.getFloat("formula");
+                            this.formula= "Imp";
                         break;
                            
                         case 3://descuento
                             this.descuentos = form.getFloat("formula");
+                            this.formula= "Imp";
                         break;   
                     }                    
                 }
