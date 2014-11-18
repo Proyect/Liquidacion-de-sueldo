@@ -8,6 +8,8 @@ package sistemaliquidaciondehaberes;
 import java.lang.String;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -465,7 +467,7 @@ public class Liquidacion extends libSentenciasSQL
     }
     
     //realiza el recibo de sueldo
-    public void  recibo() 
+    public void  recibo() throws ParseException 
     {
         obtienePuesto();
         obtieneDatos();        
@@ -669,7 +671,7 @@ public class Liquidacion extends libSentenciasSQL
     }
     
     //realiza la actualizacion del recibo de sueldo
-    public int reciboUpdate()
+    public int reciboUpdate() throws ParseException
     {
         ResultSet resultado = consultarecibo();
         try
@@ -843,41 +845,61 @@ public class Liquidacion extends libSentenciasSQL
     
 
     //aplica los conceptos pre ajustados
-    public void preajustados() 
-    {        
-        Concepto.Control concep = fsConceptos.new Control();
-        concep.idLegajo = this.idLegajo;
-        
+    public void preajustados() throws ParseException 
+    {   
         Concepto.Aplica aplicarConcep = fsConceptos.new Aplica();
-        aplicarConcep.idRecibo = this.idRecibo;
+        aplicarConcep.idRecibo = this.idRecibo; 
         
-        Imprime("Buscando conceptos predefinidos");
+        Concepto.Control concep = fsConceptos.new Control();
+        concep.idLegajo = this.idLegajo;     
         ResultSet resultado = concep.consulta();
+        
+        SimpleDateFormat inicioF = new SimpleDateFormat("yyyy-MMM-dd");
+        SimpleDateFormat finF = new SimpleDateFormat("yyyy-MMM-dd");
+        Imprime("Buscando conceptos predefinidos");
         try
         {
             resultado.first();
             while(resultado.isLast())
             {
                 if(resultado.getInt("estado")!=0)
-                {
-                    aplicarConcep.idConcepto = resultado.getInt("idConcepto");
-                    aplicarConcep.unidad = resultado.getFloat("unidades");  
-                    aplicarConcep.nuevo(this);
+                {//estado activo
+                    if(resultado.getInt("tipo")!=2)
+                    {    
+                        aplicarConcep.idConcepto = resultado.getInt("idConcepto");
+                        aplicarConcep.unidad = resultado.getFloat("unidades");  
+                        aplicarConcep.nuevo(this);
                     
-                    if (resultado.getInt("tipo")==2)
-                    {
-                        concep.idConcepto = resultado.getInt("idConcepto");
-                        concep.unidades = resultado.getFloat("unidades");
-                        concep.tipo = resultado.getInt("tipo");
-                        concep.inicio = resultado.getString("inicio");
-                        concep.fin = resultado.getString("fin");
-                        concep.estadoConcepto = resultado.getInt("estado")-1;
+                        if (resultado.getInt("tipo")==0)
+                        {//concepto por cantidad de veces
+                            concep.idConcepto = resultado.getInt("idConcepto");
+                            concep.unidades = resultado.getFloat("unidades");
+                            concep.tipo = resultado.getInt("tipo");
+                            concep.inicio = resultado.getString("inicio");
+                            concep.fin = resultado.getString("fin");
+                            concep.estadoConcepto = resultado.getInt("estado")-1;
                             
-                        concep.modifica();
-                    } 
-                    resultado.next();                   
+                            concep.modifica();
+                        }  
+                    }
+                    else
+                    {//concepto temporal
+                        if(resultado.getDate("inicio").before(finF.parse(this.periodoFin)) 
+                                ||
+                           inicioF.parse(this.periodoIni).before(resultado.getDate("fin")))
+                        {
+                             aplicarConcep.idConcepto = resultado.getInt("idConcepto");
+                             aplicarConcep.unidad = resultado.getFloat("unidades");  
+                             aplicarConcep.nuevo(this);
+                        }
+                        else
+                        {
+                            //sin terminar
+                            Imprime("Periodo fuera de fecha");
+                        }
+                    }
                 }
-                 
+                 resultado.next();  
             }
         }
         catch (SQLException ex)
