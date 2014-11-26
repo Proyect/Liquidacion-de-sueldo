@@ -103,13 +103,13 @@ public class test {
         con.idRecibo = 13;
         con.preajustados();*/
         
-        /*Prueba liquidacion de sac
+        /*Prueba liquidacion de sac*/
         Liquidacion con = new Liquidacion();
-        con.idLegajo = 1;
-        con.periodoIni = "2014-01-01";
-        con.periodoFin = "2014-06-06";
-        con.dias = 360;
-        con.SAC();*/
+        con.idLegajo = 30;
+        con.periodoIni = "2014-06-01";
+        con.periodoFin = "2014-12-30";
+        con.dias = 180;
+        con.SAC(); 
         
         /* Prueba de vacaciones - no termina 
         Liquidacion con = new Liquidacion();
@@ -119,8 +119,8 @@ public class test {
         /* Pueba de liquidacion de sueldo
          Liquidacion con = new Liquidacion();        
         con.idLegajo=30;
-        con.periodoIni = "2014-09-01";
-        con.periodoFin = "2014-09-30";
+        con.periodoIni = "2014-10-01";
+        con.periodoFin = "2014-10-30";
         con.dias=30;
         con.diasTrabajados=30;       
         con.recibo();*/
