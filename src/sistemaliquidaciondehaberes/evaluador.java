@@ -1,9 +1,12 @@
-/**************************************
-Autor: Ariel Marcelo Diaz
- *Sitio Web: http://www.infrasoft.com.ar 
-Desarrollo de sistemas a medidas
- ****************************************/
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package sistemaliquidaciondehaberes;
+
+
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,19 +17,21 @@ import java.util.regex.Pattern;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import javax.swing.JOptionPane;
 
 /**  Ariel Marcelo Diaz */
 //clase para implementar funciones matematicas para el sistema
 public class evaluador 
 {
-    ScriptEngineManager manager = new ScriptEngineManager();
-    ScriptEngine engine = manager.getEngineByName("js");
+    private ScriptEngineManager manager = new ScriptEngineManager();
+    private ScriptEngine engine = manager.getEngineByName("js");
     
-    String exp = "";
-    float sb = 0;    
-    int tipo=0; //0: Test, 1: Busca y reemplazo de caracteres
-    String concep="";
-    float pi=(float) 3.1415926535897932384626433832;
+    public String exp = "";
+    public float sb = 0;    
+    public int tipo=0; //0: Test, 1: Busca y reemplazo de caracteres
+    public String concep="";
+    public String mensaje = "";
+    private float pi=(float) 3.1415926535897932384626433832;
     
     //ejecuta las funciones ya probadas
     public float ejecutar(Liquidacion liq)
@@ -65,6 +70,7 @@ public class evaluador
         } 
         catch (ScriptException ex) 
         {
+            mensaje = "Fallo en la evaluacion de formula";           
             Imprime("Fallo en la evaluacion de formula");
         }
         Imprime(""+aux);
@@ -93,6 +99,7 @@ public class evaluador
         } 
         catch (ScriptException ex) 
         {
+            mensaje = "Fallo en la evaluacion de formula";  
             Imprime("Error en la funcion artimetica");
         }
         Imprime(""+aux);

@@ -1,8 +1,3 @@
-/**************************************
-Autor: Ariel Marcelo Diaz
- *Sitio Web: http://www.infrasoft.com.ar 
-Desarrollo de sistemas a medidas
- ****************************************/
 package sistemaliquidaciondehaberes;
 
 import java.lang.String;
@@ -16,44 +11,42 @@ import java.util.logging.Logger;
 
 
 
-/** * Ariel Marcelo Diaz*/
-
 public class Liquidacion extends libSentenciasSQL
 {
-    int idRecibo=0;
-    int idLegajo = 0;
-    int idPuesto = 0;
-    int estadoR = 0;
-    float costoHs = 0;
-    float costoHs50 = 0;
-    float costoHs100 = 0;    
-    String periodoIni = "";
-    String periodoFin = "";            
-    String emision = FechaActual();    
-    int dias=0; // dias a trabajar
-    int diasTrabajados = 0;
-    float obraSocial = 0;
-    int idObraSocial = 0;
-    float sindicato = 0; 
-    int idSindicato = 0;
-    float presentismo = 0;
-    float basico = 0;
-    int anti = 0;
-    float antiguedad=0;    
-    int cantHs = 0;
-    int cantHs50 = 0;
-    int cantHs100 = 0;
-    float jubilacion = 0;
-    float art = 0;
-    int idART = 0;
-    float totalRemunerativo =0;
-    float totalNoRemunerativo = 0;
-    float totalDescuentos = 0;
-    float total = 0;
-    String fechaInicio = "";
-    Legajolib fsLegajo = new Legajolib();
-    Concepto fsConceptos = new Concepto(); 
-    Concepto.Detalle detall= fsConceptos.new Detalle();
+    public int idRecibo=0;
+    public int idLegajo = 0;
+    public int idPuesto = 0;
+    public int estadoR = 0;
+    public float costoHs = 0;
+    public float costoHs50 = 0;
+    public float costoHs100 = 0;    
+    public String periodoIni = "";
+    public String periodoFin = "";            
+    public String emision = FechaActual();    
+    public int dias=30; // dias a trabajar
+    public int diasTrabajados = 30;
+    public float obraSocial = 0;
+    public int idObraSocial = 0;
+    public float sindicato = 0; 
+    public int idSindicato = 0;
+    public float presentismo = 0;
+    public float basico = 0;
+    public int anti = 0;
+    public float antiguedad=0;    
+    public int cantHs = 0;
+    public int cantHs50 = 0;
+    public int cantHs100 = 0;
+    public float jubilacion = 0;
+    public float art = 0;
+    public int idART = 0;
+    public float totalRemunerativo =0;
+    public float totalNoRemunerativo = 0;
+    public float totalDescuentos = 0;
+    public float total = 0;
+    public String fechaInicio = "";
+    private Legajolib fsLegajo = new Legajolib();
+    private Concepto fsConceptos = new Concepto(); 
+    private Concepto.Detalle detall= fsConceptos.new Detalle();
             
     //constructor
     public Liquidacion()
@@ -589,96 +582,7 @@ public class Liquidacion extends libSentenciasSQL
         Concepto.Aplica concept= fsConceptos.new Aplica();
         concept.condicion= "idRecibo="+this.idRecibo;
         return concept.consultaSQL();
-    }
-    
-    //realiza el vector del recibo de sueldo - aun no terminada
-    public ArrayList vectorRecibo()
-    {   //variables
-        ArrayList<String[]> list = new ArrayList<String[]>();
-        String[] fila = new String[5];
-        ResultSet resultado = consultarecibo();
-        Empresaslib empresa = new Empresaslib();
-        ResultSet auxiliar = null;
-        int sind = 0;
-        Concepto.Detalle detalle = fsConceptos.new Detalle();
-        
-        try
-        {      
-            fila[0] = "Basico";
-             fila[1] = resultado.getString("diasTrabajados");
-             fila[2] = resultado.getString("basico");             
-             list.add(fila);             
-              fila[1] = null;
-              Imprime( list.get(0)[0]);
-
-            fila[0] = "Presentismo";
-             fila[2] = String.valueOf(resultado.getFloat("presentismo"));
-             list.add(fila);
-             Imprime( list.get(1)[0]);
-         
-             
-             fila[0] = "Antiguedad";
-             fila[2] = resultado.getString("antiguedad");
-             list.add(fila);
-             Imprime( list.get(2)[0]);
-             
-            auxiliar = empresa.consulta("idEmpresa="+resultado.getInt("idObraSocial"));
-            fila[0] = "Obra Social:"+auxiliar.getString("razonSocial"); 
-            fila[4] = String.valueOf(resultado.getFloat("obrasocial"));            
-            list.add(fila);
-            Imprime( list.get(3)[0]);
-            
-            auxiliar = empresa.consulta("idEmpresa="+resultado.getInt("idART"));
-            fila[0] = "ART:"+auxiliar.getString("razonSocial");  
-            fila[4] = String.valueOf(resultado.getFloat("art"));
-            list.add(fila);
-            Imprime( list.get(4)[0]);
-            
-            sind = resultado.getInt("idSindicato");
-            if(sind !=0)
-            {    
-                auxiliar = empresa.consulta("idEmpresa="+sind);
-                fila[0] = "Sindicato:"+auxiliar.getString("razonSocial");  
-                fila[4] = String.valueOf(resultado.getFloat("sindicato"));
-                list.add(fila);
-                Imprime( list.get(5)[0]);
-            }
-                        
-            resultado = consultaConceptos();
-            fila[0]= "";fila[1]= "";fila[2]= "";fila[3]= "";fila[4]= "";
-            if(resultado.first())
-            {    
-            while (!resultado.wasNull()) 
-            {               
-                detalle.idConcepto=resultado.getInt("idConcepto");
-                auxiliar = detalle.consulta();
-                fila[0] = auxiliar.getString("nombreCons");
-                Imprime(fila[0]);
-                fila[1] = String.valueOf(resultado.getFloat("unidad"));
-                switch(auxiliar.getInt("tipo"))
-                {
-                    case 1:
-                        fila[2] = String.valueOf(resultado.getFloat("valor"));
-                    break;
-                    
-                    case 2:
-                        fila[3] = String.valueOf(resultado.getFloat("valor"));
-                    break;
-                        
-                    case 3:
-                        fila[4] = String.valueOf(resultado.getFloat("valor"));
-                    break;
-                }                
-                resultado.next();
-            }
-            }
-        }
-        catch (SQLException ex) 
-        {
-            estado = ex.getMessage();
-        }
-        return list;
-    }      
+    } 
     
     //modifica los valores del recibo de sueldo
     public int modificaRecibo()
@@ -921,9 +825,15 @@ public class Liquidacion extends libSentenciasSQL
                              aplicarConcep.nuevo(this);
                         }
                         else
-                        {
-                            //sin terminar
+                        {                     
                             Imprime("Periodo fuera de fecha");
+                            concep.idConcepto= resultado.getInt("idConcepto");
+                            concep.unidades = resultado.getFloat("unidades");
+                            concep.tipo = resultado.getInt("tipo");
+                            concep.inicio = resultado.getString("inicio");
+                            concep.fin = resultado.getString("fin");
+                            concep.estadoConcepto =0;
+                            concep.modifica();
                         }
                     }
                 }

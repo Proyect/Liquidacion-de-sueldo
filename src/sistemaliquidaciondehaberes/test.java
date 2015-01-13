@@ -103,13 +103,13 @@ public class test {
         con.idRecibo = 13;
         con.preajustados();*/
         
-        /*Prueba liquidacion de sac*/
+        /*Prueba liquidacion de sac
         Liquidacion con = new Liquidacion();
         con.idLegajo = 30;
         con.periodoIni = "2014-06-01";
         con.periodoFin = "2014-12-30";
         con.dias = 180;
-        con.SAC(); 
+        con.SAC(); */
         
         /* Prueba de vacaciones - no termina 
         Liquidacion con = new Liquidacion();
@@ -143,17 +143,17 @@ public class test {
          *      Legajos
          **************************************/
         
-         /*prueba licencia  
+         /*prueba licencia   */ 
         Legajolib con = new Legajolib();               
         Legajolib.Licencias resultado;
         resultado = con.new Licencias();        
-        resultado.idLegajo=2;
+        resultado.idLegajo=20;
         resultado.motivo="Duelo del madre";
-        resultado.cantidad=2;
+        resultado.cantidad=3;
         resultado.inicio="2014-05-01";
         resultado.fin = "2014-05-02";
-        resultado.tipoLic = 2;
-        resultado.alta();   */   
+        resultado.tipoLic = 3;
+        resultado.alta();    
         
         /* Prueba de control de licencias vencidas
         Legajolib con = new Legajolib();               

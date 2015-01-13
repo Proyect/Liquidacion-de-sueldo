@@ -1,40 +1,36 @@
-/**************************************
-Autor: Ariel Marcelo Diaz
- *Sitio Web: http://www.infrasoft.com.ar 
-Desarrollo de sistemas a medidas
- ****************************************/
+
 package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-/** * Ariel Marcelo Diaz*/
+
 public class Personaslib extends libSentenciasSQL
 {
-    int idPersona =0;
-    String  apellido = "";
-    String nombre = "";
-    String telefono = "";
-    String telefono2 = "";
-    String celular = "";
-    int idProvincia = 0;
-    String cp= "";
-    String barrio = "";
-    String calle = "";
-    String nro= "";
-    String dto = "";
-    String piso = "";
-    String tipoDoc = "";
-    String nroDoc = "";
-    String cuil = "";
-    String estadoCivil = "";
-    String fechaNac = "";
-    String nacionalidad = "";
-    int sexo=1;
-    String mail = "";
-    String mail2 = "";
-    String otrosDatos = "";
+    public int idPersona =0;
+    public String  apellido = "";
+    public String nombre = "";
+    public String telefono = "";
+    public String telefono2 = "";
+    public String celular = "";
+    public int idProvincia = 0;
+    public String cp= "";
+    public String barrio = "";
+    public String calle = "";
+    public String nro= "";
+    public String dto = "";
+    public String piso = "";
+    public String tipoDoc = "";
+    public String nroDoc = "";
+    public String cuil = "";
+    public String estadoCivil = "";
+    public String fechaNac = "";
+    public String nacionalidad = "";
+    public int sexo=1;
+    public String mail = "";
+    public String mail2 = "";
+    public String otrosDatos = "";
     
     
     //constructor

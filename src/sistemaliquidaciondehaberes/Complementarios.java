@@ -1,31 +1,25 @@
-
-/**************************************
-Autor: Ariel Marcelo Diaz
- *Sitio Web: http://www.infrasoft.com.ar 
-Desarrollo de sistemas a medidas
- ****************************************/
 package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 
-/** * Ariel Marcelo Diaz****/
+
 public class Complementarios 
 {   
     // Realiza la creacion y modificacion de los puestos de la empresa
-    class Cargos  extends libSentenciasSQL
+    public class Cargos  extends libSentenciasSQL
     {
-        int idPuesto=0;
-        String nombrePuesto = "";
-        String funcionPuesto = "";
-        float basico = 0;
-        String horario = "";
-        int hsSemanales = 0;
-        float costoHs=0;
-        float costoHs50=0;
-        float costoHs100=0;
-        String seccion = "";
-        String departamento = "";
-        int categoria = 0;
+        public int idPuesto=0;
+        public String nombrePuesto = "";
+        public String funcionPuesto = "";
+        public float basico = 0;
+        public String horario = "";
+        public int hsSemanales = 0;
+        public float costoHs=0;
+        public float costoHs50=0;
+        public float costoHs100=0;
+        public String seccion = "";
+        public String departamento = "";
+        public int categoria = 0;
         
         //constructor
         public Cargos()
@@ -65,7 +59,7 @@ public class Complementarios
     }
     
     // Esta clase crea, modifica y elimina las capacitaciones para el presonal
-    class Capacitaciones extends libSentenciasSQL
+    public class Capacitaciones extends libSentenciasSQL
     {
         int idCapacitacion = 0;
         int idInstitucion = 0;
@@ -114,7 +108,7 @@ public class Complementarios
     }  
     
     //esta clase registra los titulos de los empleados
-    class Titulos extends libSentenciasSQL
+    public class Titulos extends libSentenciasSQL
     {
         int idTitulo=0;
         int idInstitucion = 0;
@@ -123,18 +117,16 @@ public class Complementarios
         String objetivo = "";
         String materias = "";
         String analitico = "";
-        int nivel =0;
         //contructor
         public Titulos()
         {
             this.tabla = "titulo";
-            this.campos = "idInstitucion,Carrera,titulo,objetivos,materias,"
-                        + "analitico,nivel";
+            this.campos = "idInstitucion,Carrera,titulo,objetivos,materias,analitico";
         }
         public int nueva()
         {
             this.valores = idInstitucion+",'"+carrera+"','"+titulo+"','"+objetivo+
-                            "','"+materias+"','"+analitico+"',"+nivel;
+                            "','"+materias+"','"+analitico+"'";
             return this.insertaSQL();
         }
         
@@ -142,7 +134,7 @@ public class Complementarios
         {
             this.condicion = "idtitulo="+idTitulo;
             this.valores = idInstitucion+",'"+carrera+"','"+titulo+"','"+objetivo+
-                            "','"+materias+"','"+analitico+"',"+nivel;
+                            "','"+materias+"','"+analitico+"'";
             return this.modificaSQL();
         }
         
@@ -160,25 +152,26 @@ public class Complementarios
     }
     
     //esta clase edita los tipos de licencia
-    class TipoLicencia extends libSentenciasSQL
+    public class TipoLicencia extends libSentenciasSQL
     {
-        int id = 0;
-        String tipoLicencia = "";
-        String detalle = "";
-        int dias = 0;        
-        int concepto = 0;
-        int valides = 0;
+        public int id = 0;
+        public String tipoLicencia = "";
+        public String detalle = "";
+        public int dias = 0;        
+        public int concepto = 0;
+        public int valides = 0;
+        public int clasificacion = 0;
         // constructor
         public TipoLicencia()
         {
             this.tabla = "tipolicencia";
-            this.campos = "tipoLicencia,detalle,dias,concepto,valides";
+            this.campos = "tipoLicencia,detalle,dias,concepto,valides,clasificacion";
         }
         
         public int nuevo()
         {
             this.valores = "'"+tipoLicencia+"','"+detalle+"',"+dias+","+
-                            concepto+","+valides;
+                            concepto+","+valides+","+clasificacion;
             return this.insertaSQL();
         }
         
@@ -186,7 +179,7 @@ public class Complementarios
         {
             this.condicion = "id="+id;
             this.valores = "'"+tipoLicencia+"','"+detalle+"',"+dias+","+
-                            concepto+","+valides;
+                            concepto+","+valides+","+clasificacion;
             return this.modificaSQL();
         }
         
@@ -202,7 +195,4 @@ public class Complementarios
             return this.consultaSQL();
         }
     }
-    
-    
-    
 }

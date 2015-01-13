@@ -1,50 +1,41 @@
 
-/**************************************
-Autor: Ariel Marcelo Diaz
- *Sitio Web: http://www.infrasoft.com.ar 
-Desarrollo de sistemas a medidas
- ****************************************/
 package sistemaliquidaciondehaberes;
-
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 
-/** * Ariel Marcelo Diaz****/
+
 public class Concepto extends libSentenciasSQL 
 { 
     
     // crea un nuevo concepto para aplicarlo 
-    class Detalle extends libSentenciasSQL 
+    public class Detalle extends libSentenciasSQL 
     {
-        int idConcepto = 0;
-        String nombreCons = "";
-        String detalleCons = "";        
-        int idLicencia = 0;
-        int tipo = 0;        
-        int idRecibo=0; //para la ultima funcion
-        float formula =0;
-        String formula2 = null;
-        int tipoform = 0; 
-        int claseForm=0;
-        int aplicacion=0;
+        public int idConcepto = 0;
+        public String nombreCons = "";
+        public String detalleCons = "";       
+        public int tipo = 0;        
+        public int idRecibo=0; //para la ultima funcion
+        public float formula =0;
+        public String formula2 = null;
+        public int tipoform = 0; 
+        public int claseForm=0;
+        public int aplicacion=0;
         // constructor
         public Detalle()
         {
             this.tabla = "conceptosdetalle";
-            this.campos = "nombreCons,detalleCons,idLicencia,tipo,"
-                            + "formula,formula2,tipoForm,claseForm,"
-                            + "aplicacion";                            
+            this.campos = "nombreCons,detalleCons,tipo,formula,formula2,"
+                          + "tipoForm,claseForm,aplicacion";                            
         }
         
         public int nuevo()
         {
-            this.valores = "'"+nombreCons+"','"+detalleCons+"',"+
-                            idLicencia+","+tipo+","+
+            this.valores = "'"+nombreCons+"','"+detalleCons+"',"+tipo+","+
                             formula+",'"+formula2+"',"+tipoform+","+claseForm
                             +","+aplicacion;
             return this.insertaSQL();
@@ -53,8 +44,7 @@ public class Concepto extends libSentenciasSQL
         public int modifica()
         {
             this.condicion = "idConcepto="+idConcepto;
-            this.valores =  "'"+nombreCons+"','"+detalleCons+"',"+
-                            idLicencia+","+tipo+","+
+            this.valores =  "'"+nombreCons+"','"+detalleCons+"',"+tipo+","+
                             formula+",'"+formula2+"',"+tipoform+","+claseForm
                             +","+aplicacion;
             return this.modificaSQL();
@@ -98,17 +88,16 @@ public class Concepto extends libSentenciasSQL
     }   
     
     // aplica los conceptos a cada recibo de sueldo
-    class Aplica extends Concepto 
+    public class Aplica extends Concepto 
     {
-        int idRecibo = 0;
-        int idConcepto = 0;        
-        float unidad = 1;
-        String formula = "";
-        float remunerativo = 0;
-        float noremunerativo = 0;
-        float descuentos = 0;
-        Concepto.Detalle det = new Detalle();
-        
+        public int idRecibo = 0;
+        public int idConcepto = 0;        
+        public float unidad = 1;
+        public String formula = "";
+        public float remunerativo = 0;
+        public float noremunerativo = 0;
+        public float descuentos = 0;
+        private Concepto.Detalle det = new Detalle();       
          
         //constructor
         public Aplica()
@@ -131,8 +120,7 @@ public class Concepto extends libSentenciasSQL
             {                 
                 if(form.getInt("claseform")==1 )
                 {//formula
-                    liq.idRecibo=idRecibo;
-                    resultado2 = liq.consultarecibo();
+                    
                     switch(form.getInt("tipo"))
                     {                       
                         case 1://remunerativo                            
@@ -324,15 +312,16 @@ public class Concepto extends libSentenciasSQL
     }
     
     //aplica los conceptos predeterminados de cada uno de los legajos
-    class Control extends libSentenciasSQL    
+    public class Control extends libSentenciasSQL    
     {
-        int idLegajo=0;
-        int idConcepto=0;
-        float unidades = 0;
-        int tipo = 0;
-        String inicio = "";
-        String fin = "";
-        int estadoConcepto = 1;
+        public int idLegajo=0;
+        public int idConcepto=0;
+        public float unidades = 0;
+        public int tipo = 0;
+        public String inicio = "";
+        public String fin = "";
+        public int estadoConcepto = 1;
+        
         public Control()
         {
             this.tabla = "legajoconcepto";
@@ -342,7 +331,7 @@ public class Concepto extends libSentenciasSQL
         public int nuevo()
         {
             this.valores = idLegajo+","+idConcepto+","+unidades+","+tipo+","+
-                            ",'"+inicio+"','"+fin+"',"+estadoConcepto;
+                            "'"+inicio+"','"+fin+"',"+estadoConcepto;
             return this.insertaSQL();
         }
         

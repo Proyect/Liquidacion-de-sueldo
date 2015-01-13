@@ -22,22 +22,23 @@ import java.util.logging.Logger;
 
 public class Imprime 
 {    
-    Legajolib leg = new Legajolib();
-    Concepto con = new Concepto();
-    Concepto.Aplica apli = con.new Aplica();
-    Concepto.Detalle det = con.new Detalle();
-    Empresaslib emp = new Empresaslib();
-    Personaslib pers = new Personaslib();
-    
-    String destino ="D:/recibo.pdf";
-    Document documento = null;    
-    PdfWriter writer = null;
+    private final Legajolib leg = new Legajolib();
+    private final Concepto con = new Concepto();
+    private final Concepto.Aplica apli = con.new Aplica();
+    private final Concepto.Detalle det = con.new Detalle();
+    private final Empresaslib emp = new Empresaslib();
+    private final Personaslib pers = new Personaslib();
+   
+    public String destino;
+    private Document documento = null;    
+    private final PdfWriter writer = null;
     //fuentes
-    Font fontbold = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE);
-    Font fontsimple = new Font(FontFamily.TIMES_ROMAN, 12);
+    private final Font fontbold = new Font(FontFamily.TIMES_ROMAN, 11, Font.NORMAL, BaseColor.WHITE);
+    private final Font fontsimple = new Font(FontFamily.TIMES_ROMAN, 12);
     //constructor
     public Imprime()
     {        
+        this.destino = "D:/recibo.pdf";
         documento = new Document();
         documento.addAuthor("Ariel Marcelo Diaz"); 
         documento.setPageSize(PageSize.A4);
