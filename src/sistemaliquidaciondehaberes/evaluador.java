@@ -36,26 +36,36 @@ public class evaluador
     //ejecuta las funciones ya probadas
     public float ejecutar(Liquidacion liq)
     {
-        float aux=0;        
+        float aux=0;
+        Concepto fsConceptos = new Concepto();
+        Concepto.Aplica aplic = fsConceptos.new Aplica();
+        aplic.idRecibo = liq.idRecibo;
         tipo=1;
-        exp=exp.replaceAll("SP", ""+liq.basico);
+        exp=exp.replaceAll("SB", ""+liq.basico); 
         exp=exp.replaceAll("TR", ""+liq.totalRemunerativo);
         exp=exp.replaceAll("TNR", ""+liq.totalNoRemunerativo);
         exp=exp.replaceAll("TD", ""+liq.totalDescuentos); 
         exp=exp.replaceAll("DT", ""+liq.diasTrabajados);
-        exp=exp.replaceAll("Ant", ""+liq.antiguedad);
+        aplic.idConcepto=2;
+        //optimizar aqui
+        ResultSet resultado = aplic.consulta();
+        exp=exp.replaceAll("Ant", ""+resultado.getFloat("remunerativo"));
         exp=exp.replaceAll("AñosT", ""+liq.anti);
-        exp=exp.replaceAll("Prec", ""+liq.presentismo);
+        // y aqui tambien
+        aplic.idConcepto=2;
+        resultado = aplic.consulta();
+        exp=exp.replaceAll("Prec", ""+resultado.getFloat("remunerativo"));
         concepto(liq);
-        if(exp.indexOf("SB") != -1)
-        {
-            Complementarios complemento= new Complementarios();
-            Complementarios.Cargos cargo = complemento.new Cargos();
-            cargo.idPuesto = liq.idPuesto;
-            ResultSet datos = cargo.consulta();
+        if(exp.indexOf("SP") != -1)
+        {            
+            Concepto con = new Concepto();
+            Concepto.Aplica apli = con.new Aplica();
+            apli.idRecibo = liq.idRecibo;
+            apli.idConcepto = 1;
+            ResultSet datos = apli.consulta();
             try 
             {
-                exp=exp.replaceAll("SB", ""+datos.getFloat("basico"));
+                exp=exp.replaceAll("SB", ""+datos.getFloat("remunerativo"));
             }
             catch (SQLException ex) 
             {

@@ -19,7 +19,7 @@ public class Conexion
         DataSource.setUser("root");
         DataSource.setPassword("");
         //DataSource.setDatabaseName("base_liquida_final");
-        DataSource.setDatabaseName("liquidaciondb");
+        DataSource.setDatabaseName("liquidaciondb2");
         //DataSource.setDatabaseName("base_final");
         DataSource.setServerName("Localhost");
         try 

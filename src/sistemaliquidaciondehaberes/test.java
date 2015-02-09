@@ -75,6 +75,51 @@ public class test {
         con.idRecibo = 12;
         con.vectorRecibo();*/
         
+        /*Prueba liquidacion de sac
+        Liquidacion con = new Liquidacion();
+        con.idLegajo = 30;
+        con.periodoIni = "2014-06-01";
+        con.periodoFin = "2014-12-30";
+        con.dias = 180;
+        con.SAC(); */
+        
+        /* Prueba de vacaciones - no termina 
+        Liquidacion con = new Liquidacion();
+        con.idLegajo = 3;
+        con.vacaciones();*/
+        
+        /* Pueba de liquidacion de sueldo
+         Liquidacion con = new Liquidacion();        
+        con.idLegajo=30;
+        con.periodoIni = "2014-10-01";
+        con.periodoFin = "2014-10-30";
+        con.dias=30;
+        con.diasTrabajados=30;       
+        con.recibo();*/
+       
+        /* Pruebas individuales de liquidacion de sueldo  -- Aqui me quede
+        Liquidacion con = new Liquidacion(); 
+        con.idLegajo=30;
+        con.obtienePuesto();
+        con.obtieneDatos(); */
+        
+        /* Realiza las consultas de un recibo de sueldo
+        Liquidacion con = new Liquidacion();
+        con.idLegajo=23;
+        con.consultarecibo(); */
+        
+        /* Realiza las actualiaciones del recibo de sueldo 
+        Liquidacion con = new Liquidacion();
+        con.idRecibo=51;
+        con.diasTrabajados=30;
+        con.dias = 30; //aqui tengo que ver 
+        con.periodoIni = "2014-08-01";
+        con.periodoFin = "2014-08-30";
+        con.reciboUpdate();*/
+        
+        /***************************
+         *       Conceptos
+         ***************************/
         
         /*prueba aplicacion de conceptos 
         Concepto cons= new Concepto();
@@ -97,53 +142,31 @@ public class test {
         con.idRecibo = 56;
         con.noEnRecibos();*/        
         
+        /* Prueba creacion de nuevos conceptos     */
+        Concepto cons= new Concepto();
+        Concepto.Detalle con= cons.new Detalle();
+        con.nombreCons = "Presentismo";
+        con.detalleCons = "";
+        con.formula2 = "SB/12";
+        con.claseForm = 1;
+        con.tipo = 1;
+        con.tipoform =2;
+        con.aplicacion = 0;
+        con.nuevo();
+        
         /* prueba para conceptos pre establecidos
         Liquidacion con = new Liquidacion();
         con.idLegajo = 1;
         con.idRecibo = 13;
         con.preajustados();*/
         
-        /*Prueba liquidacion de sac
-        Liquidacion con = new Liquidacion();
-        con.idLegajo = 30;
-        con.periodoIni = "2014-06-01";
-        con.periodoFin = "2014-12-30";
-        con.dias = 180;
-        con.SAC(); */
         
-        /* Prueba de vacaciones - no termina 
-        Liquidacion con = new Liquidacion();
-        con.idLegajo = 3;
-        con.vacaciones();*/
-        
-        /* Pueba de liquidacion de sueldo
-         Liquidacion con = new Liquidacion();        
-        con.idLegajo=30;
-        con.periodoIni = "2014-10-01";
-        con.periodoFin = "2014-10-30";
-        con.dias=30;
-        con.diasTrabajados=30;       
-        con.recibo();*/
-        
-        /* Realiza las consultas de un recibo de sueldo
-        Liquidacion con = new Liquidacion();
-        con.idLegajo=23;
-        con.consultarecibo(); */
-        
-        /* Realiza las actualiaciones del recibo de sueldo 
-        Liquidacion con = new Liquidacion();
-        con.idRecibo=51;
-        con.diasTrabajados=30;
-        con.dias = 30; //aqui tengo que ver 
-        con.periodoIni = "2014-08-01";
-        con.periodoFin = "2014-08-30";
-        con.reciboUpdate();*/
         
         /**************************************
          *      Legajos
          **************************************/
         
-         /*prueba licencia   */ 
+         /*prueba licencia   
         Legajolib con = new Legajolib();               
         Legajolib.Licencias resultado;
         resultado = con.new Licencias();        
@@ -153,7 +176,7 @@ public class test {
         resultado.inicio="2014-05-01";
         resultado.fin = "2014-05-02";
         resultado.tipoLic = 3;
-        resultado.alta();    
+        resultado.alta();    */ 
         
         /* Prueba de control de licencias vencidas
         Legajolib con = new Legajolib();               
