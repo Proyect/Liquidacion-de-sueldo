@@ -53,7 +53,13 @@ public class Liquidacion extends libSentenciasSQL
                         +",anti,totalRemunerativo,totalNoRemunerativo,totalDescuento,total";
         fsLegajo.idLegajo = idLegajo;
     }
-    
+
+    //obtiene el numero de recibo antes de gravarlo
+    private void nrorecibo()
+    {
+
+    }
+
     //obtiene el puesto del empleado en cuestion
     public void obtienePuesto()
     {   
@@ -86,7 +92,7 @@ public class Liquidacion extends libSentenciasSQL
     
     
     //obtiene el basico del empleado
-    public void obtieneBasico(float basico)
+    public void obtieneBasico()
     {        
         aplic.idConcepto=1;
         aplic.nuevo(this);        
@@ -140,10 +146,9 @@ public class Liquidacion extends libSentenciasSQL
             if ( resultados.first())
             {       
                 this.idObraSocial = resultados.getInt(2);
-                detall.idConcepto = 6;            
-                this.obraSocial = this.totalRemunerativo*detall.formulas();
-                this.totalDescuentos += this.obraSocial;
-                Imprime("Obra Social: "+this.obraSocial);            
+                aplic.idConcepto=4;
+                aplic.nuevo(this);
+                Imprime("Obra Social aplicada ");
                 return 1;  
             }        
             else
@@ -174,10 +179,9 @@ public class Liquidacion extends libSentenciasSQL
                 try 
                 {
                     this.idSindicato = resultado.getInt(1);
-                    detall.idConcepto = 5;
-                    this.sindicato= this.totalRemunerativo*detall.formulas();
-                    this.totalDescuentos += this.sindicato;
-                    Imprime("sindicato: "+this.sindicato);
+                    aplic.idConcepto = 5;
+                    aplic.nuevo(this);
+                    Imprime("sindicato aplicado ");
                     valor=1;
                 } 
                 catch (SQLException ex) 
@@ -233,17 +237,15 @@ public class Liquidacion extends libSentenciasSQL
     }
     
     // realiza el calculo de jubilacion del empleado
-    public float devuelveJubilacion()
+    public void devuelveJubilacion()
     {        
-        detall.idConcepto=9;
-        this.jubilacion=this.totalRemunerativo*detall.formulas();
-        this.totalDescuentos += this.jubilacion;
-        Imprime("Aportes jubilatorios: "+this.jubilacion);
-        return this.jubilacion;
+        aplic.idConcepto=6;
+        aplic.nuevo(this);
+        Imprime("Aportes jubilatorios aplicados ");
     }
     
     //realiza el calculo de art
-    public float devuelveART()
+    public void devuelveART()
     {
         ResultSet resultado = null;
         Legajolib.CargasSociales artL= fsLegajo.new CargasSociales();
@@ -256,6 +258,9 @@ public class Liquidacion extends libSentenciasSQL
                 this.idART= resultado.getInt("idEmpresa");
                 this.totalDescuentos += this.idART; 
                 Imprime("ART:"+idART);
+                aplic.idConcepto=7;
+                aplic.nuevo(this);
+                Imprime("Art cargada");
             }
             else
             {
@@ -265,11 +270,7 @@ public class Liquidacion extends libSentenciasSQL
         catch (SQLException ex)
         {
             estado = ex.getMessage();
-        }
-        detall.idConcepto=8;
-        this.art=this.totalRemunerativo*detall.formulas();
-        Imprime("ART: "+this.art);
-        return this.art;
+        }        
     }
     
     //controla las inasistencias del mes
@@ -474,10 +475,9 @@ public class Liquidacion extends libSentenciasSQL
     {
         obtienePuesto();
         obtieneDatos();        
-        horasExtras();
-        presentismo();
-        devuelveAntiguedad();
-        Imprime("guardando recibo de sueldo");
+        horasExtras();        
+        
+        Imprime("generando recibo de sueldo");
         this.valores = idLegajo+","+estadoR+","+costoHs50+","+costoHs100
                             +","+idPuesto+",'"+periodoIni+"','"+periodoFin+"','"
                             +emision+"',"+cantHs+","+costoHs+","
@@ -506,7 +506,9 @@ public class Liquidacion extends libSentenciasSQL
         {
             Imprime("No se pudo imprimir el recibode sueldo");
         }
-        
+        aplic.idRecibo= this.idRecibo;
+        presentismo();
+        devuelveAntiguedad();
         asignaciones();//verificar
         try
         {
@@ -517,9 +519,9 @@ public class Liquidacion extends libSentenciasSQL
             Imprime("Error en preajustados");
         }
         this.campos = "idLegajo,estadoR,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
-                        "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,"+
-                        "CantHs100,jubilacion,art,idObraSocial,idSindicato,idART,diasTrabajados"
-                        +",antiguedad,totalRemunerativo,totalNoRemunerativo,totalDescuento,total";
+                        "basico,CantHs,costoHs,cantHs50,"+
+                        "CantHs100,idObraSocial,idSindicato,idART,diasTrabajados"
+                        +",anti,totalRemunerativo,totalNoRemunerativo,totalDescuento,total";
         totalRemunerativo = totalRecibo(1);
         totalNoRemunerativo = totalRecibo(2);
         
@@ -575,9 +577,9 @@ public class Liquidacion extends libSentenciasSQL
     public int modificaRecibo()
     {
         this.campos = "idLegajo,estadoR,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
-                        "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,"+
-                        "CantHs100,jubilacion,art,idObraSocial,idSindicato,idART,diasTrabajados"
-                        +",antiguedad,totalRemunerativo,totalNoRemunerativo,totalDescuento,total";
+                        "basico,CantHs,costoHs,cantHs50,"+
+                        "CantHs100,idObraSocial,idSindicato,idART,diasTrabajados"
+                        +",anti,totalRemunerativo,totalNoRemunerativo,totalDescuento,total";
         this.valores = idLegajo+","+estadoR+","+costoHs50+","+costoHs100
                             +","+idPuesto+",'"+periodoIni+"','"+periodoFin+"','"
                             +emision+"',"+cantHs+","+costoHs+","
@@ -609,9 +611,9 @@ public class Liquidacion extends libSentenciasSQL
         asignaciones();
         preajustados();
         this.campos = "idLegajo,estadoR,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
-                        "obraSocial,sindicato,presentismo,basico,CantHs,costoHs,cantHs50,"+
-                        "CantHs100,jubilacion,art,idObraSocial,idSindicato,idART,diasTrabajados"
-                        +",antiguedad,totalRemunerativo,totalNoRemunerativo,totalDescuento,total";
+                        "basico,CantHs,costoHs,cantHs50,"+
+                        "CantHs100,idObraSocial,idSindicato,idART,diasTrabajados"
+                        +",anti,totalRemunerativo,totalNoRemunerativo,totalDescuento,total";
         totalRemunerativo = totalRecibo(1);
         totalNoRemunerativo = totalRecibo(2);
         
@@ -836,7 +838,7 @@ public class Liquidacion extends libSentenciasSQL
     
     //realiza el concepto del sac
     //utilizando el promedio de los sueldos
-    public void SAC()
+    public void SAC() //sin terminar
     {
         Imprime("Generando SAC");
         obtienePuesto();
@@ -863,7 +865,7 @@ public class Liquidacion extends libSentenciasSQL
                 resultado.next();
             }
             this.diasTrabajados = di;
-            this.basico = obtieneBasico(acum/(i*2));     
+            //this.basico = obtieneBasico(acum/(i*2));
             Imprime("SAC:"+basico);
             this.totalRemunerativo = remu/6;
             Imprime("Total remunerativo:"+totalRemunerativo);

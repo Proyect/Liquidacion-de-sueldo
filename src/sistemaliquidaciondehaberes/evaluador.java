@@ -6,18 +6,14 @@
 
 package sistemaliquidaciondehaberes;
 
-
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import javax.swing.JOptionPane;
+
 
 /**  Ariel Marcelo Diaz */
 //clase para implementar funciones matematicas para el sistema
@@ -46,15 +42,37 @@ public class evaluador
         exp=exp.replaceAll("TNR", ""+liq.totalNoRemunerativo);
         exp=exp.replaceAll("TD", ""+liq.totalDescuentos); 
         exp=exp.replaceAll("DT", ""+liq.diasTrabajados);
-        aplic.idConcepto=2;
-        //optimizar aqui
-        ResultSet resultado = aplic.consulta();
-        exp=exp.replaceAll("Ant", ""+resultado.getFloat("remunerativo"));
+        ResultSet resultado = null;      
+        
+        if(exp.indexOf("Ant") != -1)
+        {
+            aplic.idConcepto=2;
+            resultado = aplic.consulta();
+            try
+            {
+                exp = exp.replaceAll("Ant", "" + resultado.getFloat("remunerativo"));
+            }
+            catch (SQLException ex)
+            {
+                liq.estado = ex.getMessage();
+                Imprime(liq.estado);
+            }
+        }
         exp=exp.replaceAll("AñosT", ""+liq.anti);
-        // y aqui tambien
-        aplic.idConcepto=2;
-        resultado = aplic.consulta();
-        exp=exp.replaceAll("Prec", ""+resultado.getFloat("remunerativo"));
+        if(exp.indexOf("Prec") != -1)
+        {
+            aplic.idConcepto=3;
+            resultado = aplic.consulta();
+            try
+            {
+                exp = exp.replaceAll("Prec", "" + resultado.getFloat("remunerativo"));
+            }
+            catch (SQLException ex)
+            {
+                liq.estado = ex.getMessage();
+                Imprime(liq.estado);
+            }
+        }
         concepto(liq);
         if(exp.indexOf("SP") != -1)
         {            
@@ -65,7 +83,7 @@ public class evaluador
             ResultSet datos = apli.consulta();
             try 
             {
-                exp=exp.replaceAll("SB", ""+datos.getFloat("remunerativo"));
+                exp=exp.replaceAll("SP", ""+datos.getFloat("remunerativo"));
             }
             catch (SQLException ex) 
             {

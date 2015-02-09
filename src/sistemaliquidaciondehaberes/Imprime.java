@@ -78,29 +78,8 @@ public class Imprime
             table.addCell("Unidad");
             table.addCell("Remunerativo");
             table.addCell("No Remunerativo");
-            table.addCell("Descuento");
-            
-            table.addCell("Basico");
-            table.addCell("");
-            table.addCell(""+liq.basico);
-            table.addCell("");
-            table.addCell("");
-            
-            table.addCell("Antiguedad");
-            table.addCell("");
-            table.addCell(""+liq.antiguedad);
-            table.addCell("");
-            table.addCell("");
-            
-            if(liq.presentismo != 0)
-            {
-                table.addCell("Presentismo");
-                table.addCell("");
-                table.addCell(""+liq.presentismo);
-                table.addCell("");
-                table.addCell("");
-            }
-            // hacer lo de hs 
+            table.addCell("Descuento");            
+             
             
             boolean salir=true;
             resultadoConcep.first();
@@ -153,28 +132,8 @@ public class Imprime
                 {
                     resultadoConcep.next();
                 }
-            }
+            }           
             
-            table.addCell("Obra Social");
-            table.addCell("");
-            table.addCell("");
-            table.addCell("");
-            table.addCell(""+liq.obraSocial);
-            
-            table.addCell("ART");
-            table.addCell("");
-            table.addCell("");
-            table.addCell("");
-            table.addCell(""+liq.art);
-            
-            if (liq.sindicato != 0)
-            {
-                table.addCell("Sindicato");
-                table.addCell("");
-                table.addCell("");
-                table.addCell("");
-                table.addCell(""+liq.sindicato);
-            }
             
             resultadoConcep.first();
             resultadoDet = null;
