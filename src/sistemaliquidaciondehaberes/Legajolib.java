@@ -1,24 +1,17 @@
-/**************************************
-Autor: Ariel Marcelo Diaz
- *Sitio Web: http://www.infrasoft.com.ar 
-Desarrollo de sistemas a medidas
- ****************************************/
 package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-
-/** * Ariel Marcelo Diaz*/
 public class Legajolib extends libSentenciasSQL
 {
     //instancias
-    int idLegajo=0;
-    int idPersona=0;
-    int estadoL=0;
-    String fecha=FechaActual();
-    String hora=HoraActual();
+    public int idLegajo=0;
+    public int idPersona=0;
+    public int estadoL=0;
+    public String fecha=FechaActual();
+    public String hora=HoraActual();
     //Legajolib.Novedad novedad = this.new Novedad();
             
     //constructor
@@ -55,7 +48,7 @@ public class Legajolib extends libSentenciasSQL
     }
     
     //clase novedad
-    class Novedad extends Legajolib
+    public class Novedad extends Legajolib
     {
         //constructor
         public Novedad()
@@ -107,10 +100,10 @@ public class Legajolib extends libSentenciasSQL
     }
     
     //clase para las cargas sociales: obrasocial, sindicato, art    
-    class CargasSociales extends Legajolib
+    public class CargasSociales extends Legajolib
     {   //instancias
-        int idEmpresa = 0;
-        String vinculacion = "";
+        public int idEmpresa = 0;
+        public String vinculacion = "";
         public CargasSociales()
         {
             this.tabla = "vinculacioneslegajo";
@@ -144,10 +137,10 @@ public class Legajolib extends libSentenciasSQL
     }
     
     // operaciones con las asignaciones   
-    class Asignaciones extends Legajolib 
+    public class Asignaciones extends Legajolib 
     {   
-        int idVinculo = 0;
-        Novedad novedad = this.new Novedad();
+        public int idVinculo = 0;
+        private Novedad novedad = this.new Novedad();
         // constructor
         public Asignaciones()
         {
@@ -188,11 +181,11 @@ public class Legajolib extends libSentenciasSQL
     }
     
     // Clases de inasistencia
-    class Inasistencia extends Legajolib // verificar la insercion de datos
+    public class Inasistencia extends Legajolib // verificar la insercion de datos
     {
-        int justificada=0; 
-        Novedad novedad = this.new Novedad();    
-        int idNovedad = 0;
+        public int justificada=0; 
+        private Novedad novedad = this.new Novedad();    
+        public int idNovedad = 0;
         //constructor
         public Inasistencia()
         {            
@@ -272,12 +265,12 @@ public class Legajolib extends libSentenciasSQL
     }
     
     //clase llegadas tardes
-    class LlegadasTardes extends Legajolib 
+    public class LlegadasTardes extends Legajolib 
     {
-        int idLlegada=0;
-        int minutosTardes =0;
-        Novedad novedad = this.new Novedad();    
-        int idNovedad = 0;
+        public int idLlegada=0;
+        public int minutosTardes =0;
+        private Novedad novedad = this.new Novedad();    
+        public int idNovedad = 0;
         public LlegadasTardes()
         {
             this.tabla = "llegadastardes";
@@ -334,18 +327,18 @@ public class Legajolib extends libSentenciasSQL
     }
     
     // clase licencias
-    class Licencias extends Legajolib
+    public class Licencias extends Legajolib
     {
-        int idLicencia = 0;
-        Novedad novedad = this.new Novedad();    
-        int idNovedad = 0;
-        String motivo = "";
-        int cantidad = 0;
-        String inicio = "";
-        String fin = "";
-        int tipoLic=0;
-        int estadoLic=1;
-        int concepto = 0;
+        public int idLicencia = 0;
+        private Novedad novedad = this.new Novedad();    
+        public int idNovedad = 0;
+        public String motivo = "";
+        public int cantidad = 0;
+        public String inicio = "";
+        public String fin = "";
+        public int tipoLic=0;
+        public int estadoLic=1;
+        public int concepto = 0;
         // constructor
         public Licencias()
         {
@@ -393,9 +386,22 @@ public class Legajolib extends libSentenciasSQL
                     break;
                 }
                 ResultSet resultado = this.consultaSQL();
-                if (diasLicenciaPermitidos > resultado.getInt("dias")) 
+                int val;
+                if (resultado.next())
+                {                      
+                    val=resultado.getInt("dias");
+                    //Imprime("entra en la condicion");
+                }     
+                else
                 {
-                    diasLicenciaPermitidos -= resultado.getInt("dias");
+                    val=0;
+                    //Imprime("es un valor nulo");
+                }
+                
+                if (diasLicenciaPermitidos > val)
+                {
+                    diasLicenciaPermitidos -= val;
+                    Imprime("LLega hasta aqui");
                     if(diasLicenciaPermitidos < this.cantidad)
                     {    //actualizando datos
                         Imprime("Dias de licencia sobrepasados");
@@ -512,11 +518,11 @@ public class Legajolib extends libSentenciasSQL
         
 
     // clases de capacitaciones y cursos. Verificar
-    class Capacitaciones extends Legajolib
+    public class Capacitaciones extends Legajolib
     {
-        int idCapacitacion = 0;
-        int idNovedad = 0;
-        Novedad novedad = this.new Novedad(); 
+        public int idCapacitacion = 0;
+        public int idNovedad = 0;
+        public Novedad novedad = this.new Novedad(); 
         //constructor
         public Capacitaciones()
         {
@@ -566,10 +572,10 @@ public class Legajolib extends libSentenciasSQL
     }
     
     // clase de titulos adquiridos. Verificar
-    class Titulos extends Legajolib
+    public class Titulos extends Legajolib
     {        
-        int idTitulo= 0;
-        int estadoTi= 0;
+        public int idTitulo= 0;
+        public int estadoTi= 0;
         public Titulos()
         {
             this.tabla = "legajoTitulo";
@@ -603,13 +609,13 @@ public class Legajolib extends libSentenciasSQL
     }
     
     // Clase para notificaciones al personal
-    class Notificaciones extends Legajolib
+    public class Notificaciones extends Legajolib
     {
-        int idComunicado=0;
-        int idTipoNot=0;
-        String detalle="";
-        Novedad novedad = this.new Novedad();
-        int idNovedad=0;
+        public int idComunicado=0;
+        public int idTipoNot=0;
+        public String detalle="";
+        private Novedad novedad = this.new Novedad();
+        public int idNovedad=0;
         //constructor
         public Notificaciones()
         {            
@@ -669,12 +675,12 @@ public class Legajolib extends libSentenciasSQL
     }
     
     //clase para el manejo de horas extras
-    class HorasExtras extends Legajolib
+    public class HorasExtras extends Legajolib
     {
-        int cantidadHs = 0;
-        int tipoHs = 0;
-        Novedad novedad = this.new Novedad();        
-        int idNovedad=0;
+        public int cantidadHs = 0;
+        public int tipoHs = 0;
+        private Novedad novedad = this.new Novedad();        
+        public int idNovedad=0;
         //constructor
         public HorasExtras()
         {
@@ -734,14 +740,14 @@ public class Legajolib extends libSentenciasSQL
     }
     
     //clase para la asignacion y modificacion de los puestos de la empresa
-    class Puestos extends Legajolib
+    public class Puestos extends Legajolib
     {
-        int idPuesto=0;
-        Novedad novedad = this.new Novedad();        
-        int idNovedad=0;
-        String fechaInicio = "";
-        String fechaFin = "";
-        int estadoP=1;
+        public int idPuesto=0;
+        public Novedad novedad = this.new Novedad();        
+        public int idNovedad=0;
+        public String fechaInicio = "";
+        public String fechaFin = "";
+        public int estadoP=1;
         // constructor
         public Puestos()
         {

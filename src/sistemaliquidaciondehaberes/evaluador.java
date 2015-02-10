@@ -1,56 +1,89 @@
-/**************************************
-Autor: Ariel Marcelo Diaz
- *Sitio Web: http://www.infrasoft.com.ar 
-Desarrollo de sistemas a medidas
- ****************************************/
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+
 /**  Ariel Marcelo Diaz */
 //clase para implementar funciones matematicas para el sistema
 public class evaluador 
 {
-    ScriptEngineManager manager = new ScriptEngineManager();
-    ScriptEngine engine = manager.getEngineByName("js");
+    private ScriptEngineManager manager = new ScriptEngineManager();
+    private ScriptEngine engine = manager.getEngineByName("js");
     
-    String exp = "";
-    float sb = 0;    
-    int tipo=0; //0: Test, 1: Busca y reemplazo de caracteres
-    String concep="";
-    float pi=(float) 3.1415926535897932384626433832;
+    public String exp = "";
+    public float sb = 0;    
+    public int tipo=0; //0: Test, 1: Busca y reemplazo de caracteres
+    public String concep="";
+    public String mensaje = "";
+    private float pi=(float) 3.1415926535897932384626433832;
     
     //ejecuta las funciones ya probadas
     public float ejecutar(Liquidacion liq)
     {
-        float aux=0;        
+        float aux=0;
+        Concepto fsConceptos = new Concepto();
+        Concepto.Aplica aplic = fsConceptos.new Aplica();
+        aplic.idRecibo = liq.idRecibo;
         tipo=1;
-        exp=exp.replaceAll("SP", ""+liq.basico);
+        exp=exp.replaceAll("SB", ""+liq.basico); 
         exp=exp.replaceAll("TR", ""+liq.totalRemunerativo);
         exp=exp.replaceAll("TNR", ""+liq.totalNoRemunerativo);
         exp=exp.replaceAll("TD", ""+liq.totalDescuentos); 
         exp=exp.replaceAll("DT", ""+liq.diasTrabajados);
-        exp=exp.replaceAll("Ant", ""+liq.antiguedad);
-        exp=exp.replaceAll("AñosT", ""+liq.anti);
-        exp=exp.replaceAll("Prec", ""+liq.presentismo);
-        concepto(liq);
-        if(exp.indexOf("SB") != -1)
+        ResultSet resultado = null;      
+        
+        if(exp.indexOf("Ant") != -1)
         {
-            Complementarios complemento= new Complementarios();
-            Complementarios.Cargos cargo = complemento.new Cargos();
-            cargo.idPuesto = liq.idPuesto;
-            ResultSet datos = cargo.consulta();
+            aplic.idConcepto=2;
+            resultado = aplic.consulta();
+            try
+            {
+                exp = exp.replaceAll("Ant", "" + resultado.getFloat("remunerativo"));
+            }
+            catch (SQLException ex)
+            {
+                liq.estado = ex.getMessage();
+                Imprime(liq.estado);
+            }
+        }
+        exp=exp.replaceAll("AñosT", ""+liq.anti);
+        if(exp.indexOf("Prec") != -1)
+        {
+            aplic.idConcepto=3;
+            resultado = aplic.consulta();
+            try
+            {
+                exp = exp.replaceAll("Prec", "" + resultado.getFloat("remunerativo"));
+            }
+            catch (SQLException ex)
+            {
+                liq.estado = ex.getMessage();
+                Imprime(liq.estado);
+            }
+        }
+        concepto(liq);
+        if(exp.indexOf("SP") != -1)
+        {            
+            Concepto con = new Concepto();
+            Concepto.Aplica apli = con.new Aplica();
+            apli.idRecibo = liq.idRecibo;
+            apli.idConcepto = 1;
+            ResultSet datos = apli.consulta();
             try 
             {
-                exp=exp.replaceAll("SB", ""+datos.getFloat("basico"));
+                exp=exp.replaceAll("SP", ""+datos.getFloat("remunerativo"));
             }
             catch (SQLException ex) 
             {
@@ -65,6 +98,7 @@ public class evaluador
         } 
         catch (ScriptException ex) 
         {
+            mensaje = "Fallo en la evaluacion de formula";           
             Imprime("Fallo en la evaluacion de formula");
         }
         Imprime(""+aux);
@@ -93,6 +127,7 @@ public class evaluador
         } 
         catch (ScriptException ex) 
         {
+            mensaje = "Fallo en la evaluacion de formula";  
             Imprime("Error en la funcion artimetica");
         }
         Imprime(""+aux);

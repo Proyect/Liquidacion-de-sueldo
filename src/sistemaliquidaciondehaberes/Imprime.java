@@ -22,22 +22,23 @@ import java.util.logging.Logger;
 
 public class Imprime 
 {    
-    Legajolib leg = new Legajolib();
-    Concepto con = new Concepto();
-    Concepto.Aplica apli = con.new Aplica();
-    Concepto.Detalle det = con.new Detalle();
-    Empresaslib emp = new Empresaslib();
-    Personaslib pers = new Personaslib();
-    
-    String destino ="D:/recibo.pdf";
-    Document documento = null;    
-    PdfWriter writer = null;
+    private final Legajolib leg = new Legajolib();
+    private final Concepto con = new Concepto();
+    private final Concepto.Aplica apli = con.new Aplica();
+    private final Concepto.Detalle det = con.new Detalle();
+    private final Empresaslib emp = new Empresaslib();
+    private final Personaslib pers = new Personaslib();
+   
+    public String destino;
+    private Document documento = null;    
+    private final PdfWriter writer = null;
     //fuentes
-    Font fontbold = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE);
-    Font fontsimple = new Font(FontFamily.TIMES_ROMAN, 12);
+    private final Font fontbold = new Font(FontFamily.TIMES_ROMAN, 11, Font.NORMAL, BaseColor.WHITE);
+    private final Font fontsimple = new Font(FontFamily.TIMES_ROMAN, 12);
     //constructor
     public Imprime()
     {        
+        this.destino = "D:/recibo.pdf";
         documento = new Document();
         documento.addAuthor("Ariel Marcelo Diaz"); 
         documento.setPageSize(PageSize.A4);
@@ -77,29 +78,8 @@ public class Imprime
             table.addCell("Unidad");
             table.addCell("Remunerativo");
             table.addCell("No Remunerativo");
-            table.addCell("Descuento");
-            
-            table.addCell("Basico");
-            table.addCell("");
-            table.addCell(""+liq.basico);
-            table.addCell("");
-            table.addCell("");
-            
-            table.addCell("Antiguedad");
-            table.addCell("");
-            table.addCell(""+liq.antiguedad);
-            table.addCell("");
-            table.addCell("");
-            
-            if(liq.presentismo != 0)
-            {
-                table.addCell("Presentismo");
-                table.addCell("");
-                table.addCell(""+liq.presentismo);
-                table.addCell("");
-                table.addCell("");
-            }
-            // hacer lo de hs 
+            table.addCell("Descuento");            
+             
             
             boolean salir=true;
             resultadoConcep.first();
@@ -152,28 +132,8 @@ public class Imprime
                 {
                     resultadoConcep.next();
                 }
-            }
+            }           
             
-            table.addCell("Obra Social");
-            table.addCell("");
-            table.addCell("");
-            table.addCell("");
-            table.addCell(""+liq.obraSocial);
-            
-            table.addCell("ART");
-            table.addCell("");
-            table.addCell("");
-            table.addCell("");
-            table.addCell(""+liq.art);
-            
-            if (liq.sindicato != 0)
-            {
-                table.addCell("Sindicato");
-                table.addCell("");
-                table.addCell("");
-                table.addCell("");
-                table.addCell(""+liq.sindicato);
-            }
             
             resultadoConcep.first();
             resultadoDet = null;

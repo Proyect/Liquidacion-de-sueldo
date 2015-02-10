@@ -1,21 +1,15 @@
-
-/**************************************
-Autor: Ariel Marcelo Diaz
- *Sitio Web: http://www.infrasoft.com.ar 
-Desarrollo de sistemas a medidas
- ****************************************/
 package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/** * Ariel Marcelo Diaz*/
+
 public class libSentenciasSQL extends Conexion{
     //instancias
-    String tabla ="";
-    String campos = "";
-    String valores = "";
-    String condicion = "";
+    public String tabla ="";
+    public String campos = "";
+    public String valores = "";
+    public String condicion = "";
     
     //Realiza la insercion de datos
         public int insertaSQL()
@@ -96,7 +90,7 @@ public class libSentenciasSQL extends Conexion{
                 sentencia = sentencia + " WHERE "+ condicion;
             }
             sentencia = sentencia + ";";
-            //Imprime(sentencia);            
+            Imprime(sentencia);            
             try
             {
                 resultado = st.executeQuery(sentencia);

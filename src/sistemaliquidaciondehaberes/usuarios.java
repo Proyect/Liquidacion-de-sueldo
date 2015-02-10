@@ -1,15 +1,18 @@
-/**************************************
-Autor: Ariel Marcelo Diaz
- *Sitio Web: http://www.infrasoft.com.ar 
-Desarrollo de sistemas a medidas
- ****************************************/
-//clase para el manejo de usuarios
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package sistemaliquidaciondehaberes;
 
+/**
+ *
+ * @author Gustavo
+ */
 import java.sql.ResultSet;
 
-/**  Ariel Marcelo Diaz
- */
+
 class Usuarios extends libSentenciasSQL
     {
         String usuario = "";

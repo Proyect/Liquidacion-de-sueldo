@@ -1,26 +1,19 @@
-/**************************************
-Autor: Ariel Marcelo Diaz
- *Sitio Web: http://www.infrasoft.com.ar 
-Desarrollo de sistemas a medidas
- ****************************************/
 package sistemaliquidaciondehaberes;
-
 import java.sql.ResultSet;
 
-/** * Ariel Marcelo Diaz*/
 public class Empresaslib extends libSentenciasSQL
 {
-    int idEmpresas=0;
-    String tipo = "";
-    String clase = "";
-    String cuit = "";
-    String razonSocial = "";    
-    String  cp = "";
-    String  barrio = "";
-    String  direccion = "";
-    String  telefono = "";
-    String celular = "";
-    String otrosDatos = "";
+    public int idEmpresas=0;
+    public String tipo = "";
+    public String clase = "";
+    public String cuit = "";
+    public String razonSocial = "";    
+    public String  cp = "";
+    public String  barrio = "";
+    public String  direccion = "";
+    public String  telefono = "";
+    public String celular = "";
+    public String otrosDatos = "";
        
     //constructor
     public Empresaslib()
@@ -62,7 +55,6 @@ public class Empresaslib extends libSentenciasSQL
     {
         this.condicion = condicion;
         return this.borraSQL();
-    }
-    
+    }    
    
 }

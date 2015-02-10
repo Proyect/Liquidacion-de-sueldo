@@ -1,11 +1,4 @@
-/**************************************
-Autor: Ariel Marcelo Diaz
- *Sitio Web: http://www.infrasoft.com.ar 
-Desarrollo de sistemas a medidas
- ****************************************/
 package sistemaliquidaciondehaberes;
-
-/*** *  Ariel Marcelo Diaz */
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.*; 
 import java.text.SimpleDateFormat;
@@ -14,10 +7,10 @@ import java.util.Date;
 
 public class Conexion
 {
-    MysqlDataSource DataSource;
-    Connection conexion;
-    Statement st;
-    String estado = "Ok";
+    public MysqlDataSource DataSource;
+    public Connection conexion;
+    public Statement st;
+    public String estado = "Ok";
     
     // Constructor y coneccion a la base de datos
     public Conexion()
@@ -25,7 +18,9 @@ public class Conexion
         DataSource = new MysqlDataSource();
         DataSource.setUser("root");
         DataSource.setPassword("");
-        DataSource.setDatabaseName("liquidaciondb");
+        //DataSource.setDatabaseName("base_liquida_final");
+        DataSource.setDatabaseName("liquidaciondb2");
+        //DataSource.setDatabaseName("base_final");
         DataSource.setServerName("Localhost");
         try 
         {
@@ -118,7 +113,7 @@ public class Conexion
        public ResultSet buscaPersona(String atributo, String buscar)
        {
            ResultSet devuelve = null;
-           String sentencia = "select * from listapersona where "+atributo+" like '%"+buscar+"%';";
+           String sentencia = "select * from empleados_departamentos where "+atributo+" like '%"+buscar+"%' order by seccion;";
            Imprime(sentencia);
            try
            {
