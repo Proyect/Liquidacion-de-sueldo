@@ -1,4 +1,5 @@
 
+
 package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
@@ -31,7 +32,7 @@ public class Personaslib extends libSentenciasSQL
     public String mail = "";
     public String mail2 = "";
     public String otrosDatos = "";
-    
+    public int estudios =2;
     
     //constructor
     public Personaslib()
@@ -39,7 +40,7 @@ public class Personaslib extends libSentenciasSQL
         this.tabla="persona";
         this.campos="apellido,nombre,telefono,telefono2,celular,idProvincia,cp,"
                     + "barrio,calle,nro,dto,piso,tipoDoc,nroDoc,cuil,estadoCivil"
-                    + ",fechaNac,nacionalidad,sexo,mail,mail2,otrosDatos";
+                    + ",fechaNac,nacionalidad,sexo,mail,mail2,otrosDatos,estudios";
     }       
     
     // inserta una nueva persona en la base de datos
@@ -50,7 +51,7 @@ public class Personaslib extends libSentenciasSQL
                      calle+"','"+nro+"','"+dto+"','"+piso+"','"+tipoDoc+"','"+
                      nroDoc+"','"+cuil+"','"+estadoCivil+"','"+fechaNac+"','"+
                      nacionalidad+"',"+sexo+",'"+mail+"','"+mail2+"','"+
-                     otrosDatos+"'";
+                     otrosDatos+"',"+estudios;
        this.condicion="cuil='"+cuil+"'";
        ResultSet consulta = this.consultaSQL();
         try 
@@ -80,7 +81,7 @@ public class Personaslib extends libSentenciasSQL
                      calle+"','"+nro+"','"+dto+"','"+piso+"','"+tipoDoc+"','"+
                      nroDoc+"','"+cuil+"','"+estadoCivil+"','"+fechaNac+"','"+
                      nacionalidad+"',"+sexo+",'"+mail+"','"+mail2+"','"+
-                     otrosDatos+"'";
+                     otrosDatos+"',"+estudios;
          return modificaSQL();
     }
     
