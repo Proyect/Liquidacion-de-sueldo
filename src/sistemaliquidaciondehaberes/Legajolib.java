@@ -810,6 +810,7 @@ public class Legajolib extends libSentenciasSQL
         // genera un nuevo puesto laboral
         public int nuevo()
         {
+            novedad.idLegajo = this.idLegajo;
             idNovedad = novedad.nueva_novedad("Nuevo puesto Laboral",
                         "Puesto nro:"+this.idPuesto, 1);
             if (idNovedad !=0)
