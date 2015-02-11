@@ -13,29 +13,38 @@ package sistemaliquidaciondehaberes;
 import java.sql.ResultSet;
 
 
-class Usuarios extends libSentenciasSQL
+public class usuarios extends libSentenciasSQL
     {
-        String usuario = "";
-        String pass = "";
-        String tipo = "";
-        int idPersona = 0;
+        public String usuario = "";
+        public String pass = "";
+        public int tipo = 1;
+        public String nombre = "";
+        public String direccion = "";
+        public String telefono = "";
+        public String celular = "";
+        public String email = "";
         
-        public Usuarios()
+        public usuarios()
         {
             this.tabla = "user";
-            this.campos = "usuario,pass,tipo,idPersona";
+            this.campos = "usuario,pass,tipo,nombre,direccion,"
+                        + "telefono,celular,email";
         }
         
         public int nuevo()
         {
-            this.valores = "'"+usuario+"','"+pass+"','"+tipo+"',"+idPersona;
+            this.valores = "'"+usuario+"','"+pass+"',"+tipo+",'"+nombre+"','"
+                            +direccion+"','"+telefono+"','"+celular+"','"+
+                            email+"'";
             return this.insertaSQL();
         }
         
         public int modifica()
         {
             this.condicion = "usuario='"+usuario+"'";
-            this.valores = "'"+usuario+"','"+pass+"','"+tipo+"',"+idPersona;
+            this.valores = "'"+usuario+"','"+pass+"',"+tipo+",'"+nombre+"','"
+                            +direccion+"','"+telefono+"','"+celular+"','"+
+                            email+"'";
             return this.modificaSQL();
         }
         

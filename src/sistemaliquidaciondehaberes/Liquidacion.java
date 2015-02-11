@@ -54,13 +54,7 @@ public class Liquidacion extends libSentenciasSQL
         fsLegajo.idLegajo = idLegajo;
     }
 
-    //obtiene el numero de recibo antes de gravarlo
-    private void nrorecibo()
-    {
-
-    }
-
-    //obtiene el puesto del empleado en cuestion
+     //obtiene el puesto del empleado en cuestion
     public void obtienePuesto()
     {   
         ResultSet reg = null;     
@@ -396,6 +390,7 @@ public class Liquidacion extends libSentenciasSQL
                         }                        
                     }
                     Imprime("Total remunerativos:"+acu);
+                    this.totalRemunerativo = acu;
                 }
                 catch (SQLException ex)
                 {
@@ -426,6 +421,7 @@ public class Liquidacion extends libSentenciasSQL
                         }
                     }
                     Imprime("Total no remunerativos:"+acu);
+                    this.totalNoRemunerativo=acu;
                  }
                  catch (SQLException ex) 
                  {
@@ -457,6 +453,7 @@ public class Liquidacion extends libSentenciasSQL
                    }
                 }
                 Imprime("Total descuentos:"+acu);
+                this.totalDescuentos=acu;
               }
               catch (SQLException ex)
               {
@@ -480,12 +477,12 @@ public class Liquidacion extends libSentenciasSQL
         Imprime("generando recibo de sueldo");
         this.valores = idLegajo+","+estadoR+","+costoHs50+","+costoHs100
                             +","+idPuesto+",'"+periodoIni+"','"+periodoFin+"','"
-                            +emision+"',"+cantHs+","+costoHs+","
+                            +emision+"',"+basico+","+cantHs+","+costoHs+","
                             +cantHs50+","+cantHs100+","+idObraSocial+
                             ","+idSindicato+","+idART+","
                             +diasTrabajados+","+anti+","
                             +totalRemunerativo+","+totalNoRemunerativo+","+
-                            totalDescuentos+","+total; 
+                            totalDescuentos+","+total;
         
         if(this.insertaSQL()==1)
         {
@@ -582,12 +579,12 @@ public class Liquidacion extends libSentenciasSQL
                         +",anti,totalRemunerativo,totalNoRemunerativo,totalDescuento,total";
         this.valores = idLegajo+","+estadoR+","+costoHs50+","+costoHs100
                             +","+idPuesto+",'"+periodoIni+"','"+periodoFin+"','"
-                            +emision+"',"+cantHs+","+costoHs+","
+                            +emision+"',"+basico+","+cantHs+","+costoHs+","
                             +cantHs50+","+cantHs100+","+idObraSocial+
                             ","+idSindicato+","+idART+","
                             +diasTrabajados+","+anti+","
                             +totalRemunerativo+","+totalNoRemunerativo+","+
-                            totalDescuentos+","+total; 
+                            totalDescuentos+","+total;
         return this.modificaSQL();
     }
     
@@ -879,12 +876,12 @@ public class Liquidacion extends libSentenciasSQL
             this.total=totalRemunerativo+totalNoRemunerativo-totalDescuentos;
             this.valores = idLegajo+","+estadoR+","+costoHs50+","+costoHs100
                             +","+idPuesto+",'"+periodoIni+"','"+periodoFin+"','"
-                            +emision+"',"+cantHs+","+costoHs+","
+                            +emision+"',"+basico+","+cantHs+","+costoHs+","
                             +cantHs50+","+cantHs100+","+idObraSocial+
                             ","+idSindicato+","+idART+","
                             +diasTrabajados+","+anti+","
                             +totalRemunerativo+","+totalNoRemunerativo+","+
-                            totalDescuentos+","+total; 
+                            totalDescuentos+","+total;
             Imprime("Guardando el SAC");
             this.insertaSQL();
         }
