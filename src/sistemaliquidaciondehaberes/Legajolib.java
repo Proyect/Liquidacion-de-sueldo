@@ -2,6 +2,8 @@ package sistemaliquidaciondehaberes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Legajolib extends libSentenciasSQL
@@ -389,8 +391,7 @@ public class Legajolib extends libSentenciasSQL
                 int val;
                 if (resultado.next())
                 {                      
-                    val=resultado.getInt("dias");
-                    //Imprime("entra en la condicion");
+                    val=resultado.getInt("dias");                    
                 }     
                 else
                 {
@@ -401,7 +402,7 @@ public class Legajolib extends libSentenciasSQL
                 if (diasLicenciaPermitidos > val)
                 {
                     diasLicenciaPermitidos -= val;
-                    Imprime("LLega hasta aqui");
+                   
                     if(diasLicenciaPermitidos < this.cantidad)
                     {    //actualizando datos
                         Imprime("Dias de licencia sobrepasados");
@@ -471,6 +472,57 @@ public class Legajolib extends libSentenciasSQL
            
         }
         
+        // devuelve la cantidad de dias permitidos en una licencia
+        public int cantDias()// sin probar
+        {
+            int val=0;
+            Complementarios comp= new Complementarios();
+            Complementarios.TipoLicencia tipoL= comp.new TipoLicencia();
+            tipoL.id = this.tipoLic;
+            ResultSet resultado = tipoL.consulta(); 
+            try
+            {
+                int dias = resultado.getInt("dias");
+                this.campos = "SUM(cantDias)  as dias";
+                this.condicion = "idLegajo="+this.idLegajo+
+                                " AND tipoLicencia="+this.tipoLic;
+                int valides = resultado.getInt("valides");
+                switch(valides)
+                {
+                    //licencia permitida por mes
+                    case 2:
+                        this.condicion += " AND MONTH(fechaInicio)=MONTH(CURDATE())"
+                                            +" GROUP BY fechaInicio";
+                    break;
+                    
+                    //licencia permitida por año
+                    case 1:
+                        this.condicion += " AND YEAR(fechaInicio)=YEAR(CURDATE())"
+                                            +" GROUP BY fechaInicio";
+                        
+                    break;
+                        
+                    //licencias permitidas por unica ves
+                    case 0:
+                        
+                    break;
+                }
+                resultado = this.consultaSQL();
+                if (resultado.next())
+                {                      
+                    val=resultado.getInt("dias");                    
+                }
+                dias = dias - val;
+                return dias;
+            }
+            catch (SQLException ex) 
+            {
+                estado = ex.getMessage();
+                Imprime("error en la consulta");
+            }
+            return val;
+        }        
+                
         // realiza una consulta sobre licencias
         public ResultSet consulta()
         {

@@ -15,10 +15,10 @@ import java.sql.ResultSet;
 
 public class usuarios extends libSentenciasSQL
     {
-        String usuario = "";
-        String pass = "";
-        String tipo = "";
-        int idPersona = 0;
+        public String usuario = "";
+        public String pass = "";
+        public String tipo = "";
+        public int idPersona = 0;
         
         public usuarios()
         {
