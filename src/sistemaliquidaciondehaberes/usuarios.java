@@ -13,14 +13,14 @@ package sistemaliquidaciondehaberes;
 import java.sql.ResultSet;
 
 
-class Usuarios extends libSentenciasSQL
+public class usuarios extends libSentenciasSQL
     {
         String usuario = "";
         String pass = "";
         String tipo = "";
         int idPersona = 0;
         
-        public Usuarios()
+        public usuarios()
         {
             this.tabla = "user";
             this.campos = "usuario,pass,tipo,idPersona";
