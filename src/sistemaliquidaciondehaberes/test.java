@@ -75,13 +75,13 @@ public class test {
         con.idRecibo = 12;
         con.vectorRecibo();*/
         
-        /*Prueba liquidacion de sac
+        /*Prueba liquidacion de sac*/
         Liquidacion con = new Liquidacion();
-        con.idLegajo = 30;
+        con.idLegajo = 1;
         con.periodoIni = "2014-06-01";
         con.periodoFin = "2014-12-30";
         con.dias = 180;
-        con.SAC(); */
+        con.SAC(); 
         
         /* Prueba de vacaciones - no termina 
         Liquidacion con = new Liquidacion();
@@ -142,7 +142,7 @@ public class test {
         con.idRecibo = 56;
         con.noEnRecibos();*/        
         
-        /* Prueba creacion de nuevos conceptos     */
+        /* Prueba creacion de nuevos conceptos    
         Concepto cons= new Concepto();
         Concepto.Detalle con= cons.new Detalle();
         con.nombreCons = "Presentismo";
@@ -152,7 +152,7 @@ public class test {
         con.tipo = 1;
         con.tipoform =2;
         con.aplicacion = 0;
-        con.nuevo();
+        con.nuevo(); */
         
         /* prueba para conceptos pre establecidos
         Liquidacion con = new Liquidacion();
