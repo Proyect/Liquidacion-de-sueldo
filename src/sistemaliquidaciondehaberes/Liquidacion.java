@@ -763,7 +763,7 @@ public class Liquidacion extends libSentenciasSQL
     
 
     //aplica los conceptos pre ajustados
-    public void preajustados() throws ParseException 
+    public void preajustados() throws ParseException  //rearmar la funcion
     {   
         Concepto.Aplica aplicarConcep = fsConceptos.new Aplica();
         aplicarConcep.idRecibo = this.idRecibo; 
@@ -782,13 +782,13 @@ public class Liquidacion extends libSentenciasSQL
             {
                 if(resultado.getInt("estado")!=0)
                 {//estado activo
-                    if(resultado.getInt("tipo")!=2)
+                    if(resultado.getInt("tipo")!=2)//verificar aqui
                     {    
                         aplicarConcep.idConcepto = resultado.getInt("idConcepto");
                         aplicarConcep.unidad = resultado.getFloat("unidades");  
                         aplicarConcep.nuevo(this);
                     
-                        if (resultado.getInt("tipo")==0)
+                        if (resultado.getInt("tipo")==0) //modificar aqui
                         {//concepto por cantidad de veces
                             concep.idConcepto = resultado.getInt("idConcepto");
                             concep.unidades = resultado.getFloat("unidades");

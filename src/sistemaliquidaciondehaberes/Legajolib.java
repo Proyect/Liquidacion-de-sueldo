@@ -396,8 +396,7 @@ public class Legajolib extends libSentenciasSQL
                 else
                 {
                     val=0;
-                    //Imprime("es un valor nulo");
-                }
+                }//controlar aqui. Dias sobrepasados
                 
                 if (diasLicenciaPermitidos > val)
                 {
