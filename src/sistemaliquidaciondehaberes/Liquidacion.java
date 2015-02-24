@@ -763,7 +763,7 @@ public class Liquidacion extends libSentenciasSQL
     
 
     //aplica los conceptos pre ajustados
-    public void preajustados() throws ParseException 
+    public void preajustados() throws ParseException  //rearmar la funcion
     {   
         Concepto.Aplica aplicarConcep = fsConceptos.new Aplica();
         aplicarConcep.idRecibo = this.idRecibo; 
@@ -782,13 +782,13 @@ public class Liquidacion extends libSentenciasSQL
             {
                 if(resultado.getInt("estado")!=0)
                 {//estado activo
-                    if(resultado.getInt("tipo")!=2)
+                    if(resultado.getInt("tipo")!=2)//verificar aqui
                     {    
                         aplicarConcep.idConcepto = resultado.getInt("idConcepto");
                         aplicarConcep.unidad = resultado.getFloat("unidades");  
                         aplicarConcep.nuevo(this);
                     
-                        if (resultado.getInt("tipo")==0)
+                        if (resultado.getInt("tipo")==0) //modificar aqui
                         {//concepto por cantidad de veces
                             concep.idConcepto = resultado.getInt("idConcepto");
                             concep.unidades = resultado.getFloat("unidades");
@@ -835,59 +835,38 @@ public class Liquidacion extends libSentenciasSQL
     
     //realiza el concepto del sac
     //utilizando el promedio de los sueldos
-    public void SAC() //sin terminar
+    public void SAC() //sin terminar, investigar un poco mas
     {
         Imprime("Generando SAC");
         obtienePuesto();
-        obtieneDatos();        
+        obtieneDatos();  
+        this.campos = "MAX(total) as total,idRecibo,"
+                    + "SUM(diasTrabajados) as diasTrabajados";
         this.condicion = "periodoIni>='"+periodoIni+"' AND periodoFin<='" +
                         periodoFin+"' AND idLegajo="+idLegajo; 
         Imprime("Consultando datos del periodo");       
         ResultSet resultado = this.consultaSQL();
-        
-        float acum = 0; //acumular el basico
-        int di = 0; // dias trabajados  
-        int i=0;
-        float remu = 0;
-        float noremu = 0;
-        try {
-            resultado.first();
-            while (!resultado.isLast())
-            {              
-                acum += resultado.getFloat("basico");
-                di += resultado.getInt("diasTrabajados");                
-                remu += resultado.getInt("totalRemunerativo");
-                noremu += resultado.getInt("totalNoRemunerativo");
-                i++;
-                resultado.next();
+        try
+        {
+            if (resultado.next())
+            {
+                this.idRecibo=resultado.getInt("idRecibo");             
+                this.campos = "idLegajo,estadoR,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
+                        "basico,CantHs,costoHs,cantHs50,"+
+                        "CantHs100,idObraSocial,idSindicato,idART,diasTrabajados"
+                        +",anti,totalRemunerativo,totalNoRemunerativo,totalDescuento,total";
+                resultado = this.consultarecibo();
+                ResultSet resultadoConcepto= this.consultaConceptos();
             }
-            this.diasTrabajados = di;
-            //this.basico = obtieneBasico(acum/(i*2));
-            Imprime("SAC:"+basico);
-            this.totalRemunerativo = remu/6;
-            Imprime("Total remunerativo:"+totalRemunerativo);
-            this.totalNoRemunerativo=noremu/6;
-            Imprime("Total no remunerativo: "+totalNoRemunerativo);
-            obtieneObraSocial();
-            obtieneSindicato();
-            devuelveAntiguedad();
-            devuelveJubilacion();
-            devuelveART();
-            this.total=totalRemunerativo+totalNoRemunerativo-totalDescuentos;
-            this.valores = idLegajo+","+estadoR+","+costoHs50+","+costoHs100
-                            +","+idPuesto+",'"+periodoIni+"','"+periodoFin+"','"
-                            +emision+"',"+basico+","+cantHs+","+costoHs+","
-                            +cantHs50+","+cantHs100+","+idObraSocial+
-                            ","+idSindicato+","+idART+","
-                            +diasTrabajados+","+anti+","
-                            +totalRemunerativo+","+totalNoRemunerativo+","+
-                            totalDescuentos+","+total;
-            Imprime("Guardando el SAC");
-            this.insertaSQL();
+            else
+            {
+                Imprime("No existen recibos registrados");
+            }
         }
-        catch (SQLException ex) 
+        catch (SQLException ex)
         {
             estado = ex.getMessage();
-        }
+            Imprime(estado);
+        }        
     }
 }
