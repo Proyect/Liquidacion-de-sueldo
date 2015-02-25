@@ -75,13 +75,13 @@ public class test {
         con.idRecibo = 12;
         con.vectorRecibo();*/
         
-        /*Prueba liquidacion de sac*/
+        /*Prueba liquidacion de sac
         Liquidacion con = new Liquidacion();
         con.idLegajo = 1;
         con.periodoIni = "2014-06-01";
         con.periodoFin = "2014-12-30";
         con.dias = 180;
-        con.SAC(); 
+        con.SAC(); */
         
         /* Prueba de vacaciones - no termina 
         Liquidacion con = new Liquidacion();
@@ -90,23 +90,23 @@ public class test {
         
         /* Pueba de liquidacion de sueldo
          Liquidacion con = new Liquidacion();        
-        con.idLegajo=30;
+        con.idLegajo=1;
         con.periodoIni = "2014-10-01";
         con.periodoFin = "2014-10-30";
         con.dias=30;
         con.diasTrabajados=30;       
         con.recibo();*/
        
-        /* Pruebas individuales de liquidacion de sueldo  -- Aqui me quede
+        /* Pruebas individuales de liquidacion de sueldo  
         Liquidacion con = new Liquidacion(); 
         con.idLegajo=30;
         con.obtienePuesto();
         con.obtieneDatos(); */
         
-        /* Realiza las consultas de un recibo de sueldo
+        /* Realiza las consultas de un recibo de sueldo 
         Liquidacion con = new Liquidacion();
         con.idLegajo=23;
-        con.consultarecibo(); */
+        con.consultarecibo();*/
         
         /* Realiza las actualiaciones del recibo de sueldo 
         Liquidacion con = new Liquidacion();
@@ -116,6 +116,32 @@ public class test {
         con.periodoIni = "2014-08-01";
         con.periodoFin = "2014-08-30";
         con.reciboUpdate();*/
+        
+        /* Calcula la antiguedad del recibo 
+        Liquidacion con = new Liquidacion();
+        con.idRecibo=5;
+        con.fechaInicio="2011-02-07";
+        con.devuelveAntiguedad();*/
+        
+        /*Prueba asignaciones 
+        Legajolib con = new Legajolib();
+        Legajolib.Asignaciones asignar= con.new Asignaciones();
+        asignar.idLegajo=2;
+        asignar.idPersona = 5;
+        asignar.idVinculo=5;
+        asignar.alta();*/
+        
+        /* Realiza las asignaciones familiares del recibo de sueldo
+        Liquidacion con = new Liquidacion();
+        con.idRecibo=5;
+        con.idLegajo=1;
+        con.asignaciones();*/
+        
+        /* realiza la aplicacion de conceptos pre-establecidos 
+        Liquidacion con = new Liquidacion();
+        con.idRecibo=4;
+        con.idLegajo=1;
+        con.preajustados();*/
         
         /***************************
          *       Conceptos
@@ -139,8 +165,8 @@ public class test {
         /*Prueba de consulta de conceptos no incluidos en el recibo
         Concepto cons= new Concepto();
         Concepto.Detalle con= cons.new Detalle();
-        con.idRecibo = 56;
-        con.noEnRecibos();*/        
+        con.idRecibo = 3;
+        con.noEnRecibos();        */
         
         /* Prueba creacion de nuevos conceptos    
         Concepto cons= new Concepto();
@@ -160,7 +186,23 @@ public class test {
         con.idRecibo = 13;
         con.preajustados();*/
         
+        /* Modifica los codigos pre-ajustados*/
+        Liquidacion con = new Liquidacion();
+        Concepto.Control concep = con.fsConceptos.new Control();
+        ResultSet resultado=null;
+        concep.idLegajo = 1;
+        concep.idConcepto = resultado.getInt("idConcepto");
+        concep.unidades = resultado.getFloat("unidades");
+        concep.tipo = resultado.getInt("tipo");
+        concep.inicio = resultado.getString("inicio");
+        concep.fin = resultado.getString("fin");
+        concep.estadoConcepto = resultado.getInt("estado")-1;
         
+        /* Consulta los conceptos incluidos en el recibo
+        Concepto cons= new Concepto();
+        Concepto.Aplica con= cons.new Aplica();
+        con.idRecibo=5;
+        con.consultaRecibo();*/
         
         /**************************************
          *      Legajos
@@ -222,13 +264,7 @@ public class test {
         horaextras.tipoHs=2;//100
         horaextras.nueva();*/
                 
-        /*Prueba asignaciones 
-        Legajolib con = new Legajolib();
-        Legajolib.Asignaciones asignar= con.new Asignaciones();
-        asignar.idLegajo=2;
-        asignar.idPersona = 5;
-        asignar.idVinculo=5;
-        asignar.alta();*/
+        
         
         /* Prueba inasistencia
         Legajolib con = new Legajolib();

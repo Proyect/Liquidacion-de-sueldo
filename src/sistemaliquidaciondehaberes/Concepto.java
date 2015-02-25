@@ -230,6 +230,8 @@ public class Concepto extends libSentenciasSQL
             {
                 estado = ex.getMessage();
                 Imprime(estado);
+                Imprime(this.campos);
+                Imprime(this.valores);
             }            
             
             valores = idRecibo+","+idConcepto+","+unidad+",'"+formula+"',"

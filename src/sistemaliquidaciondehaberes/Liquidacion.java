@@ -39,7 +39,7 @@ public class Liquidacion extends libSentenciasSQL
     public float total = 0;
     public String fechaInicio = "";
     private Legajolib fsLegajo = new Legajolib();
-    private Concepto fsConceptos = new Concepto(); 
+    Concepto fsConceptos = new Concepto(); 
     private Concepto.Detalle detall= fsConceptos.new Detalle();
     private Concepto.Aplica aplic = fsConceptos.new Aplica();
             
@@ -221,6 +221,7 @@ public class Liquidacion extends libSentenciasSQL
         catch (SQLException ex) 
         {
             estado = ex.getMessage();
+            Imprime("Error al optener la antiguedad");
         }        
         
         aplic.idConcepto=2;
@@ -504,17 +505,11 @@ public class Liquidacion extends libSentenciasSQL
             Imprime("No se pudo imprimir el recibode sueldo");
         }
         aplic.idRecibo= this.idRecibo;
+        obtieneBasico();
         presentismo();
         devuelveAntiguedad();
         asignaciones();//verificar
-        try
-        {
-            preajustados();//modificar aqui
-        } 
-        catch (ParseException ex)
-        {
-            Imprime("Error en preajustados");
-        }
+        preajustados();
         this.campos = "idLegajo,estadoR,costoHs50,costoHs100,idPuesto,periodoIni,periodoFin,emision,"+
                         "basico,CantHs,costoHs,cantHs50,"+
                         "CantHs100,idObraSocial,idSindicato,idART,diasTrabajados"
@@ -763,10 +758,9 @@ public class Liquidacion extends libSentenciasSQL
     
 
     //aplica los conceptos pre ajustados
-    public void preajustados() throws ParseException  //rearmar la funcion
-    {   
-        Concepto.Aplica aplicarConcep = fsConceptos.new Aplica();
-        aplicarConcep.idRecibo = this.idRecibo; 
+    public void preajustados()   //rearmar la funcion
+    {      
+        aplic.idRecibo = this.idRecibo; 
         
         Concepto.Control concep = fsConceptos.new Control();
         concep.idLegajo = this.idLegajo;     
@@ -778,15 +772,15 @@ public class Liquidacion extends libSentenciasSQL
         try
         {
             resultado.first();
-            while(resultado.isLast())
+            while(!resultado.isLast() && !resultado.wasNull())
             {
                 if(resultado.getInt("estado")!=0)
                 {//estado activo
                     if(resultado.getInt("tipo")!=2)//verificar aqui
                     {    
-                        aplicarConcep.idConcepto = resultado.getInt("idConcepto");
-                        aplicarConcep.unidad = resultado.getFloat("unidades");  
-                        aplicarConcep.nuevo(this);
+                        aplic.idConcepto = resultado.getInt("idConcepto");
+                        aplic.unidad = resultado.getFloat("unidades");  
+                        aplic.nuevo(this);
                     
                         if (resultado.getInt("tipo")==0) //modificar aqui
                         {//concepto por cantidad de veces
@@ -801,30 +795,40 @@ public class Liquidacion extends libSentenciasSQL
                         }  
                     }
                     else
-                    {//concepto temporal
-                        if(resultado.getDate("inicio").before(finF.parse(this.periodoFin)) 
-                                ||
-                           inicioF.parse(this.periodoIni).before(resultado.getDate("fin")))
+                    {   
+                        try 
                         {
-                             aplicarConcep.idConcepto = resultado.getInt("idConcepto");
-                             aplicarConcep.unidad = resultado.getFloat("unidades");  
-                             aplicarConcep.nuevo(this);
+                            //concepto temporal
+                            if(resultado.getDate("inicio").before(finF.parse(this.periodoFin))
+                                ||
+                                inicioF.parse(this.periodoIni).before(resultado.getDate("fin")))
+                            {
+                                aplic.idConcepto = resultado.getInt("idConcepto");
+                                aplic.unidad = resultado.getFloat("unidades");
+                                aplic.nuevo(this);
+                            }
+                            else
+                            {                     
+                                Imprime("Periodo fuera de fecha");
+                                concep.idConcepto= resultado.getInt("idConcepto");
+                                concep.unidades = resultado.getFloat("unidades");
+                                concep.tipo = resultado.getInt("tipo");
+                                concep.inicio = resultado.getString("inicio");
+                                concep.fin = resultado.getString("fin");
+                                concep.estadoConcepto =0;
+                                concep.modifica();
+                            }
                         }
-                        else
-                        {                     
-                            Imprime("Periodo fuera de fecha");
-                            concep.idConcepto= resultado.getInt("idConcepto");
-                            concep.unidades = resultado.getFloat("unidades");
-                            concep.tipo = resultado.getInt("tipo");
-                            concep.inicio = resultado.getString("inicio");
-                            concep.fin = resultado.getString("fin");
-                            concep.estadoConcepto =0;
-                            concep.modifica();
+                        catch (ParseException ex)
+                        {
+                            estado = ex.getMessage();
+                            Imprime(estado);
                         }
                     }
                 }
                  resultado.next();  
             }
+            Imprime("llega al final");
         }
         catch (SQLException ex)
         {

@@ -17,7 +17,7 @@ public class libSentenciasSQL extends Conexion{
             int devuelve = 0;
             String sentencia = null;
             sentencia = "INSERT INTO "+tabla+" ("+campos+")\n VALUES \n("+valores+");";
-            //Imprime(sentencia);
+            Imprime(sentencia);
             try
                 {
                     devuelve = st.executeUpdate(sentencia);
@@ -59,7 +59,7 @@ public class libSentenciasSQL extends Conexion{
             {
                 sentencia = sentencia+"\n WHERE \n"+condicion+";";
             }
-            //Imprime(sentencia);
+            Imprime(sentencia);
             try
             {
                 devuelve = st.executeUpdate(sentencia);
