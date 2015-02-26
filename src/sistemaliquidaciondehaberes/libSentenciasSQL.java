@@ -47,6 +47,7 @@ public class libSentenciasSQL extends Conexion{
             
             String[] camp = campos.split(",");
             String[] val = valores.split(",");
+            
             int n = camp.length;
             for (int i=0; i<n; i++)
             {

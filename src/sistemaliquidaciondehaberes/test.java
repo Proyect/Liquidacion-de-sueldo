@@ -88,14 +88,14 @@ public class test {
         con.idLegajo = 3;
         con.vacaciones();*/
         
-        /* Pueba de liquidacion de sueldo
+        /* Pueba de liquidacion de sueldo*/
          Liquidacion con = new Liquidacion();        
         con.idLegajo=1;
         con.periodoIni = "2014-10-01";
         con.periodoFin = "2014-10-30";
         con.dias=30;
         con.diasTrabajados=30;       
-        con.recibo();*/
+        con.recibo();
        
         /* Pruebas individuales de liquidacion de sueldo  
         Liquidacion con = new Liquidacion(); 
@@ -108,7 +108,7 @@ public class test {
         con.idLegajo=23;
         con.consultarecibo();*/
         
-        /* Realiza las actualiaciones del recibo de sueldo 
+        /* Realiza las actualiaciones del recibo de sueldo - probar 
         Liquidacion con = new Liquidacion();
         con.idRecibo=51;
         con.diasTrabajados=30;
@@ -142,6 +142,13 @@ public class test {
         con.idRecibo=4;
         con.idLegajo=1;
         con.preajustados();*/
+        
+        /*Prueba aplicacion de cargas sociales
+        Liquidacion con = new Liquidacion();
+        con.idRecibo=6;
+        con.idLegajo=1;
+        con.totalRemunerativo = (float) 7349.33;
+        con.obtieneObraSocial();*/
         
         /***************************
          *       Conceptos
@@ -186,17 +193,19 @@ public class test {
         con.idRecibo = 13;
         con.preajustados();*/
         
-        /* Modifica los codigos pre-ajustados*/
+        /* Modifica los codigos pre-ajustados
         Liquidacion con = new Liquidacion();
         Concepto.Control concep = con.fsConceptos.new Control();
-        ResultSet resultado=null;
+       
         concep.idLegajo = 1;
-        concep.idConcepto = resultado.getInt("idConcepto");
-        concep.unidades = resultado.getFloat("unidades");
-        concep.tipo = resultado.getInt("tipo");
-        concep.inicio = resultado.getString("inicio");
-        concep.fin = resultado.getString("fin");
-        concep.estadoConcepto = resultado.getInt("estado")-1;
+        concep.idConcepto = 6;
+        concep.unidades = 1;
+        concep.tipo = 0;
+        concep.ini = "2011-10-10";
+        concep.fin = "2017-12-12";
+        concep.estadoConcepto = 0;
+        concep.modifica();*/
+          
         
         /* Consulta los conceptos incluidos en el recibo
         Concepto cons= new Concepto();

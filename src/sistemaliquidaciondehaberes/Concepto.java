@@ -22,7 +22,7 @@ public class Concepto extends libSentenciasSQL
         public int idRecibo=0; //para la ultima funcion
         public float formula =0;
         public String formula2 = null;
-        public int tipoform = 0; 
+        public int tipoform = 2; 
         public int claseForm=0;
         public int aplicacion=0;
         // constructor
@@ -115,7 +115,7 @@ public class Concepto extends libSentenciasSQL
             ResultSet resultado2 = null;
             Date inicio=null;
             Date fin = null;
-            
+            //Imprime("comienza a ejecutar el concepto");
             try 
             {                 
                 if(form.getInt("claseform")==1 )
@@ -167,7 +167,8 @@ public class Concepto extends libSentenciasSQL
                                 break;
                                 
                                 // aplicada a la formula    
-                                case 2:                                     
+                                case 2:              
+                                    
                                     this.formula = form.getString("formula2");
                                     evaluador evalu = new evaluador();                           
                                     evalu.exp = formula;
@@ -205,7 +206,7 @@ public class Concepto extends libSentenciasSQL
                 float rem = resultado2.getFloat("totalRemunerativo");
                 float noRem = resultado2.getFloat("totalNoRemunerativo");
                 float desc = resultado2.getFloat("totalDescuento");
-                float total=0;
+                float total=resultado2.getFloat("total");
                 
                 switch(form.getInt("tipo")) 
                 {
@@ -320,11 +321,12 @@ public class Concepto extends libSentenciasSQL
         public int idConcepto=0;
         public float unidades = 0;
         public int tipo = 0;
-        public String inicio = "";
+        public String ini = "";
         public String fin = "";
         public int estadoConcepto = 1;
         
-        public Control()
+        
+        Control()
         {
             this.tabla = "legajoconcepto";
             this.campos = "idLegajo,idConcepto,unidades,tipo,inicio,fin,estado";
@@ -332,16 +334,16 @@ public class Concepto extends libSentenciasSQL
         
         public int nuevo()
         {
-            this.valores = idLegajo+","+idConcepto+","+unidades+","+tipo+","+
-                            "'"+inicio+"','"+fin+"',"+estadoConcepto;
+            this.valores = idLegajo+","+idConcepto+","+unidades+","+tipo+",'"+
+                            ini+"','"+fin+"',"+estadoConcepto;
             return this.insertaSQL();
         }
         
         public int modifica()
         {
             this.condicion = "idLegajo="+idLegajo+" AND idConcepto="+idConcepto;
-            this.valores = idLegajo+","+idConcepto+","+unidades+","+tipo+","+
-                            ",'"+inicio+"','"+fin+"',"+estadoConcepto;
+            this.valores = idLegajo+","+idConcepto+","+unidades+","+tipo+",'"+
+                            ini+"','"+fin+"',"+estadoConcepto;
             return this.modificaSQL();
         }
         

@@ -140,6 +140,7 @@ public class Liquidacion extends libSentenciasSQL
             if ( resultados.first())
             {       
                 this.idObraSocial = resultados.getInt(2);
+                aplic.idRecibo=this.idRecibo;
                 aplic.idConcepto=4;
                 aplic.nuevo(this);
                 Imprime("Obra Social aplicada ");
@@ -522,9 +523,7 @@ public class Liquidacion extends libSentenciasSQL
         obtieneSindicato();
         devuelveJubilacion();
         devuelveART();        
-              
-        total = totalRemunerativo + totalNoRemunerativo - totalDescuentos;
-        modificaRecibo();        
+               
     }
     
     //realiza la consulta de un recibo de sueldo
@@ -787,7 +786,7 @@ public class Liquidacion extends libSentenciasSQL
                             concep.idConcepto = resultado.getInt("idConcepto");
                             concep.unidades = resultado.getFloat("unidades");
                             concep.tipo = resultado.getInt("tipo");
-                            concep.inicio = resultado.getString("inicio");
+                            concep.ini = resultado.getString("inicio");
                             concep.fin = resultado.getString("fin");
                             concep.estadoConcepto = resultado.getInt("estado")-1;
                             
@@ -813,7 +812,7 @@ public class Liquidacion extends libSentenciasSQL
                                 concep.idConcepto= resultado.getInt("idConcepto");
                                 concep.unidades = resultado.getFloat("unidades");
                                 concep.tipo = resultado.getInt("tipo");
-                                concep.inicio = resultado.getString("inicio");
+                                concep.ini = resultado.getString("inicio");
                                 concep.fin = resultado.getString("fin");
                                 concep.estadoConcepto =0;
                                 concep.modifica();
