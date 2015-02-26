@@ -1,7 +1,9 @@
-
-
 package sistemaliquidaciondehaberes;
-
+/**************************************
+Autor: Ariel Marcelo Diaz
+ *Sitio Web: http://www.infrasoft.com.ar 
+Desarrollo de sistemas a medidas
+ ****************************************/
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

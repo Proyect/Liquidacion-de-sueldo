@@ -1,4 +1,9 @@
 package sistemaliquidaciondehaberes;
+/**************************************
+Autor: Ariel Marcelo Diaz
+ *Sitio Web: http://www.infrasoft.com.ar 
+Desarrollo de sistemas a medidas
+ ****************************************/
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.*; 
 import java.text.SimpleDateFormat;
