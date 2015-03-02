@@ -493,6 +493,7 @@ public class Liquidacion extends libSentenciasSQL
         if(this.insertaSQL()==1)
         {
             this.campos="MAX( idRecibo )";
+            this.condicion="";
             ResultSet ultima = null;
             ultima = this.consultaSQL();
             try 

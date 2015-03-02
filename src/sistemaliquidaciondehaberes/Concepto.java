@@ -14,8 +14,7 @@ import java.util.logging.Logger;
 
 
 public class Concepto extends libSentenciasSQL 
-{ 
-    
+{   
     // crea un nuevo concepto para aplicarlo 
     public class Detalle extends libSentenciasSQL 
     {
@@ -330,7 +329,7 @@ public class Concepto extends libSentenciasSQL
         public int estadoConcepto = 1;
         
         
-        Control()
+        public Control()
         {
             this.tabla = "legajoconcepto";
             this.campos = "idLegajo,idConcepto,unidades,tipo,inicio,fin,estado";
