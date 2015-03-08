@@ -33,8 +33,9 @@ public class Imprime
     private Document documento = null;    
     private final PdfWriter writer = null;
     //fuentes
-    private final Font fontbold = new Font(FontFamily.TIMES_ROMAN, 11, Font.NORMAL, BaseColor.WHITE);
-    private final Font fontsimple = new Font(FontFamily.TIMES_ROMAN, 12);
+    private final Font fontbold = new Font(FontFamily.TIMES_ROMAN, 12, Font.BOLD, BaseColor.BLUE);
+    private final Font fontsimple = new Font(FontFamily.TIMES_ROMAN, 11);
+    private Paragraph parrafo= new Paragraph();
     //constructor
     public Imprime()
     {        
@@ -61,30 +62,42 @@ public class Imprime
         
             writer.getInstance(documento, new FileOutputStream(destino));            
             documento.addTitle("Recibo de sueldo");    
-            documento.open();             
+            documento.open(); 
+            parrafo.setFont(fontbold);
+            parrafo.setAlignment(Element.ALIGN_CENTER);
+            parrafo.add("Recibo de sueldo");
+            documento.add(parrafo);
             documento.add(new Paragraph("Empresa:"+resultadoEmp.getString("razonSocial")
-                    +"   Original    Periodo:"+liq.periodoIni+" - "+liq.periodoFin+
+                    +"                  Periodo:"+liq.periodoIni+" - "+liq.periodoFin+
                     "\n \r"+
-                    "CUIT:"+resultadoEmp.getString("cuit")+" - Antiguedad:"+liq.anti
+                    "CUIT:"+resultadoEmp.getString("cuit")+"   -    Antiguedad:"+liq.anti
                     +"\n \r"+
                     "Apellido y Nombre:"+resultadoPers.getString("apellido")+", "
-                    + resultadoPers.getString("nombre")+" CUIL:"
-                    +resultadoPers.getString("cuil")+" Fecha Nac:"+
-                    resultadoPers.getString("fechaNac")+"\n \r"));
+                    + resultadoPers.getString("nombre")+"       CUIL:"
+                    +resultadoPers.getString("cuil")+" \n \r Fecha Nac:"+
+                    resultadoPers.getString("fechaNac")+"\n \r",fontsimple));
             
             //generando la tabla
-            PdfPTable table = new PdfPTable(5);            
-            table.addCell("Concepto");
-            table.addCell("Unidad");
-            table.addCell("Remunerativo");
-            table.addCell("No Remunerativo");
-            table.addCell("Descuento");            
+            PdfPTable table = new PdfPTable(5); 
+            
+            table.setWidthPercentage(90);
+            float[] headerWidths={80,30,60,60,60};
+            table.setWidths(headerWidths);
+            
+            parrafo.clear();
+            parrafo.setAlignment( Element.ALIGN_MIDDLE);
+            parrafo.add("Concepto");
+            table.addCell(parrafo);            
+            table.addCell(new Paragraph("Unidad",fontbold));
+            table.addCell(new Paragraph("Remunerativo",fontbold));
+            table.addCell(new Paragraph("No Remunerativo",fontbold));
+            table.addCell(new Paragraph("Descuento",fontbold));            
              
             
             boolean salir=true;
             resultadoConcep.first();
             ResultSet resultadoDet = null;
-            while(resultadoConcep.wasNull() && salir)
+            while(!resultadoConcep.wasNull() && salir)
             {
                 det.idConcepto = resultadoConcep.getInt("idConcepto");
                 resultadoDet = det.consulta();
@@ -109,7 +122,7 @@ public class Imprime
             resultadoConcep.first();
             salir=true;
             resultadoDet = null;
-            while(resultadoConcep.wasNull() && salir)
+            while(!resultadoConcep.wasNull() && salir)
             {
                 if(resultadoConcep.getInt("idConcepto") !=0)
                 {    
@@ -138,7 +151,7 @@ public class Imprime
             resultadoConcep.first();
             resultadoDet = null;
             salir=true;
-            while(resultadoConcep.wasNull() && salir)
+            while(!resultadoConcep.wasNull() && salir)
             {
                 det.idConcepto = resultadoConcep.getInt("idConcepto");
                 resultadoDet = det.consulta();
@@ -159,11 +172,29 @@ public class Imprime
                     resultadoConcep.next();
                 }
             }
+            table.addCell("Sub Totales");
+            table.addCell("");
+            table.addCell(""+liq.totalRemunerativo);
+            table.addCell(""+liq.totalNoRemunerativo);
+            table.addCell(""+liq.totalDescuentos);
+            
+            table.addCell(" Total");
+            table.addCell("");
+            table.addCell("");
+            table.addCell("");
+            table.addCell(""+liq.total);
             
             documento.add(table);
-            documento.add(new Paragraph("Firma Responzable                     Firma Empleado \n \r"
-                                + "\n \r ........................                                    ...................."));
+            parrafo.clear();
+            parrafo.setFont(fontsimple);
+            parrafo.setAlignment(Element.ALIGN_CENTER);
+            
+            parrafo.add("\n \r Firma Responzable                                               Firma Empleado \n \r"
+                                + "\n \r ........................                          ............................... ");
+            documento.add(parrafo);
+           
             documento.close();
+            abre();
         } 
         catch (DocumentException ex)
         {
