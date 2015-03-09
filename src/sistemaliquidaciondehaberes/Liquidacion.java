@@ -538,22 +538,35 @@ public class Liquidacion extends libSentenciasSQL
         return this.consultaSQL();
     }
     
-    //realiza la carga de los datos en el recibo
+    //realiza la carga de los datos en el recibo en la clase
     public void cargaRecibo()
     {
         ResultSet carga = consultarecibo();
         try 
-        {// sn terminar
-            anti = carga.getInt("anti");            
+        {
+            idLegajo = carga.getInt("idLegajo");
+            idPuesto = carga.getInt("idPuesto");
+            estadoR = carga.getInt("estadoR");
             basico = carga.getFloat("basico");
+            periodoIni = carga.getString("periodoIni");
+            periodoFin = carga.getString("periodoFin");
+            emision = carga.getString("emision");
+            diasTrabajados = carga.getInt("diasTrabajados");
             cantHs = carga.getInt("CantHs");
             cantHs100 = carga.getInt("CantHs100");
             cantHs50  = carga.getInt("cantHs50");
             costoHs = carga.getFloat("costoHs");
             costoHs100 = carga.getFloat("costoHs100");
             costoHs50 = carga.getFloat("costoHs50");
-            diasTrabajados = carga.getInt("diasTrabajados");
+            idObraSocial = carga.getInt("idObraSocial");
+            idSindicato = carga.getInt("idSindicato");
+            anti = carga.getInt("anti");             
+            idART = carga.getInt("idART");
             
+            totalRemunerativo = carga.getFloat("totalRemunerativo");
+            totalNoRemunerativo = carga.getFloat("totalNoRemunerativo");
+            totalDescuentos = carga.getFloat("totalDescuento");
+            total = carga.getFloat("total");
         }
         catch (SQLException ex)
         {

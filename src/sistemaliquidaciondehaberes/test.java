@@ -32,7 +32,7 @@ public class test {
                  Pruebas de Impresion
          **************************************/
         
-        /*Imprime el recibo de sueldo*/
+        /*Imprime el recibo de sueldo
          Imprime imp = new Imprime();
          Liquidacion con = new Liquidacion();
          con.idRecibo=10;
@@ -42,7 +42,7 @@ public class test {
          con.periodoFin="2014-08-30";
          con.basico=2300;
          
-         imp.recibo(con);
+         imp.recibo(con);*/
          
         
         /**************************************
@@ -151,12 +151,15 @@ public class test {
          *       Conceptos
          ***************************/
         
-        /*prueba aplicacion de conceptos 
+        /*prueba aplicacion de conceptos */
+        Liquidacion liq = new Liquidacion();
+        liq.idRecibo=12;
+        liq.cargaRecibo();
         Concepto cons= new Concepto();
         Concepto.Aplica con= cons.new Aplica();
-        con.idRecibo = 48;
-        con.idConcepto = 2;
-        con.nuevo();*/
+        con.idRecibo = 12;
+        con.idConcepto = 15;
+        con.nuevo(liq);
         
         /* Prueba modificacion de conceptos        
         Concepto cons= new Concepto();
