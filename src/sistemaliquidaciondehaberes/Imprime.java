@@ -85,7 +85,7 @@ public class Imprime
             table.setWidths(headerWidths);
             
             parrafo.clear();
-            parrafo.setAlignment( Element.ALIGN_MIDDLE);
+            parrafo.setAlignment( Element.ALIGN_CENTER);
             parrafo.add("Concepto");
             table.addCell(parrafo);            
             table.addCell(new Paragraph("Unidad",fontbold));
@@ -172,11 +172,24 @@ public class Imprime
                     resultadoConcep.next();
                 }
             }
+            
+            table.addCell("");
+            table.addCell("");
+            table.addCell("-");
+            table.addCell("-");
+            table.addCell("-");
+            
             table.addCell("Sub Totales");
             table.addCell("");
             table.addCell(""+liq.totalRemunerativo);
             table.addCell(""+liq.totalNoRemunerativo);
             table.addCell(""+liq.totalDescuentos);
+            
+            table.addCell("");
+            table.addCell("");
+            table.addCell("");
+            table.addCell("");
+            table.addCell("-");
             
             table.addCell(" Total");
             table.addCell("");
@@ -190,7 +203,7 @@ public class Imprime
             parrafo.setAlignment(Element.ALIGN_CENTER);
             
             parrafo.add("\n \r Firma Responzable                                               Firma Empleado \n \r"
-                                + "\n \r ........................                          ............................... ");
+                       + "\n \r ........................                                                    ............................... ");
             documento.add(parrafo);
            
             documento.close();
