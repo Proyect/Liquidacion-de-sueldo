@@ -111,8 +111,11 @@ public class Concepto extends libSentenciasSQL
         }
         
         //crea un nuevo concepto
-        public int nuevo(Liquidacion liq) //sin terminar
+        public int nuevo(Liquidacion liq) 
         {
+            remunerativo = 0;
+            noremunerativo = 0;
+            descuentos = 0;
             det.idConcepto = this.idConcepto;    
             ResultSet form=det.consulta();       
             ResultSet resultado2 = null;
@@ -130,7 +133,7 @@ public class Concepto extends libSentenciasSQL
                             switch(form.getInt("tipoform"))
                             {
                                 case 1: //pre-establecida
-                                    this.remunerativo = form.getFloat("formula");
+                                    this.remunerativo = form.getFloat("formula");                                    
                                     this.formula = form.getString("formula2");
                                 break;
                                    

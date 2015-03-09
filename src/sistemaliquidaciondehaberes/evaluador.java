@@ -193,10 +193,22 @@ public class evaluador
         }    
     }  
     
+    //analiza la expresion y realiza el reemplazo
+    private String analiza(String exp, String palabra,String reemplazo)
+    {
+        Pattern pat = Pattern.compile(palabra);
+        Matcher mat = pat.matcher(exp);
+        if(mat.matches())
+        {
+            exp= exp.replaceAll(palabra, reemplazo);
+        }        
+        return exp;
+    }        
+    
     //imprime
     public static void Imprime(String x)
-        {
-            x=x+"\n";
-            System.out.print(x);
-        }
+    {
+        x=x+"\n";
+        System.out.print(x);
+    }
 }

@@ -20,27 +20,25 @@ public class test {
          * Pruebas del evaluador de funciones
          * ************************************/
          
-       /* evaluador evalu = new evaluador();
+       /* Probando evaluador de funciones
+        evaluador evalu = new evaluador();
         Liquidacion liq = new Liquidacion();
-        liq.idRecibo=2;        
+        liq.idRecibo=2;     
+        liq.cargaRecibo();
         evalu.tipo=1;
-        evalu.exp = "23*concep12+12";
-        //evalu.evaluar();
-        evalu.concepto(liq);*/
+        evalu.exp = "TR";
+        evalu.ejecutar(liq);
+        //evalu.concepto(liq);*/
         
         /**************************************
-                 Pruebas de Impresion
+                 Pruebas de Impresion 
          **************************************/
         
         /*Imprime el recibo de sueldo
          Imprime imp = new Imprime();
          Liquidacion con = new Liquidacion();
          con.idRecibo=10;
-         con.idLegajo=1;
-         con.idPuesto=5;
-         con.periodoIni="2014-08-01";
-         con.periodoFin="2014-08-30";
-         con.basico=2300;
+         con.cargaRecibo();
          
          imp.recibo(con);*/
          
@@ -151,7 +149,7 @@ public class test {
          *       Conceptos
          ***************************/
         
-        /*prueba aplicacion de conceptos */
+        /*prueba aplicacion de conceptos 
         Liquidacion liq = new Liquidacion();
         liq.idRecibo=12;
         liq.cargaRecibo();
@@ -159,7 +157,7 @@ public class test {
         Concepto.Aplica con= cons.new Aplica();
         con.idRecibo = 12;
         con.idConcepto = 15;
-        con.nuevo(liq);
+        con.nuevo(liq);*/
         
         /* Prueba modificacion de conceptos        
         Concepto cons= new Concepto();

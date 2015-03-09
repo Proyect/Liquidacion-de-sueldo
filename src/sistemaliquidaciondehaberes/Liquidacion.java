@@ -492,7 +492,7 @@ public class Liquidacion extends libSentenciasSQL
         
         if(this.insertaSQL()==1)
         {
-            this.campos="MAX( idRecibo )";
+            this.campos="MAX(idRecibo)";
             this.condicion="";
             ResultSet ultima = null;
             ultima = this.consultaSQL();
@@ -527,8 +527,7 @@ public class Liquidacion extends libSentenciasSQL
         obtieneObraSocial();
         obtieneSindicato();
         devuelveJubilacion();
-        devuelveART();        
-               
+        devuelveART();           
     }
     
     //realiza la consulta de un recibo de sueldo
@@ -538,31 +537,21 @@ public class Liquidacion extends libSentenciasSQL
         return this.consultaSQL();
     }
     
-    //realiza la carga de los datos en el recibo en la clase
+    //realiza la carga de los datos en el recibo
     public void cargaRecibo()
     {
         ResultSet carga = consultarecibo();
         try 
-        {
-            idLegajo = carga.getInt("idLegajo");
-            idPuesto = carga.getInt("idPuesto");
-            estadoR = carga.getInt("estadoR");
+        {// sn terminar
+            anti = carga.getInt("anti");            
             basico = carga.getFloat("basico");
-            periodoIni = carga.getString("periodoIni");
-            periodoFin = carga.getString("periodoFin");
-            emision = carga.getString("emision");
-            diasTrabajados = carga.getInt("diasTrabajados");
             cantHs = carga.getInt("CantHs");
             cantHs100 = carga.getInt("CantHs100");
             cantHs50  = carga.getInt("cantHs50");
             costoHs = carga.getFloat("costoHs");
             costoHs100 = carga.getFloat("costoHs100");
             costoHs50 = carga.getFloat("costoHs50");
-            idObraSocial = carga.getInt("idObraSocial");
-            idSindicato = carga.getInt("idSindicato");
-            anti = carga.getInt("anti");             
-            idART = carga.getInt("idART");
-            
+            diasTrabajados = carga.getInt("diasTrabajados");
             totalRemunerativo = carga.getFloat("totalRemunerativo");
             totalNoRemunerativo = carga.getFloat("totalNoRemunerativo");
             totalDescuentos = carga.getFloat("totalDescuento");
@@ -777,6 +766,7 @@ public class Liquidacion extends libSentenciasSQL
     //aplica los conceptos pre ajustados
     public void preajustados()   //rearmar la funcion
     {      
+        //Imprime("Armando preajustados");
         aplic.idRecibo = this.idRecibo; 
         
         Concepto.Control concep = fsConceptos.new Control();
@@ -789,7 +779,7 @@ public class Liquidacion extends libSentenciasSQL
         try
         {
             resultado.first();
-            while(!resultado.isLast() && !resultado.wasNull())
+            while(!resultado.wasNull())
             {
                 if(resultado.getInt("estado")!=0)
                 {//estado activo
